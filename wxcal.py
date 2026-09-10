@@ -8,8 +8,8 @@ ROOT      = HERE
 JOBLIST   = HERE / "data" / "joblist.csv"
 RESULTS   = HERE / "data" / "results.csv"
 PLAN_CSV  = ROOT / "Plan" / "WX Calibration Plan.csv"
-TEMPLATE  = HERE / "template.sbatch"
-INPUT     = HERE / "data" / "input_calib_C3_250.txt"
+TEMPLATE  = HERE / "inputs" / "template.sbatch"
+INPUT     = HERE / "inputs" / "input_calib_C3_250.txt"
 RUN_ROOT  = Path("/pscratch/sd/l/laithg/simulations/wx_calibration")
 
 FIELDS = ["label","phase","stage","sim","e_y_nm","nx","ny","nz","nm","seed",

@@ -1,0 +1,346 @@
+# VARIANT of input_calib_C3_250.txt: 2D-slice field solver, 3rd-order deposition (phase PS)
+# In the study this was applied as a command-line override of the default deck; it is written out here in full.
+#################################
+########## MY CONSTANTS #########
+#################################
+my_constants.mc2   = m_e*clight*clight
+my_constants.nano  = 1.0e-9
+my_constants.micro = 1.e-6
+my_constants.GeV   = q_e*1.e9
+
+# BEAMS — C3-250 calibration parameters (sigmax/sigmay from calibration study)
+my_constants.beam_energy = 125*GeV
+my_constants.beam_gamma  = beam_energy/mc2
+my_constants.beam_npart  = 0.624e10
+my_constants.nmacropart  = 100000
+my_constants.beam_charge = q_e * beam_npart
+my_constants.sigmax      = 210.12*nano
+my_constants.sigmay      = 1.98*nano
+my_constants.sigmaz      = 100.0*micro
+my_constants.beam_uth    = 0.
+my_constants.mux         = 0.0*sigmax
+my_constants.muy         = 0.0*sigmay
+my_constants.muz         = 4*sigmaz
+my_constants.emitx       = 0.9*micro
+my_constants.emity       = 8.0*nano
+my_constants.dux         = emitx / sigmax
+my_constants.duy         = emity / sigmay
+
+# BOX — nx/ny/nz/nmacropart overridden on the command line per simulation
+my_constants.Lx = 32*sigmax
+my_constants.Ly = 32*sigmay
+my_constants.Lz = 16*sigmaz
+my_constants.nx = 512
+my_constants.ny = 512
+my_constants.nz = 256
+my_constants.dx = Lx/nx
+my_constants.dy = Ly/ny
+my_constants.dz = Lz/nz
+
+# TIME — nt scales with nz (dt = T/nz)
+my_constants.T        = 0.5*Lz/clight
+my_constants.dt       = T / nz
+my_constants.nt       = floor(T/dt)
+my_constants.coll_time = abs(muz)/clight
+my_constants.coll_step = floor(nt*coll_time/T)
+
+warpx.used_inputs_file = warpx_used_inputs.txt
+
+my_constants.r_e        = q_e**2 / ( 4 * pi * epsilon0 * m_e * clight**2 )
+my_constants.s          = 2 * beam_energy * beam_energy / ( 2 * m_e**2 * clight**4)
+my_constants.beta       = sqrt(1 - 1/s)
+my_constants.sigma_bw   = 0.5 * pi * r_e**2 * (1-beta**2) * ( (3-beta**4) * log( (1+beta) / (1-beta) ) - 2 * beta * (2 - beta**2) )
+my_constants.multiplier = 1e4 * 1 / ( beam_npart / nmacropart * sigma_bw * 2 * clight * dt / (dx * dy * dz) )
+
+
+#################################
+####### GENERAL PARAMETERS ######
+#################################
+stop_time = T
+amr.n_cell = nx ny nz
+amr.max_level = 0
+geometry.dims = 3
+geometry.prob_lo = -0.5*Lx -0.5*Ly -0.5*Lz
+geometry.prob_hi =  0.5*Lx  0.5*Ly  0.5*Lz
+
+#################################
+######## BOUNDARY CONDITION #####
+#################################
+boundary.field_lo = open open open
+boundary.field_hi = open open open
+boundary.particle_lo = Absorbing Absorbing Absorbing
+boundary.particle_hi = Absorbing Absorbing Absorbing
+
+#################################
+############ NUMERICS ###########
+#################################
+warpx.do_electrostatic = relativistic
+warpx.const_dt = dt
+warpx.grid_type = collocated
+algo.particle_shape = 3
+warpx.use_2d_slices_fft_solver = 1   # 2D-slice IGF Poisson solve on every z cell (GP++'s field model)
+algo.particle_pusher = vay
+warpx.poisson_solver = fft
+warpx.random_seed = 1
+amrex.use_gpu_aware_mpi = 1
+collisions.split_momentum_push = 0
+
+#################################
+########### PARTICLES ###########
+#################################
+particles.species_names = beam1 vpho1 beam2 vpho2 pho1 pho2 ele_bh pos_bh ele_ll pos_ll ele_bw pos_bw
+
+beam1.species_type = electron
+beam1.injection_style = gaussian_beam
+beam1.x_rms = sigmax
+beam1.y_rms = sigmay
+beam1.z_rms = sigmaz
+beam1.x_m = - mux
+beam1.y_m = - muy
+beam1.z_m = - muz
+beam1.npart = nmacropart
+beam1.q_tot = -beam_charge
+beam1.z_cut = 4
+beam1.focal_distance = muz
+beam1.momentum_distribution_type = gaussian
+beam1.uz_m = beam_gamma
+beam1.uy_m = 0.0
+beam1.ux_m = 0.0
+beam1.ux_th = dux
+beam1.uy_th = duy
+beam1.uz_th = beam_uth
+beam1.initialize_self_fields = 1
+beam1.do_qed_quantum_sync = 1
+beam1.qed_quantum_sync_phot_product_species = pho1
+beam1.do_classical_radiation_reaction = 0
+beam1.do_qed_virtual_photons = 1
+beam1.qed_virtual_photon_species_name = vpho1
+
+beam2.species_type = positron
+beam2.injection_style = gaussian_beam
+beam2.x_rms = sigmax
+beam2.y_rms = sigmay
+beam2.z_rms = sigmaz
+beam2.x_m = mux
+beam2.y_m = muy
+beam2.z_m = muz
+beam2.npart = nmacropart
+beam2.q_tot = beam_charge
+beam2.z_cut = 4
+beam2.focal_distance = muz
+beam2.momentum_distribution_type = gaussian
+beam2.uz_m = -beam_gamma
+beam2.uy_m = 0.0
+beam2.ux_m = 0.0
+beam2.ux_th = dux
+beam2.uy_th = duy
+beam2.uz_th = beam_uth
+beam2.initialize_self_fields = 1
+beam2.do_qed_quantum_sync = 1
+beam2.qed_quantum_sync_phot_product_species = pho2
+beam2.do_classical_radiation_reaction = 0
+beam2.do_qed_virtual_photons = 1
+beam2.qed_virtual_photon_species_name = vpho2
+
+pho1.species_type = photon
+pho1.injection_style = none
+pho1.do_qed_breit_wheeler = 0
+
+pho2.species_type = photon
+pho2.injection_style = none
+pho2.do_qed_breit_wheeler = 0
+
+vpho1.qed_virtual_photons_min_energy = 1e-8 * m_e**2 * clight**4 / beam_energy
+vpho1.qed_virtual_photons_multiplier = 1
+vpho1.species_type = photon
+vpho1.injection_style = none
+vpho1.do_not_push = 1
+
+vpho2.qed_virtual_photons_min_energy = 1e-8 * m_e**2 * clight**4 / beam_energy
+vpho2.qed_virtual_photons_multiplier = 2
+vpho2.species_type = photon
+vpho2.injection_style = none
+vpho2.do_not_push = 1
+
+ele_bh.species_type = electron
+ele_bh.injection_style = none
+ele_bh.do_not_push = 0
+ele_bh.do_not_deposit = 1
+
+pos_bh.species_type = positron
+pos_bh.injection_style = none
+pos_bh.do_not_push = 0
+pos_bh.do_not_deposit = 1
+
+ele_ll.species_type = electron
+ele_ll.injection_style = none
+ele_ll.do_not_push = 0
+ele_ll.do_not_deposit = 1
+
+pos_ll.species_type = positron
+pos_ll.injection_style = none
+pos_ll.do_not_push = 0
+pos_ll.do_not_deposit = 1
+
+ele_bw.species_type = electron
+ele_bw.injection_style = none
+ele_bw.do_not_push = 0
+ele_bw.do_not_deposit = 1
+
+pos_bw.species_type = positron
+pos_bw.injection_style = none
+pos_bw.do_not_push = 0
+pos_bw.do_not_deposit = 1
+
+#################################
+############# COLLISIONS ########
+#################################
+collisions.collision_names = ll bh1 bh2 lbw
+
+lbw.species = pho1 pho2
+lbw.type = linear_breit_wheeler
+lbw.product_species = ele_bw pos_bw
+lbw.event_multiplier = multiplier
+lbw.probability_threshold = 0.1
+lbw.probability_target_value = 0.01
+
+ll.species = vpho1 vpho2
+ll.type = linear_breit_wheeler
+ll.product_species = ele_ll pos_ll
+ll.event_multiplier = multiplier
+ll.probability_threshold = 0.1
+ll.probability_target_value = 0.01
+
+bh1.species = vpho1 pho2
+bh1.type = linear_breit_wheeler
+bh1.product_species = ele_bh pos_bh
+bh1.event_multiplier = multiplier
+bh1.probability_threshold = 0.1
+bh1.probability_target_value = 0.01
+
+bh2.species = pho1 vpho2
+bh2.type = linear_breit_wheeler
+bh2.product_species = ele_bh pos_bh
+bh2.event_multiplier = multiplier
+bh2.probability_threshold = 0.1
+bh2.probability_target_value = 0.01
+
+###########
+### QED ###
+###########
+qed_qs.photon_creation_energy_threshold = 0.
+qed_qs.lookup_table_mode = load
+qed_qs.load_table_from = /global/cfs/cdirs/m4272/aforment/qed_tables/qs_table_chi_min_1.e-5_chi_max_1.e1_points_1024
+qed_qs.chi_min = 1.e-5
+
+qed_bw.lookup_table_mode = load
+qed_bw.chi_min = 1.e-2
+qed_bw.load_table_from = /global/cfs/cdirs/m4272/aforment/qed_tables/bw_table_chi_min_1.e-2_chi_max_1.e1_points_1024
+
+warpx.do_qed_schwinger = 0.
+
+###################
+### DIAGNOSTICS ###
+###################
+diagnostics.diags_names = particles_in particles_out
+
+particles_out.intervals = -1
+particles_out.diag_type = BoundaryScraping
+particles_out.format = openpmd
+particles_out.openpmd_backend = bp
+
+beam1.save_particles_at_xlo = 1
+beam1.save_particles_at_ylo = 1
+beam1.save_particles_at_zlo = 1
+beam1.save_particles_at_xhi = 1
+beam1.save_particles_at_yhi = 1
+beam1.save_particles_at_zhi = 1
+
+beam2.save_particles_at_xlo = 1
+beam2.save_particles_at_ylo = 1
+beam2.save_particles_at_zlo = 1
+beam2.save_particles_at_xhi = 1
+beam2.save_particles_at_yhi = 1
+beam2.save_particles_at_zhi = 1
+
+pho1.save_particles_at_xlo = 1
+pho1.save_particles_at_ylo = 1
+pho1.save_particles_at_zlo = 1
+pho1.save_particles_at_xhi = 1
+pho1.save_particles_at_yhi = 1
+pho1.save_particles_at_zhi = 1
+
+pho2.save_particles_at_xlo = 1
+pho2.save_particles_at_ylo = 1
+pho2.save_particles_at_zlo = 1
+pho2.save_particles_at_xhi = 1
+pho2.save_particles_at_yhi = 1
+pho2.save_particles_at_zhi = 1
+
+ele_ll.save_particles_at_xlo = 1
+ele_ll.save_particles_at_ylo = 1
+ele_ll.save_particles_at_zlo = 1
+ele_ll.save_particles_at_xhi = 1
+ele_ll.save_particles_at_yhi = 1
+ele_ll.save_particles_at_zhi = 1
+
+pos_ll.save_particles_at_xlo = 1
+pos_ll.save_particles_at_ylo = 1
+pos_ll.save_particles_at_zlo = 1
+pos_ll.save_particles_at_xhi = 1
+pos_ll.save_particles_at_yhi = 1
+pos_ll.save_particles_at_zhi = 1
+
+ele_bh.save_particles_at_xlo = 1
+ele_bh.save_particles_at_ylo = 1
+ele_bh.save_particles_at_zlo = 1
+ele_bh.save_particles_at_xhi = 1
+ele_bh.save_particles_at_yhi = 1
+ele_bh.save_particles_at_zhi = 1
+
+pos_bh.save_particles_at_xlo = 1
+pos_bh.save_particles_at_ylo = 1
+pos_bh.save_particles_at_zlo = 1
+pos_bh.save_particles_at_xhi = 1
+pos_bh.save_particles_at_yhi = 1
+pos_bh.save_particles_at_zhi = 1
+
+ele_bw.save_particles_at_xlo = 1
+ele_bw.save_particles_at_ylo = 1
+ele_bw.save_particles_at_zlo = 1
+ele_bw.save_particles_at_xhi = 1
+ele_bw.save_particles_at_yhi = 1
+ele_bw.save_particles_at_zhi = 1
+
+pos_bw.save_particles_at_xlo = 1
+pos_bw.save_particles_at_ylo = 1
+pos_bw.save_particles_at_zlo = 1
+pos_bw.save_particles_at_xhi = 1
+pos_bw.save_particles_at_yhi = 1
+pos_bw.save_particles_at_zhi = 1
+
+particles_in.intervals = floor(nt/8)
+particles_in.diag_type = Full
+particles_in.species = beam1 beam2 pho1 pho2 ele_bh pos_bh ele_bw pos_bw ele_ll pos_ll
+particles_in.fields_to_plot = none
+particles_in.format = openpmd
+particles_in.openpmd_backend = bp
+particles_in.dump_last_timestep = 1
+
+# REDUCED DIAGNOSTICS
+warpx.reduced_diags_names = DiffLum_beam1_beam2
+
+my_constants.bin_num_1d         = 1024
+my_constants.bin_center_min_1d  = 0.
+my_constants.bin_center_max_1d  = 2.1*beam_energy/q_e
+my_constants.bin_size_1d        = (bin_center_max_1d - bin_center_min_1d) / bin_num_1d
+my_constants.bin_edge_min_1d    = bin_center_min_1d - 0.5 * bin_size_1d
+my_constants.bin_edge_max_1d    = bin_center_max_1d + 0.5 * bin_size_1d
+my_constants.bin_num_1d_eff     = bin_num_1d + 1
+
+DiffLum_beam1_beam2.type       = DifferentialLuminosity
+DiffLum_beam1_beam2.intervals  = nt
+DiffLum_beam1_beam2.species    = beam1 beam2
+DiffLum_beam1_beam2.bin_number = bin_num_1d_eff
+DiffLum_beam1_beam2.bin_max    = bin_edge_max_1d
+DiffLum_beam1_beam2.bin_min    = bin_edge_min_1d

@@ -22,6 +22,7 @@ Layout follows that repository: scripts at the top level, `data/` and `plots/`.
 | `plot_coarse.py`, `plot_nx_nm_coupling.py` | coarse-grid control and the `n_x`–`n_m` coupling test |
 | `plot_core_width.py`, `plot_slice_pinch.py`, `plot_pinch_evolution.py` | the pinched-core measurements from per-step particle dumps; `plot_core_width.py` also builds and caches `data/slice_widths_*.csv`, `data/slice_fiterr_*.csv` and `data/R1_table.npz` |
 | `deposition_error.py`, `depo_corr_stat.py`, `plot_depo_correlation.py` | per-pass deposition-error measurement at the waists and its seed statistics (`data/depo_error.json`, `data/depo_corr_stat.json`) |
+| `submit.py`, `add_jobs.py` | job submission: `add_jobs.py` appends runs to `data/joblist.csv`; `submit.py` renders `inputs/template.sbatch` per pending row (grid, `n_m`, ε_y, seed on the WarpX command line, `--extra` for variant flags) and submits it |
 | `make_figures.py` | regenerates every figure in `plots/` |
 
 ## Figures (`plots/`)
@@ -40,13 +41,25 @@ Layout follows that repository: scripts at the top level, `data/` and `plots/`.
 | `WX_pinch_evolution`, `WX_pinch_histogram` | vertical width through the crossing (whole beam, central and off-centre slices) and the slice y-distribution at the pinch |
 | `WX_depo_correlation`, `WX_depo_error_passes` | deposition-error correlation between successive waists, and the per-pass residuals |
 
+## Inputs and job submission (`inputs/`)
+
+| file | content |
+|---|---|
+| `input_calib_C3_250.txt` | the default WarpX deck used for every calibration run: C³-250 beams, 3D integrated-Green-function Poisson solver, 3rd-order (cubic B-spline) deposition, Vay pusher, quantum-synchrotron beamstrahlung on, per-crossing luminosity from the `DifferentialLuminosity` diagnostic. Grid (`nx, ny, nz`), `nmacropart`, `emity`/`sigmay` and the seed are overridden per run on the command line, so one deck serves the whole scan |
+| `input_calib_C3_250_2dslice.txt` | variant: `warpx.use_2d_slices_fft_solver = 1` (2D-slice solver, the GP++ field model; phase PS) |
+| `input_calib_C3_250_cic.txt` | variant: `algo.particle_shape = 1` (first-order CIC deposition, 3D solver; phase PC3) |
+| `input_calib_C3_250_2dslice_cic.txt` | variant: both (phase PC2). WarpX applies one shape order to all axes, so this is (1,1,1) against GP++'s (1,1,0) |
+| `template.sbatch` | the Slurm template `submit.py` renders: whole GPU nodes on Perlmutter (4 ranks per node, `--gpu-bind=none`), the WarpX executable and module environment, the command-line overrides, and a watchdog that cancels a run whose solver has aborted. Site-specific paths (executable, account, CUDA libraries) are the ones used for the study and will need changing elsewhere |
+
+In the study the three variants were run by passing the changed lines through `submit.py --extra "..."` rather than
+as separate decks; they are written out in full here so each configuration is self-contained.
+
 ## Datasets (`data/`)
 
 | file | content |
 |---|---|
 | `results.csv` | one row per WarpX run: ε_y, σ_y, grid (`nx, ny, nz`), `nm`, seed, luminosity `L` in 10³⁴ cm⁻² s⁻¹, and `solver` (`3d` calibration; `2d` 2D-slice solver; `3d_cic`/`2d_cic` first-order deposition) |
 | `joblist.csv` | the run register (label, phase, grid, `n_m`, seed, node/walltime, status); read by `plot_core_width.py` to enumerate runs |
-| `input_calib_C3_250.txt` | the WarpX input deck all runs share; grid, `n_m` and ε_y are overridden per run on the command line |
 | `slice_widths_hw010_*.csv`, `slice_fiterr_hw010_*.csv` | per-step central-slice widths (rms, IQR, Gaussian core) and the core-fit errors, cached from the particle dumps (phases PP and PQ) |
 | `R1_table.npz` | first-waist envelope compression `R_1(D_y)` on a `D_y` grid |
 | `depo_error.json`, `depo_corr_stat.json` | per-pass deposition residuals and their correlations |
