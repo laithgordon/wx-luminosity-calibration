@@ -17,7 +17,7 @@ Layout follows that repository: scripts at the top level, `data/` and `plots/`.
 | `wxcal.py`, `collect.py` | run bookkeeping and the extraction that populates `data/results.csv`: `collect.py` integrates each run's `DifferentialLuminosity` spectrum (per-crossing luminosity in m⁻²) and converts it to 10³⁴ cm⁻² s⁻¹ with `1e-4 × n_b × f_rep` (133 bunches × 120 Hz); `wxcal.py` holds the beam constants and the run-label conventions. `data/joblist.csv` is the run register they read and write |
 | `nmreq.py` | the calibration machinery: disruption parameter `D_y(ε_y)`, ladders, plateau rule, ±5 % bracket estimator, Monte-Carlo errors, weighted power-law fits, the first-waist envelope compression `R_1(D_y)`, κ, and the readers of the GP++ exports |
 | `richardson.py` | Richardson-extrapolation overlays |
-| `paper_figures.py` | figure style and the four calibration figures plus `kappa_vs_Dy` and `WX_GP_comparison` |
+| `paper_figures.py` | figure style and the four calibration figures plus `kappa_vs_Dy` |
 | `plot_comparison.py`, `plot_extension.py`, `plot_deposition.py` | tuned-vs-untuned and WarpX-vs-GP++ luminosity comparisons, the 40–100 nm extension, and the deposition-order test |
 | `plot_coarse.py`, `plot_nx_nm_coupling.py` | coarse-grid control and the `n_x`–`n_m` coupling test |
 | `plot_core_width.py`, `plot_slice_pinch.py`, `plot_pinch_evolution.py` | the pinched-core measurements from per-step particle dumps; `plot_core_width.py` also builds and caches `data/slice_widths_*.csv`, `data/slice_fiterr_*.csv` and `data/R1_table.npz` |
@@ -31,7 +31,6 @@ Layout follows that repository: scripts at the top level, `data/` and `plots/`.
 | `WX_L_vs_nm`, `WX_nm_req_calibration` | luminosity vs macroparticle count per ε_y, and the requirement `n_m^req/(n_x n_y n_z)` vs `D_y` with its power-law fit and conservative locus |
 | `WX_L_vs_ny`, `WX_ny_req_calibration` | luminosity vs vertical cell count, and `n_y^req` vs `D_y` |
 | `kappa_vs_Dy` | cells per pinched vertical σ for both codes, each at its own box cut |
-| `WX_GP_comparison` | `n_y^req` and pinched-core occupancy, WarpX against GP++ |
 | `nx_nm_coupling` | luminosity vs `n_m` at eight `n_x` values (the test that fixed the nominal grid) |
 | `WX_coarse_grid_L_vs_nm` | a deliberately under-resolved grid: seed scatter collapses while L converges to the wrong value |
 | `WX_comparison_L_vs_ey`, `WX_comparison_HD_vs_ey`, `WX_comparison_ratio_vs_ey` | L and `H_D = L/L_geom` for untuned and tuned WarpX and GP++, and the tuned/untuned ratios |

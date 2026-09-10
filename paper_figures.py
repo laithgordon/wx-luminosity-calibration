@@ -382,7 +382,7 @@ def WX_GP_comparison(A, B):
     return out
 
 
-def make_all(verbose=True):
+def make_all(verbose=True, gp_comparison=True):
     A = Q.requirements_stat(); B = Q.ny_requirements_stat()
     lad_m = Q.ladders(); lad_y = Q.ny_ladders()
     for e in lad_y:            # ny_ladders lacks 'nm'/'pooled'; give it the keys compact_ladder needs
@@ -392,7 +392,7 @@ def make_all(verbose=True):
     resm = WX_nm_req_calibration(A) if len(A) >= 3 else {}
     resy = WX_ny_req_calibration(B) if len(B) >= 3 else {}
     resk = kappa_vs_Dy(B) if len(B) >= 3 else {}
-    resc = WX_GP_comparison(A, B) if (len(A) >= 3 and len(B) >= 3) else {}
+    resc = WX_GP_comparison(A, B) if (gp_comparison and len(A) >= 3 and len(B) >= 3) else {}
     if resk:
         resy["kappa_fig"] = resk
     if resc:
