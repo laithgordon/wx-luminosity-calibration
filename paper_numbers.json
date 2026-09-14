@@ -18,6 +18,8 @@
    "data/results.csv",
    "data/joblist.csv",
    "data/R1_table.npz",
+   "data/gp_exports/gp_requirements_for_wx.csv",
+   "data/gp_exports/gp_luminosity_for_wx.csv",
    "data/slice_widths_hw010_<label>.csv",
    "data/slice_fiterr_hw010_<label>.csv"
   ]
@@ -2877,125 +2879,276 @@
   }
  },
  "kappa": {
-  "definition": "kappa = n_y^req / (2 c_y R_1(D_y) D_y^(1/4)), c_y = 16 (WarpX deck); R_1 interpolated in data/R1_table.npz",
-  "per_emittance": [
-   {
-    "e_y_nm": 0.5,
-    "D_y": 137.82751349998446,
-    "kappa": 0.21467878008761448,
-    "uncertainty": {
-     "value": 0.0023893458792256725,
-     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+  "definition": "kappa = n_y^req / (2 c_y R_1(D_y) D_y^(1/4)), with c_y each code's own vertical cut multiplier (WarpX 16, GUINEA-PIG++ 20) and R_1(D_y) from data/R1_table.npz (linear interpolation in D_y), the same table for both codes. <kappa> is a weighted mean of ln kappa, exponentiated: exp(sum w ln kappa / sum w) with w = 1/sigma_ln^2, sigma_ln the uncertainty on ln n_y^req (equal to that on ln kappa). The slope is the weighted least-squares fit of ln kappa against ln D_y with the same weights.",
+  "warpx": {
+   "c_y": 16,
+   "per_emittance": [
+    {
+     "e_y_nm": 0.5,
+     "D_y": 137.82751349998446,
+     "n_y_req": 124.86942897261173,
+     "sigma_ln": 0.011129865179271725,
+     "R_1": 5.304971417444223,
+     "kappa": 0.21467878008761448,
+     "uncertainty": {
+      "value": 0.0023893458792256725,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": false,
+     "excluded_because": "n_y^req anomalous; shown, not fitted"
     },
-    "R_1": 5.304971417444223,
-    "used_in_mean_and_slope": false,
-    "excluded_because": "n_y^req anomalous; shown, not fitted"
+    {
+     "e_y_nm": 1.0,
+     "D_y": 97.36393561327273,
+     "n_y_req": 145.5573537342285,
+     "sigma_ln": 0.06048922321827899,
+     "R_1": 4.967911316508612,
+     "kappa": 0.2914813742562869,
+     "uncertainty": {
+      "value": 0.017631481911359256,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 2.0,
+     "D_y": 68.75208777492955,
+     "n_y_req": 135.9420875826653,
+     "sigma_ln": 0.06939108058196908,
+     "R_1": 4.635543052406648,
+     "kappa": 0.3182598581684963,
+     "uncertainty": {
+      "value": 0.022084395464176176,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 4.0,
+     "D_y": 48.52076942837245,
+     "n_y_req": 110.90776938757072,
+     "sigma_ln": 0.09820365953924082,
+     "R_1": 4.307936412651426,
+     "kappa": 0.3048321634311278,
+     "uncertainty": {
+      "value": 0.029935633994200687,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 8.0,
+     "D_y": 34.21550740608676,
+     "n_y_req": 103.27168853694704,
+     "sigma_ln": 0.1477464310072385,
+     "R_1": 3.9853909772931515,
+     "kappa": 0.3348147792647292,
+     "uncertainty": {
+      "value": 0.0494676886848401,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 12.0,
+     "D_y": 27.878324813548918,
+     "n_y_req": 75.3097601994425,
+     "sigma_ln": 0.13525452757775502,
+     "R_1": 3.7991629994155978,
+     "kappa": 0.26958560031831735,
+     "uncertainty": {
+      "value": 0.036462673012819496,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 16.0,
+     "D_y": 24.100777107523154,
+     "n_y_req": 81.22654254931133,
+     "sigma_ln": 0.13328064130864004,
+     "R_1": 3.6681556816988437,
+     "kappa": 0.312314730399613,
+     "uncertainty": {
+      "value": 0.041625507557795434,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 20.0,
+     "D_y": 21.522963550078693,
+     "n_y_req": 71.84866012001828,
+     "sigma_ln": 0.3012701036963348,
+     "R_1": 3.567175191853533,
+     "kappa": 0.29222592274320164,
+     "uncertainty": {
+      "value": 0.08803893404760148,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    }
+   ],
+   "weighted_mean": {
+    "estimate": 0.3028911014513608,
+    "uncertainty": {
+     "value": 0.011041927295220804,
+     "definition": "standard error of the weighted mean of ln kappa, 1/sqrt(sum w) with w = 1/sigma_ln^2, carried to <kappa> by multiplying by <kappa>"
+    }
    },
-   {
-    "e_y_nm": 1,
-    "D_y": 97.36393561327273,
-    "kappa": 0.2914813742562869,
+   "slope_ln_kappa_vs_ln_D_y": {
+    "estimate": -0.015141528846600508,
     "uncertainty": {
-     "value": 0.017631481911359256,
-     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+     "value": 0.07506548582257208,
+     "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln y = a + b ln D_y with weights 1/sigma_ln^2 (not rescaled by chi2/ndf)"
     },
-    "R_1": 4.967911316508612,
-    "used_in_mean_and_slope": true,
-    "excluded_because": null
+    "chi2": 2.1439700368466688,
+    "ndf": 5
    },
-   {
-    "e_y_nm": 2,
-    "D_y": 68.75208777492955,
-    "kappa": 0.3182598581684963,
-    "uncertainty": {
-     "value": 0.022084395464176176,
-     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
-    },
-    "R_1": 4.635543052406648,
-    "used_in_mean_and_slope": true,
-    "excluded_because": null
+   "excluded": {
+    "0.5": "n_y^req anomalous; shown, not fitted"
    },
-   {
-    "e_y_nm": 4,
-    "D_y": 48.52076942837245,
-    "kappa": 0.3048321634311278,
-    "uncertainty": {
-     "value": 0.029935633994200687,
-     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+   "provenance": "section 'requirements.n_y_req' (value, uncertainty_ln, D_y); same points as the n_y fit"
+  },
+  "gp": {
+   "c_y": 20,
+   "per_emittance": [
+    {
+     "e_y_nm": 1.0,
+     "D_y": 97.3640511378073,
+     "n_y_req": 132.66493152355466,
+     "sigma_ln": 0.3221358464638391,
+     "R_1": 4.9679124590644825,
+     "kappa": 0.21253113058236142,
+     "uncertainty": {
+      "value": 0.06846389565006572,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
     },
-    "R_1": 4.307936412651426,
-    "used_in_mean_and_slope": true,
-    "excluded_because": null
+    {
+     "e_y_nm": 2.0,
+     "D_y": 68.75216923874842,
+     "n_y_req": 133.54817959007644,
+     "sigma_ln": 0.5340815949351884,
+     "R_1": 4.635544172744739,
+     "kappa": 0.25012416736046555,
+     "uncertainty": {
+      "value": 0.13358671423571342,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 4.0,
+     "D_y": 48.52082680874171,
+     "n_y_req": 115.86178030036692,
+     "sigma_ln": 0.6715627485215111,
+     "R_1": 4.307937521055844,
+     "kappa": 0.25475854623317806,
+     "uncertainty": {
+      "value": 0.17108634951769752,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 8.0,
+     "D_y": 34.21554775844742,
+     "n_y_req": 113.62270956706864,
+     "sigma_ln": 0.0715854338842078,
+     "R_1": 3.985392052438995,
+     "kappa": 0.2946987038392132,
+     "uncertainty": {
+      "value": 0.02109613457944373,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 12.0,
+     "D_y": 27.87835762322576,
+     "n_y_req": 90.85986852707344,
+     "sigma_ln": 0.5157301701610287,
+     "R_1": 3.799164064950141,
+     "kappa": 0.26019998534224675,
+     "uncertainty": {
+      "value": 0.1341929827164541,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 16.0,
+     "D_y": 24.100805421447365,
+     "n_y_req": 93.40383025926585,
+     "sigma_ln": 0.0298168900765705,
+     "R_1": 3.6681567391612044,
+     "kappa": 0.2873087951091585,
+     "uncertainty": {
+      "value": 0.008566654761801695,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 20.0,
+     "D_y": 21.522988796342663,
+     "n_y_req": 90.12731130028916,
+     "sigma_ln": 0.1424385818771354,
+     "R_1": 3.567176231654,
+     "kappa": 0.29325553199754756,
+     "uncertainty": {
+      "value": 0.04177090210535558,
+      "definition": "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"
+     },
+     "used_in_mean_and_slope": true,
+     "excluded_because": null
+    }
+   ],
+   "weighted_mean": {
+    "estimate": 0.2877095738132484,
+    "uncertainty": {
+     "value": 0.007721556825961788,
+     "definition": "standard error of the weighted mean of ln kappa, 1/sqrt(sum w) with w = 1/sigma_ln^2, carried to <kappa> by multiplying by <kappa>"
+    }
    },
-   {
-    "e_y_nm": 8,
-    "D_y": 34.21550740608676,
-    "kappa": 0.3348147792647292,
+   "slope_ln_kappa_vs_ln_D_y": {
+    "estimate": -0.075733026717827,
     "uncertainty": {
-     "value": 0.0494676886848401,
-     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+     "value": 0.1515311302539019,
+     "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln y = a + b ln D_y with weights 1/sigma_ln^2 (not rescaled by chi2/ndf)"
     },
-    "R_1": 3.9853909772931515,
-    "used_in_mean_and_slope": true,
-    "excluded_because": null
+    "chi2": 0.9061987062524921,
+    "ndf": 5
    },
-   {
-    "e_y_nm": 12,
-    "D_y": 27.878324813548918,
-    "kappa": 0.26958560031831735,
-    "uncertainty": {
-     "value": 0.036462673012819496,
-     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
-    },
-    "R_1": 3.7991629994155978,
-    "used_in_mean_and_slope": true,
-    "excluded_because": null
-   },
-   {
-    "e_y_nm": 16,
-    "D_y": 24.100777107523154,
-    "kappa": 0.312314730399613,
-    "uncertainty": {
-     "value": 0.041625507557795434,
-     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
-    },
-    "R_1": 3.6681556816988437,
-    "used_in_mean_and_slope": true,
-    "excluded_because": null
-   },
-   {
-    "e_y_nm": 20,
-    "D_y": 21.522963550078693,
-    "kappa": 0.29222592274320164,
-    "uncertainty": {
-     "value": 0.08803893404760148,
-     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
-    },
-    "R_1": 3.567175191853533,
-    "used_in_mean_and_slope": true,
-    "excluded_because": null
-   }
-  ],
-  "weighted_mean": {
-   "estimate": 0.3028911014513608,
+   "excluded": {},
+   "provenance": "data/gp_exports/gp_requirements_for_wx.csv, rows quantity = n_y_req: value, D_y and sigma_log as exported (every exported point; the export has no 0.5 nm n_y^req); c_y = 20 from the 'cut multipliers' line of data/gp_exports/gp_luminosity_for_wx.csv"
+  },
+  "ratio_warpx_over_gp": {
+   "estimate": 1.0527668490029694,
    "uncertainty": {
-    "value": 0.011041927295220804,
-    "definition": "standard error of the inverse-variance weighted mean of ln kappa (weights 1/sigma_ln^2), times the mean"
+    "value": 0.047657377090503175,
+    "definition": "the relative uncertainties of the two weighted means added in quadrature"
    }
   },
-  "slope_ln_kappa_vs_ln_D_y": {
-   "estimate": -0.015141528846600508,
-   "uncertainty": {
-    "value": 0.07506548582257208,
-    "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln y = a + b ln D_y with weights 1/sigma_ln^2 (not rescaled by chi2/ndf)"
-   },
-   "chi2": 2.1439700368466688,
-   "ndf": 5
-  },
-  "excluded": {
-   "0.5": "n_y^req anomalous; shown, not fitted"
-  },
-  "provenance": "section 'requirements.n_y_req' (value, uncertainty_ln, D_y); same points as the n_y fit"
+  "agreement_sigma": {
+   "value": 1.126734044361317,
+   "definition": "|<kappa>_WarpX - <kappa>_GP| / sqrt(sigma_WarpX^2 + sigma_GP^2), the two weighted-mean uncertainties"
+  }
  },
  "recommendation_table": {
   "rule": "n_y = smallest of {32, ..., 8192} >= 38.1 D_y^0.450260; n_m = ceil(0.440 D_y^3.269); (n_x, n_z) = (512, 128); frozen locus constants",

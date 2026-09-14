@@ -9,8 +9,9 @@ writes two files at the repository root:
   paper_numbers.md    the same quantities as tables, rounded to the precision the paper quotes
 
 Inputs, all committed: data/results.csv (one row per run), data/joblist.csv (the run register, for each run's phase),
-data/R1_table.npz (first-waist compression R_1(D_y)) and the data/slice_widths_hw010_* / data/slice_fiterr_hw010_*
-caches (pinched-core widths). Nothing outside the repository is read and nothing is fetched. The only resampling, the
+data/R1_table.npz (first-waist compression R_1(D_y)), the data/slice_widths_hw010_* / data/slice_fiterr_hw010_*
+caches (pinched-core widths), and the GUINEA-PIG++ n_y^req export data/gp_exports/gp_requirements_for_wx.csv with its deck
+cut from data/gp_exports/gp_luminosity_for_wx.csv (for the GP++ kappa that the WarpX kappa is compared against). Nothing outside the repository is read and nothing is fetched. The only resampling, the
 Monte Carlo behind the n^req uncertainties, uses a fixed generator seed recorded in the output, so repeated runs write
 identical files. A missing input, or an expected emittance with no qualifying runs, raises instead of writing a partial
 table.
@@ -22,7 +23,8 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
-for _f in (DATA / "results.csv", DATA / "joblist.csv", DATA / "R1_table.npz"):
+for _f in (DATA / "results.csv", DATA / "joblist.csv", DATA / "R1_table.npz",
+           DATA / "gp_exports" / "gp_requirements_for_wx.csv", DATA / "gp_exports" / "gp_luminosity_for_wx.csv"):
     if not _f.is_file():                     # checked before importing nmreq, which would otherwise try to rebuild R_1
         raise FileNotFoundError(f"required input missing: {_f.relative_to(ROOT)}")
 
@@ -34,6 +36,7 @@ ALL_EYS = sorted(Q.EYS + Q.EYS_EXT)
 F_COLL = W.NUM_BUNCHES * W.TRAIN_REP                 # 133 bunches x 120 Hz
 PS1_PUBLISHED = 1.35                                 # 1e34 cm^-2 s^-1
 C_Y = Q.C_Y_WX                                       # WarpX vertical cut multiplier, enters kappa
+C_Y_GP = Q.C_Y_GP                                    # GP++ vertical cut multiplier, checked against the GP export header
 CUTS = {"x": 16, "y": 16, "z": 8}
 CUT_NOTE = ("domain half-extent in units of the rms beam size at the interaction point: Lx = 32 sigma_x, "
             "Ly = 32 sigma_y, Lz = 16 sigma_z (inputs/input_calib_C3_250.txt); identical in every configuration")
@@ -237,22 +240,64 @@ def fits_and_kappa(A, B):
                          q=E(qy, ny_free["exponent"]["uncertainty"]["value"], FIT), C=C_ycons,
                          chi2=ny_free["chi2"], ndf=ny_free["ndf"]))))
 
-    k = Q.kappa_drift(DB[useB], nB[useB], sB[useB], c_y=C_Y)
-    per = []
-    for e, D, n, s in zip(eB, DB, nB, sB):
-        kv = Q.kappa_from_ny(n, D, C_Y)
-        per.append(dict(e_y_nm=e, D_y=D, kappa=kv, uncertainty=U(kv * s, "kappa * sigma_ln(n_y^req): the n_y^req Monte "
-                                                                    "Carlo uncertainty carried to kappa"),
-                        R_1=Q.R1_of_D(D), used_in_mean_and_slope=e not in NY_EXCLUDED, excluded_because=NY_EXCLUDED.get(e)))
-    kappa = dict(definition=f"kappa = n_y^req / (2 c_y R_1(D_y) D_y^(1/4)), c_y = {C_Y} (WarpX deck); R_1 interpolated "
-                            "in data/R1_table.npz",
-                 per_emittance=per,
-                 weighted_mean=E(k["mean"], k["sig_mean"], "standard error of the inverse-variance weighted mean of "
-                                 "ln kappa (weights 1/sigma_ln^2), times the mean"),
-                 slope_ln_kappa_vs_ln_D_y=dict(**E(k["slope"], k["sig_slope"], FIT), chi2=k["chi2"], ndf=k["ndf"]),
-                 excluded=exB,
-                 provenance="section 'requirements.n_y_req' (value, uncertainty_ln, D_y); same points as the n_y fit")
+    kappa = dict(
+        definition=("kappa = n_y^req / (2 c_y R_1(D_y) D_y^(1/4)), with c_y each code's own vertical cut multiplier "
+                    f"(WarpX {C_Y}, GUINEA-PIG++ {C_Y_GP}) and R_1(D_y) from data/R1_table.npz (linear interpolation in "
+                    "D_y), the same table for both codes. <kappa> is a weighted mean of ln kappa, exponentiated: "
+                    "exp(sum w ln kappa / sum w) with w = 1/sigma_ln^2, sigma_ln the uncertainty on ln n_y^req (equal to "
+                    "that on ln kappa). The slope is the weighted least-squares fit of ln kappa against ln D_y with the "
+                    "same weights."),
+        warpx=kappa_block(eB, DB, nB, sB, useB, C_Y, {e: NY_EXCLUDED.get(e) for e in eB},
+                          "section 'requirements.n_y_req' (value, uncertainty_ln, D_y); same points as the n_y fit"),
+        gp=gp_kappa())
+    w, g = kappa["warpx"]["weighted_mean"], kappa["gp"]["weighted_mean"]
+    r = w["estimate"] / g["estimate"]
+    kappa["ratio_warpx_over_gp"] = E(r, r * math.hypot(w["uncertainty"]["value"] / w["estimate"],
+                                                       g["uncertainty"]["value"] / g["estimate"]),
+                                     "the relative uncertainties of the two weighted means added in quadrature")
+    kappa["agreement_sigma"] = dict(value=abs(w["estimate"] - g["estimate"]) / math.hypot(w["uncertainty"]["value"],
+                                                                                          g["uncertainty"]["value"]),
+                                    definition="|<kappa>_WarpX - <kappa>_GP| / sqrt(sigma_WarpX^2 + sigma_GP^2), the two "
+                                               "weighted-mean uncertainties")
     return fits, kappa
+
+
+KAPPA_MEAN_UNC = ("standard error of the weighted mean of ln kappa, 1/sqrt(sum w) with w = 1/sigma_ln^2, carried to "
+                  "<kappa> by multiplying by <kappa>")
+
+
+def kappa_block(es, D, n, sig, use, c_y, excluded, provenance):
+    """Per-point kappa, the weighted mean of ln kappa and the ln kappa vs ln D_y slope for one code."""
+    D, n, sig, use = (np.asarray(v) for v in (D, n, sig, use))
+    k = Q.kappa_drift(D[use].astype(float), n[use].astype(float), sig[use].astype(float), c_y=c_y)
+    per = []
+    for e, d, nn, s_, u in zip(es, D, n, sig, use):
+        kv = Q.kappa_from_ny(float(nn), float(d), c_y)
+        per.append(dict(e_y_nm=float(e), D_y=float(d), n_y_req=float(nn), sigma_ln=float(s_), R_1=Q.R1_of_D(float(d)),
+                        kappa=kv, uncertainty=U(kv * float(s_), "kappa * sigma_ln: the uncertainty on ln n_y^req carried to kappa"),
+                        used_in_mean_and_slope=bool(u), excluded_because=None if u else excluded.get(float(e))))
+    return dict(c_y=c_y, per_emittance=per, weighted_mean=E(k["mean"], k["sig_mean"], KAPPA_MEAN_UNC),
+                slope_ln_kappa_vs_ln_D_y=dict(**E(k["slope"], k["sig_slope"], FIT), chi2=k["chi2"], ndf=k["ndf"]),
+                excluded={f"{e:g}": v for e, v in excluded.items() if v}, provenance=provenance)
+
+
+def gp_kappa():
+    """GUINEA-PIG++ kappa from its n_y^req export. Raises if the export lacks the sigma_log column (earlier versions
+    carried sigma_tot from a superseded budget) or its deck cut does not match C_Y_GP."""
+    hdr = "".join(l for l in open(Q.GP_LUMI_CSV) if l.startswith("#"))
+    if f"cut multipliers {C_Y_GP}/{C_Y_GP}/3.5" not in hdr:
+        fail(f"data/gp_exports/gp_luminosity_for_wx.csv header does not state the GP++ cut multipliers {C_Y_GP}/{C_Y_GP}/3.5")
+    rd = csv.DictReader(l for l in open(Q.GP_REQ_CSV) if not l.startswith("#"))
+    if "sigma_log" not in (rd.fieldnames or []):
+        fail(f"data/gp_exports/gp_requirements_for_wx.csv has no sigma_log column (columns: {rd.fieldnames})")
+    rows = [r for r in rd if r["quantity"] == "n_y_req"]
+    if not rows:
+        fail("data/gp_exports/gp_requirements_for_wx.csv has no n_y_req rows")
+    col = lambda k: [float(r[k]) for r in rows]
+    return kappa_block(col("eps_y_nm"), col("D_y"), col("value"), col("sigma_log"), [True] * len(rows), C_Y_GP, {},
+                       "data/gp_exports/gp_requirements_for_wx.csv, rows quantity = n_y_req: value, D_y and sigma_log as "
+                       f"exported (every exported point; the export has no 0.5 nm n_y^req); c_y = {C_Y_GP} from the 'cut "
+                       "multipliers' line of data/gp_exports/gp_luminosity_for_wx.csv")
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -414,6 +459,7 @@ def build():
                                      "before seed statistics; they are not independent",
                    monte_carlo=dict(generator="numpy.random.default_rng", seed=Q.MC_SEED, draws=Q.MC_DRAWS),
                    inputs=["data/results.csv", "data/joblist.csv", "data/R1_table.npz",
+                           "data/gp_exports/gp_requirements_for_wx.csv", "data/gp_exports/gp_luminosity_for_wx.csv",
                            "data/slice_widths_hw010_<label>.csv", "data/slice_fiterr_hw010_<label>.csv"]),
         luminosity_dataset=dict(cut_multipliers_definition=CUT_NOTE, n_t_definition=NT_NOTE,
                                 rows=[r for c in ds for r in ds[c]]),
@@ -505,13 +551,19 @@ def markdown(P):
                f"today: exponent {pm(ry['q']['estimate'], ry['q']['uncertainty']['value'], 3)}, χ²/ndf = {ry['chi2']:.2f}/{ry['ndf']}, C = {ry['C']:.1f}.\n")
 
     k = P["kappa"]
-    out.append("\n## 5. Criterion constant κ\n\n" + k["definition"] + ".\n")
-    out.append(table(["ε_y [nm]", "D_y", "R_1", "κ ± σ", "in mean and slope"],
-                     [[f"{r['e_y_nm']:g}", f"{r['D_y']:.1f}", f"{r['R_1']:.3f}", pm(r["kappa"], r["uncertainty"]["value"], 3),
-                       "yes" if r["used_in_mean_and_slope"] else f"no: {r['excluded_because']}"] for r in k["per_emittance"]]))
-    s = k["slope_ln_kappa_vs_ln_D_y"]
-    out.append(f"\nWeighted mean ⟨κ⟩ = {pm(k['weighted_mean']['estimate'], k['weighted_mean']['uncertainty']['value'], 3)} (± se). "
-               f"Slope of ln κ vs ln D_y = {s['estimate']:+.3f} ± {s['uncertainty']['value']:.3f}, χ²/ndf = {s['chi2']:.2f}/{s['ndf']}.\n")
+    out.append("\n## 5. Criterion constant κ\n\n" + k["definition"] + "\n")
+    for code, name in (("warpx", "WarpX"), ("gp", "GUINEA-PIG++")):
+        b = k[code]; m = b["weighted_mean"]; s = b["slope_ln_kappa_vs_ln_D_y"]
+        out.append(f"\n**{name}** (c_y = {b['c_y']:g})\n")
+        out.append(table(["ε_y [nm]", "D_y", "n_y^req", "σ_ln", "R_1", "κ ± σ", "in mean and slope"],
+                         [[f"{r['e_y_nm']:g}", f"{r['D_y']:.1f}", f"{r['n_y_req']:.3g}", f"{r['sigma_ln']:.3f}", f"{r['R_1']:.3f}",
+                           pm(r["kappa"], r["uncertainty"]["value"], 3),
+                           "yes" if r["used_in_mean_and_slope"] else f"no: {r['excluded_because']}"] for r in b["per_emittance"]]))
+        out.append(f"\n⟨κ⟩ = {pm(m['estimate'], m['uncertainty']['value'], 3)}. Slope of ln κ vs ln D_y = "
+                   f"{s['estimate']:+.3f} ± {s['uncertainty']['value']:.3f}, χ²/ndf = {s['chi2']:.2f}/{s['ndf']}.\n")
+    r = k["ratio_warpx_over_gp"]
+    out.append(f"\n**κ_WarpX / κ_GP** = {pm(r['estimate'], r['uncertainty']['value'], 3)}; agreement "
+               f"{k['agreement_sigma']['value']:.1f}σ.\n\n")
 
     rt = P["recommendation_table"]
     out.append("\n## 6. Recommendation table (WarpX)\n\n" + rt["rule"] + ".\n")

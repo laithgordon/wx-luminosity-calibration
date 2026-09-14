@@ -144,4 +144,4 @@ this locus.
 | `R1_table.npz` — first-waist envelope compression `R_1(D_y)` | `nmreq.py`, `plot_core_width.py` |
 | `depo_corr_stat.json` — per-seed deposition-error correlations | `plot_depo_correlation.py` |
 | `gp_exports/gp_luminosity_for_wx.csv` — GUINEA-PIG++ luminosity per emittance in blocks `nominal`, `conservative`, `frozen_extension` | `plot_comparison.py`, `plot_extension.py`, `plot_deposition.py`, `paper_figures.py` |
-| `gp_exports/gp_requirements_for_wx.csv` — GUINEA-PIG++ tuning-ladder requirements, with the published fit constants in its header | `paper_figures.py` |
+| `gp_exports/gp_requirements_for_wx.csv` — GUINEA-PIG++ tuning-ladder requirements with their `sigma_log` uncertainties, the published fit constants and `q_p` in its header | `paper_figures.py`, `reproduce_paper_numbers.py` |

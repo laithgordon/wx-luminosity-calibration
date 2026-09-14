@@ -150,20 +150,42 @@ Uncertainties: 1-sigma parameter uncertainty from the covariance of the weighted
 
 ## 5. Criterion constant κ
 
-kappa = n_y^req / (2 c_y R_1(D_y) D_y^(1/4)), c_y = 16 (WarpX deck); R_1 interpolated in data/R1_table.npz.
+kappa = n_y^req / (2 c_y R_1(D_y) D_y^(1/4)), with c_y each code's own vertical cut multiplier (WarpX 16, GUINEA-PIG++ 20) and R_1(D_y) from data/R1_table.npz (linear interpolation in D_y), the same table for both codes. <kappa> is a weighted mean of ln kappa, exponentiated: exp(sum w ln kappa / sum w) with w = 1/sigma_ln^2, sigma_ln the uncertainty on ln n_y^req (equal to that on ln kappa). The slope is the weighted least-squares fit of ln kappa against ln D_y with the same weights.
 
-| ε_y [nm] | D_y | R_1 | κ ± σ | in mean and slope |
-|---|---|---|---|---|
-| 0.5 | 137.8 | 5.305 | 0.215 ± 0.002 | no: n_y^req anomalous; shown, not fitted |
-| 1 | 97.4 | 4.968 | 0.291 ± 0.018 | yes |
-| 2 | 68.8 | 4.636 | 0.318 ± 0.022 | yes |
-| 4 | 48.5 | 4.308 | 0.305 ± 0.030 | yes |
-| 8 | 34.2 | 3.985 | 0.335 ± 0.049 | yes |
-| 12 | 27.9 | 3.799 | 0.270 ± 0.036 | yes |
-| 16 | 24.1 | 3.668 | 0.312 ± 0.042 | yes |
-| 20 | 21.5 | 3.567 | 0.292 ± 0.088 | yes |
 
-Weighted mean ⟨κ⟩ = 0.303 ± 0.011 (± se). Slope of ln κ vs ln D_y = -0.015 ± 0.075, χ²/ndf = 2.14/5.
+**WarpX** (c_y = 16)
+
+| ε_y [nm] | D_y | n_y^req | σ_ln | R_1 | κ ± σ | in mean and slope |
+|---|---|---|---|---|---|---|
+| 0.5 | 137.8 | 125 | 0.011 | 5.305 | 0.215 ± 0.002 | no: n_y^req anomalous; shown, not fitted |
+| 1 | 97.4 | 146 | 0.060 | 4.968 | 0.291 ± 0.018 | yes |
+| 2 | 68.8 | 136 | 0.069 | 4.636 | 0.318 ± 0.022 | yes |
+| 4 | 48.5 | 111 | 0.098 | 4.308 | 0.305 ± 0.030 | yes |
+| 8 | 34.2 | 103 | 0.148 | 3.985 | 0.335 ± 0.049 | yes |
+| 12 | 27.9 | 75.3 | 0.135 | 3.799 | 0.270 ± 0.036 | yes |
+| 16 | 24.1 | 81.2 | 0.133 | 3.668 | 0.312 ± 0.042 | yes |
+| 20 | 21.5 | 71.8 | 0.301 | 3.567 | 0.292 ± 0.088 | yes |
+
+⟨κ⟩ = 0.303 ± 0.011. Slope of ln κ vs ln D_y = -0.015 ± 0.075, χ²/ndf = 2.14/5.
+
+
+**GUINEA-PIG++** (c_y = 20)
+
+| ε_y [nm] | D_y | n_y^req | σ_ln | R_1 | κ ± σ | in mean and slope |
+|---|---|---|---|---|---|---|
+| 1 | 97.4 | 133 | 0.322 | 4.968 | 0.213 ± 0.068 | yes |
+| 2 | 68.8 | 134 | 0.534 | 4.636 | 0.250 ± 0.134 | yes |
+| 4 | 48.5 | 116 | 0.672 | 4.308 | 0.255 ± 0.171 | yes |
+| 8 | 34.2 | 114 | 0.072 | 3.985 | 0.295 ± 0.021 | yes |
+| 12 | 27.9 | 90.9 | 0.516 | 3.799 | 0.260 ± 0.134 | yes |
+| 16 | 24.1 | 93.4 | 0.030 | 3.668 | 0.287 ± 0.009 | yes |
+| 20 | 21.5 | 90.1 | 0.142 | 3.567 | 0.293 ± 0.042 | yes |
+
+⟨κ⟩ = 0.288 ± 0.008. Slope of ln κ vs ln D_y = -0.076 ± 0.152, χ²/ndf = 0.91/5.
+
+
+**κ_WarpX / κ_GP** = 1.053 ± 0.048; agreement 1.1σ.
+
 
 
 ## 6. Recommendation table (WarpX)
