@@ -39,11 +39,12 @@ output; `python depo_corr_stat.py` rebuilds `data/depo_corr_stat.json` from the 
 
 | figure | content |
 |---|---|
-| `WX_nm_req_convergence` | the requirement `n_m^req/(n_x n_y n_z)` vs `D_y` with its power-law fit and conservative locus |
+| `WX_L_vs_nm` | luminosity vs macroparticle count per ε_y (the macroparticle tuning ladders) |
+| `WX_L_vs_ny` | luminosity vs vertical cell count per ε_y (the vertical-resolution tuning ladders) |
+| `WX_nm_req_convergence` | the requirement `n_m^req/(n_x n_y n_z)` vs `D_y` with its power-law fit and the frozen production locus |
 | `WX_ny_req_convergence` | `n_y^req` vs `D_y` |
 | `kappa_vs_Dy` | cells per pinched vertical σ for both codes, each at its own box cut |
 | `WX_comparison_L_vs_ey` | L vs ε_y for untuned and tuned WarpX and GP++, with the geometric luminosity |
-| `WX_comparison_HD_vs_ey` | `H_D = L/L_geom` for the same series |
 | `WX_code_ratio_vs_ey` | WarpX/GP++ tuned luminosity from 1 to 100 nm |
 | `WX_core_width_vs_Dy` | minimum Gaussian-core width of the central slice vs `D_y`, and measured against the envelope prediction `1/R_1(D_y)` |
 
@@ -51,7 +52,7 @@ output; `python depo_corr_stat.py` rebuilds `data/depo_corr_stat.json` from the 
 
 | figure | content |
 |---|---|
-| `WX_L_vs_nm`, `WX_L_vs_ny` | luminosity vs macroparticle count and vs vertical cell count per ε_y (the tuning ladders) |
+| `WX_comparison_HD_vs_ey` | `H_D = L/L_geom` for untuned and tuned WarpX and GP++ |
 | `nx_nm_coupling` | luminosity vs `n_m` at eight `n_x` values |
 | `WX_coarse_grid_L_vs_nm` | a deliberately under-resolved grid: seed scatter collapses while L converges to the wrong value |
 | `WX_comparison_ratio_vs_ey` | tuned/untuned luminosity ratio per code |
