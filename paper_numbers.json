@@ -1,0 +1,5121 @@
+{
+ "about": {
+  "content": "Every WarpX number reported in the paper, regenerated from committed data by reproduce_paper_numbers.py.",
+  "units": "luminosity L in 1e34 cm^-2 s^-1 (per-crossing luminosity x 133 bunches x 120 Hz); D_y, H_D, kappa, ratios dimensionless; lengths in m",
+  "configurations": {
+   "nominal": "untuned grid (512, 512, 256), n_m = 1e5",
+   "conservative": "frozen production locus, 0.5-20 nm",
+   "extrapolated_extension": "the same locus evaluated at 40-100 nm",
+   "frozen_extension": "the 20 nm conservative settings held fixed at 40-100 nm; at 20 nm this is the conservative point itself"
+  },
+  "same_seed_repeats": "runs repeated at an identical configuration and seed are averaged into one sample before seed statistics; they are not independent",
+  "monte_carlo": {
+   "generator": "numpy.random.default_rng",
+   "seed": 12345,
+   "draws": 4000
+  },
+  "inputs": [
+   "data/results.csv",
+   "data/joblist.csv",
+   "data/R1_table.npz",
+   "data/slice_widths_hw010_<label>.csv",
+   "data/slice_fiterr_hw010_<label>.csv"
+  ]
+ },
+ "luminosity_dataset": {
+  "cut_multipliers_definition": "domain half-extent in units of the rms beam size at the interaction point: Lx = 32 sigma_x, Ly = 32 sigma_y, Lz = 16 sigma_z (inputs/input_calib_C3_250.txt); identical in every configuration",
+  "n_t_definition": "n_t = n_z: the deck sets dt = T / n_z and stop_time = T",
+  "rows": [
+   {
+    "configuration": "nominal",
+    "e_y_nm": 0.5,
+    "L_mean_1e34": 5.498530533333334,
+    "L_std_1e34": {
+     "value": 0.3286141888932688,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.08484781872740589,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PC": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 1,
+    "L_mean_1e34": 4.675689066666667,
+    "L_std_1e34": {
+     "value": 0.24573787937744526,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.06344924762407816,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PC": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 2,
+    "L_mean_1e34": 3.8380497999999994,
+    "L_std_1e34": {
+     "value": 0.18351381351829785,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.04738306290369207,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PC": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 4,
+    "L_mean_1e34": 3.010585333333333,
+    "L_std_1e34": {
+     "value": 0.11970204636015842,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.030906935470656115,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PC": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 8,
+    "L_mean_1e34": 2.2304964,
+    "L_std_1e34": {
+     "value": 0.05588591818517433,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.014429682027912692,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PC": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 12,
+    "L_mean_1e34": 1.8162592666666668,
+    "L_std_1e34": {
+     "value": 0.029264303373287576,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.0075560106402069544,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PC": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 16,
+    "L_mean_1e34": 1.5537524666666664,
+    "L_std_1e34": {
+     "value": 0.016579934929506428,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.0042809207908787355,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PC": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 20,
+    "L_mean_1e34": 1.3714899333333335,
+    "L_std_1e34": {
+     "value": 0.01017911907124907,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.0026282372428006635,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PC": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 40,
+    "L_mean_1e34": 0.9190248000000001,
+    "L_std_1e34": {
+     "value": 0.0039019046118530373,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.001007467438679782,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PG": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 60,
+    "L_mean_1e34": 0.7242625999999999,
+    "L_std_1e34": {
+     "value": 0.002785407043862711,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.0007191890062192741,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PG": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 80,
+    "L_mean_1e34": 0.6108111333333334,
+    "L_std_1e34": {
+     "value": 0.0022269693649399434,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.0005750010175284339,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PG": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 100,
+    "L_mean_1e34": 0.5348563333333334,
+    "L_std_1e34": {
+     "value": 0.0018585204048484677,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.00047986790510431873,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 256,
+    "n_t": 256,
+    "n_m": 100000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 512, 256); n_m = 1e5",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PG": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 0.5,
+    "L_mean_1e34": 11.76221486666667,
+    "L_std_1e34": {
+     "value": 0.01193528764311157,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.0030816780182644186,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 4334528,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PN": 15,
+      "PP2": 1
+     },
+     "same_seed_repeat_runs_averaged": 1
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 1,
+    "L_mean_1e34": 7.889410800000002,
+    "L_std_1e34": {
+     "value": 0.022665234735162115,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.005852138444477649,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 1391638,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PN": 15,
+      "PP2": 1
+     },
+     "same_seed_repeat_runs_averaged": 1
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 2,
+    "L_mean_1e34": 5.129227133333332,
+    "L_std_1e34": {
+     "value": 0.044848215288374356,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.011579759394599915,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 446211,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PN": 15,
+      "PP2": 1
+     },
+     "same_seed_repeat_runs_averaged": 1
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 4,
+    "L_mean_1e34": 3.3698734999999997,
+    "L_std_1e34": {
+     "value": 0.054783679402002766,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.014145085197861534,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 142808,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PN": 15,
+      "PP2": 1
+     },
+     "same_seed_repeat_runs_averaged": 1
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 8,
+    "L_mean_1e34": 2.2688437333333336,
+    "L_std_1e34": {
+     "value": 0.05628704382952323,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.014533252223932694,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 45586,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PN": 15,
+      "PP2": 1
+     },
+     "same_seed_repeat_runs_averaged": 1
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 12,
+    "L_mean_1e34": 1.8003626,
+    "L_std_1e34": {
+     "value": 0.029030655646353282,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.007495683056520572,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 23337,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PN": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 16,
+    "L_mean_1e34": 1.5225554666666665,
+    "L_std_1e34": {
+     "value": 0.018258185326300184,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.0047142431800486165,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 14499,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PN": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 20,
+    "L_mean_1e34": 1.335434511111111,
+    "L_std_1e34": {
+     "value": 0.023856545977780322,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.0061597336846649815,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 10000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')",
+     "solver": "3d",
+     "runs_per_phase": {
+      "P2": 6,
+      "PC": 13,
+      "PD": 15,
+      "PP": 1
+     },
+     "same_seed_repeat_runs_averaged": 20
+    }
+   },
+   {
+    "configuration": "extrapolated_extension",
+    "e_y_nm": 40,
+    "L_mean_1e34": 0.8904780666666666,
+    "L_std_1e34": {
+     "value": 0.027354832183381278,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.007062987298968957,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 3200,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci'); e_y beyond the range the locus was fitted on",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PE": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "extrapolated_extension",
+    "e_y_nm": 60,
+    "L_mean_1e34": 0.6988789333333334,
+    "L_std_1e34": {
+     "value": 0.02883318560138316,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.007444696510150964,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 128,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 1600,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci'); e_y beyond the range the locus was fitted on",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PE": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "extrapolated_extension",
+    "e_y_nm": 80,
+    "L_mean_1e34": 0.5967394666666667,
+    "L_std_1e34": {
+     "value": 0.03076872177081011,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.007944449800162475,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 128,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 990,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci'); e_y beyond the range the locus was fitted on",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PE": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "extrapolated_extension",
+    "e_y_nm": 100,
+    "L_mean_1e34": 0.5233997333333332,
+    "L_std_1e34": {
+     "value": 0.030882196173446563,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.00797374876493793,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 128,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 680,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci'); e_y beyond the range the locus was fitted on",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PE": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "frozen_extension",
+    "e_y_nm": 40,
+    "L_mean_1e34": 0.9080544,
+    "L_std_1e34": {
+     "value": 0.01079031799346062,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.0027860481259303475,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 10000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 256, 128); |n_m / 1e4 - 1| < 0.02: the 20 nm conservative settings held fixed",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PF": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "frozen_extension",
+    "e_y_nm": 60,
+    "L_mean_1e34": 0.7192917333333334,
+    "L_std_1e34": {
+     "value": 0.0070054994261311565,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.001808812173951439,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 10000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 256, 128); |n_m / 1e4 - 1| < 0.02: the 20 nm conservative settings held fixed",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PF": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "frozen_extension",
+    "e_y_nm": 80,
+    "L_mean_1e34": 0.6079100666666667,
+    "L_std_1e34": {
+     "value": 0.006087631646762695,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.00157181973238381,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 10000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 256, 128); |n_m / 1e4 - 1| < 0.02: the 20 nm conservative settings held fixed",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PF": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   },
+   {
+    "configuration": "frozen_extension",
+    "e_y_nm": 100,
+    "L_mean_1e34": 0.5332829333333333,
+    "L_std_1e34": {
+     "value": 0.005479063090746533,
+     "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+    },
+    "L_se_1e34": {
+     "value": 0.0014146880068854038,
+     "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+    },
+    "n_seeds": 15,
+    "seeds": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_t": 128,
+    "n_m": 10000,
+    "cut_multipliers": {
+     "x": 16,
+     "y": 16,
+     "z": 8
+    },
+    "provenance": {
+     "file": "data/results.csv",
+     "selection": "solver 3d; (n_x, n_y, n_z) = (512, 256, 128); |n_m / 1e4 - 1| < 0.02: the 20 nm conservative settings held fixed",
+     "solver": "3d",
+     "runs_per_phase": {
+      "PF": 15
+     },
+     "same_seed_repeat_runs_averaged": 0
+    }
+   }
+  ]
+ },
+ "derived_luminosity": {
+  "conservative_over_nominal": [
+   {
+    "e_y_nm": 0.5,
+    "value": 2.1391560518508475,
+    "se": {
+     "value": 0.033014072278990184,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 1,
+    "value": 1.6873258010769354,
+    "se": {
+     "value": 0.022931246685850955,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 2,
+    "value": 1.3364149504608651,
+    "se": {
+     "value": 0.016772451591436713,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 4,
+    "value": 1.1193416319041392,
+    "se": {
+     "value": 0.01241468873327135,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 8,
+    "value": 1.017192286583979,
+    "se": {
+     "value": 0.009260520873335714,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 12,
+    "value": 0.9912475784936576,
+    "se": {
+     "value": 0.005834184745798805,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 16,
+    "value": 0.9799215121653656,
+    "se": {
+     "value": 0.004061428245962558,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 20,
+    "value": 0.9737107642236996,
+    "se": {
+     "value": 0.004863467891945261,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   }
+  ],
+  "H_D": {
+   "definition": "H_D = L / L_geom; its standard deviation and standard error are those of L divided by L_geom",
+   "L_geom": {
+    "formula": "L_geom = f_coll N^2 / (4 pi sigma_x sigma_y^*), in 1e34 cm^-2 s^-1",
+    "parameters": {
+     "f_coll_Hz": 15960,
+     "bunches": 133,
+     "train_rep_Hz": 120,
+     "N": 6240000000.0,
+     "sigma_x_m": 2.1012e-07,
+     "sigma_y_star": "sqrt(beta_y eps_y / gamma)",
+     "beta_y_m": 0.00012,
+     "gamma": 244618.89794489794
+    },
+    "per_emittance": [
+     {
+      "e_y_nm": 0.5,
+      "sigma_y_star_m": 4.952569999505308e-10,
+      "L_geom_1e34": 4.752194284694956
+     },
+     {
+      "e_y_nm": 1,
+      "sigma_y_star_m": 7.003991661902519e-10,
+      "L_geom_1e34": 3.360308804223758
+     },
+     {
+      "e_y_nm": 2,
+      "sigma_y_star_m": 9.905139999010615e-10,
+      "L_geom_1e34": 2.376097142347478
+     },
+     {
+      "e_y_nm": 4,
+      "sigma_y_star_m": 1.4007983323805038e-09,
+      "L_geom_1e34": 1.680154402111879
+     },
+     {
+      "e_y_nm": 8,
+      "sigma_y_star_m": 1.981027999802123e-09,
+      "L_geom_1e34": 1.188048571173739
+     },
+     {
+      "e_y_nm": 12,
+      "sigma_y_star_m": 2.426253882840788e-09,
+      "L_geom_1e34": 0.9700375963394281
+     },
+     {
+      "e_y_nm": 16,
+      "sigma_y_star_m": 2.8015966647610075e-09,
+      "L_geom_1e34": 0.8400772010559395
+     },
+     {
+      "e_y_nm": 20,
+      "sigma_y_star_m": 3.132280293971151e-09,
+      "L_geom_1e34": 0.7513878911635357
+     },
+     {
+      "e_y_nm": 40,
+      "sigma_y_star_m": 4.429713272887987e-09,
+      "L_geom_1e34": 0.5313114731431956
+     },
+     {
+      "e_y_nm": 60,
+      "sigma_y_star_m": 5.425268612704813e-09,
+      "L_geom_1e34": 0.43381400122909247
+     },
+     {
+      "e_y_nm": 80,
+      "sigma_y_star_m": 6.264560587942302e-09,
+      "L_geom_1e34": 0.37569394558176783
+     },
+     {
+      "e_y_nm": 100,
+      "sigma_y_star_m": 7.003991661902519e-09,
+      "L_geom_1e34": 0.33603088042237583
+     }
+    ]
+   },
+   "values": [
+    {
+     "configuration": "nominal",
+     "e_y_nm": 0.5,
+     "H_D": 1.1570508703825617,
+     "std": {
+      "value": 0.06914999034269548,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.017854450732510883,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "nominal",
+     "e_y_nm": 1,
+     "H_D": 1.3914462446991582,
+     "std": {
+      "value": 0.07312955257819273,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.018881969283396006,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "nominal",
+     "e_y_nm": 2,
+     "H_D": 1.6152747846866975,
+     "std": {
+      "value": 0.07723329583107633,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.019941551235097953,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "nominal",
+     "e_y_nm": 4,
+     "H_D": 1.7918503975284423,
+     "std": {
+      "value": 0.07124467025750628,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.01839529476089071,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "nominal",
+     "e_y_nm": 8,
+     "H_D": 1.8774454631904223,
+     "std": {
+      "value": 0.04704009544825388,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.01214570041833964,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "nominal",
+     "e_y_nm": 12,
+     "H_D": 1.872359662677585,
+     "std": {
+      "value": 0.030168215627642166,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.007789399780710163,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "nominal",
+     "e_y_nm": 16,
+     "H_D": 1.8495353340308116,
+     "std": {
+      "value": 0.019736203897292047,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.0050958659341044,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "nominal",
+     "e_y_nm": 20,
+     "H_D": 1.8252755327339123,
+     "std": {
+      "value": 0.013547089580438338,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.0034978434889745133,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "nominal",
+     "e_y_nm": 40,
+     "H_D": 1.729728881183619,
+     "std": {
+      "value": 0.007343911827782837,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.0018961898803345732,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "nominal",
+     "e_y_nm": 60,
+     "H_D": 1.6695233393758646,
+     "std": {
+      "value": 0.006420740307991507,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.0016578280188782523,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "nominal",
+     "e_y_nm": 80,
+     "H_D": 1.6258210719565442,
+     "std": {
+      "value": 0.005927615792401039,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.001530503816445687,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "nominal",
+     "e_y_nm": 100,
+     "H_D": 1.5916880396856468,
+     "std": {
+      "value": 0.005530802414684003,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.0014280470428823272,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "conservative",
+     "e_y_nm": 0.5,
+     "H_D": 2.4751123716781476,
+     "std": {
+      "value": 0.0025115319214853394,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.0006484747536920688,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "conservative",
+     "e_y_nm": 1,
+     "H_D": 2.3478231494925006,
+     "std": {
+      "value": 0.006744985671160022,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.0017415478116540278,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "conservative",
+     "e_y_nm": 2,
+     "H_D": 2.158677371357757,
+     "std": {
+      "value": 0.018874739794546583,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.004873436859218487,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "conservative",
+     "e_y_nm": 4,
+     "H_D": 2.0056927480975673,
+     "std": {
+      "value": 0.03260633625882367,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.008418919820750876,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "conservative",
+     "e_y_nm": 8,
+     "H_D": 1.9097230436393835,
+     "std": {
+      "value": 0.047377729492923126,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.012232877153814081,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "conservative",
+     "e_y_nm": 12,
+     "H_D": 1.8559719816983578,
+     "std": {
+      "value": 0.029927351018047655,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.007727208805933476,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "conservative",
+     "e_y_nm": 16,
+     "H_D": 1.8123994613267476,
+     "std": {
+      "value": 0.02173393743259603,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.00561167851493056,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "conservative",
+     "e_y_nm": 20,
+     "H_D": 1.7772904338971582,
+     "std": {
+      "value": 0.03174997395930628,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.00819780802579416,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "extrapolated_extension",
+     "e_y_nm": 40,
+     "H_D": 1.6760000709163507,
+     "std": {
+      "value": 0.051485491215825456,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.013293496670013347,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "extrapolated_extension",
+     "e_y_nm": 60,
+     "H_D": 1.6110105514189317,
+     "std": {
+      "value": 0.06646439607687228,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.017161033274763992,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "extrapolated_extension",
+     "e_y_nm": 80,
+     "H_D": 1.5883659390427665,
+     "std": {
+      "value": 0.08189837002340901,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.021146068212146388,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "extrapolated_extension",
+     "e_y_nm": 100,
+     "H_D": 1.5575941493098584,
+     "std": {
+      "value": 0.09190285171002445,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.0237292142761263,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "frozen_extension",
+     "e_y_nm": 40,
+     "H_D": 1.709081105717563,
+     "std": {
+      "value": 0.020308836791394648,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.005243719111594396,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "frozen_extension",
+     "e_y_nm": 60,
+     "H_D": 1.6580648187827465,
+     "std": {
+      "value": 0.016148624540201568,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.004169556927223805,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "frozen_extension",
+     "e_y_nm": 80,
+     "H_D": 1.6180991836994036,
+     "std": {
+      "value": 0.01620369909697614,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.0041837771166363166,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    },
+    {
+     "configuration": "frozen_extension",
+     "e_y_nm": 100,
+     "H_D": 1.5870057319226747,
+     "std": {
+      "value": 0.01630523683972019,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "se": {
+      "value": 0.004209994049080263,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     }
+    }
+   ]
+  },
+  "gain_20_to_2_nm_conservative": {
+   "definition": "L_conservative(2 nm) / L_conservative(20 nm)",
+   "value": 3.840867590778152,
+   "se": {
+    "value": 0.0197243485223739,
+    "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+   }
+  },
+  "relative_seed_scatter": [
+   {
+    "configuration": "nominal",
+    "e_y_nm": 0.5,
+    "value": {
+     "value": 0.05976400183669717,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 1,
+    "value": {
+     "value": 0.052556505762825154,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 2,
+    "value": {
+     "value": 0.04781433881298202,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 4,
+    "value": {
+     "value": 0.039760389793576725,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 8,
+    "value": {
+     "value": 0.025055372510430562,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 12,
+    "value": {
+     "value": 0.016112404165180443,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 16,
+    "value": {
+     "value": 0.010670898540921445,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 20,
+    "value": {
+     "value": 0.007421942242411697,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 40,
+    "value": {
+     "value": 0.0042457011082323755,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 60,
+    "value": {
+     "value": 0.0038458523798725924,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 80,
+    "value": {
+     "value": 0.0036459213714505694,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "nominal",
+    "e_y_nm": 100,
+    "value": {
+     "value": 0.003474803024703458,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 0.5,
+    "value": {
+     "value": 0.0010147143015500743,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 1,
+    "value": {
+     "value": 0.002872867861711816,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 2,
+    "value": {
+     "value": 0.008743659448597832,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 4,
+    "value": {
+     "value": 0.016256894925581855,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 8,
+    "value": {
+     "value": 0.024808691318210615,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 12,
+    "value": {
+     "value": 0.016124893755487524,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 16,
+    "value": {
+     "value": 0.01199180307451975,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "conservative",
+    "e_y_nm": 20,
+    "value": {
+     "value": 0.017864257497682272,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "extrapolated_extension",
+    "e_y_nm": 40,
+    "value": {
+     "value": 0.030719265535398117,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "extrapolated_extension",
+    "e_y_nm": 60,
+    "value": {
+     "value": 0.04125633815267836,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "extrapolated_extension",
+    "e_y_nm": 80,
+    "value": {
+     "value": 0.051561399051886815,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "extrapolated_extension",
+    "e_y_nm": 100,
+    "value": {
+     "value": 0.059003079685902085,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "frozen_extension",
+    "e_y_nm": 40,
+    "value": {
+     "value": 0.011882898198016132,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "frozen_extension",
+    "e_y_nm": 60,
+    "value": {
+     "value": 0.009739441038292421,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "frozen_extension",
+    "e_y_nm": 80,
+    "value": {
+     "value": 0.01001403329302113,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   },
+   {
+    "configuration": "frozen_extension",
+    "e_y_nm": 100,
+    "value": {
+     "value": 0.010274214208392442,
+     "definition": "relative seed scatter: sample standard deviation (ddof = 1) / mean"
+    }
+   }
+  ],
+  "provenance": "section 'luminosity_dataset'"
+ },
+ "requirements": {
+  "n_m_req": {
+   "rows": [
+    {
+     "e_y_nm": 0.5,
+     "D_y": 137.82751349998446,
+     "value": 50134.55464602896,
+     "uncertainty_ln": {
+      "value": 0.0969407015456687,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 45889.28355560006,
+     "mc_percentile_84": 55707.40147498996,
+     "mc_draws_with_crossing_fraction": 0.99975,
+     "L_inf_1e34": 11.777552499999999,
+     "L_inf_se_1e34": {
+      "value": 0.003093215057006014,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      30000.0,
+      52700.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": false,
+     "excluded_because": "highest-D_y regime, n_m^req anomalous; shown, not fitted",
+     "ladder_cells_nx_ny_nz": 33554432.0,
+     "value_per_cell": 0.001494126160324483,
+     "ladder_grid": [
+      512,
+      512,
+      128
+     ]
+    },
+    {
+     "e_y_nm": 1,
+     "D_y": 97.36393561327273,
+     "value": 137958.4854028999,
+     "uncertainty_ln": {
+      "value": 0.1963820942317529,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 118034.46744952322,
+     "mc_percentile_84": 174817.2018805099,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 7.864339299999999,
+     "L_inf_se_1e34": {
+      "value": 0.002062621272798274,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      100000.0,
+      170000.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": false,
+     "excluded_because": "highest-D_y regime, n_m^req anomalous; shown, not fitted",
+     "ladder_cells_nx_ny_nz": 16777216.0,
+     "value_per_cell": 0.008222966516190762,
+     "ladder_grid": [
+      512,
+      256,
+      128
+     ]
+    },
+    {
+     "e_y_nm": 2,
+     "D_y": 68.75208777492955,
+     "value": 213621.84059695186,
+     "uncertainty_ln": {
+      "value": 0.08446149579410722,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 195331.08390469846,
+     "mc_percentile_84": 231277.6591983947,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 5.2681315,
+     "L_inf_se_1e34": {
+      "value": 0.0008422334563527918,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      170000.0,
+      310000.0
+     ],
+     "bracket_seeds": [
+      5,
+      15
+     ],
+     "used_in_fit": true,
+     "excluded_because": null,
+     "ladder_cells_nx_ny_nz": 16777216.0,
+     "value_per_cell": 0.012732853925046436,
+     "ladder_grid": [
+      512,
+      256,
+      128
+     ]
+    },
+    {
+     "e_y_nm": 4,
+     "D_y": 48.52076942837245,
+     "value": 89704.58672911658,
+     "uncertainty_ln": {
+      "value": 0.20806998032890256,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 75003.25223425521,
+     "mc_percentile_84": 113712.28431365326,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 3.5202805,
+     "L_inf_se_1e34": {
+      "value": 0.0001468496018229718,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      52700.0,
+      100000.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": true,
+     "excluded_because": null,
+     "ladder_cells_nx_ny_nz": 16777216.0,
+     "value_per_cell": 0.005346810026712214,
+     "ladder_grid": [
+      512,
+      256,
+      128
+     ]
+    },
+    {
+     "e_y_nm": 8,
+     "D_y": 34.21550740608676,
+     "value": 16869.3029637267,
+     "uncertainty_ln": {
+      "value": 0.3639614411521679,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 15999.088246891173,
+     "mc_percentile_84": 33130.510273492575,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 2.3479905,
+     "L_inf_se_1e34": {
+      "value": 0.0003369963732083329,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      13000.0,
+      17000.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": true,
+     "excluded_because": null,
+     "ladder_cells_nx_ny_nz": 16777216.0,
+     "value_per_cell": 0.0010054888107613742,
+     "ladder_grid": [
+      512,
+      256,
+      128
+     ]
+    },
+    {
+     "e_y_nm": 12,
+     "D_y": 27.878324813548918,
+     "value": 11962.333981136417,
+     "uncertainty_ln": {
+      "value": 0.14005674336287388,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 10479.142734392095,
+     "mc_percentile_84": 13866.839772561907,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 1.8510098333333334,
+     "L_inf_se_1e34": {
+      "value": 0.00031703513650347174,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      10000.0,
+      17000.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": true,
+     "excluded_because": null,
+     "ladder_cells_nx_ny_nz": 16777216.0,
+     "value_per_cell": 0.0007130106676302205,
+     "ladder_grid": [
+      512,
+      256,
+      128
+     ]
+    },
+    {
+     "e_y_nm": 16,
+     "D_y": 24.100777107523154,
+     "value": 8434.963244029545,
+     "uncertainty_ln": {
+      "value": 0.26007765076209655,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 6286.890411263323,
+     "mc_percentile_84": 10576.365900579722,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 1.5629431666666667,
+     "L_inf_se_1e34": {
+      "value": 0.0002767951007113206,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      3000.0,
+      10000.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": true,
+     "excluded_because": null,
+     "ladder_cells_nx_ny_nz": 16777216.0,
+     "value_per_cell": 0.0005027629878538575,
+     "ladder_grid": [
+      512,
+      256,
+      128
+     ]
+    },
+    {
+     "e_y_nm": 20,
+     "D_y": 21.522963550078693,
+     "value": 4371.107789041376,
+     "uncertainty_ln": {
+      "value": 0.169894124395241,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 3582.3769512590384,
+     "mc_percentile_84": 5031.986224171184,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 1.3707753333333332,
+     "L_inf_se_1e34": {
+      "value": 0.00024379237523396952,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      3000.0,
+      10000.0
+     ],
+     "bracket_seeds": [
+      5,
+      15
+     ],
+     "used_in_fit": true,
+     "excluded_because": null,
+     "ladder_cells_nx_ny_nz": 16777216.0,
+     "value_per_cell": 0.00026053832704075433,
+     "ladder_grid": [
+      512,
+      256,
+      128
+     ]
+    }
+   ],
+   "provenance": "data/results.csv, solver 3d, the n_m tuning ladder of each e_y on its tuning grid (512, n_y, 128) with n_y = 512 at 0.5 nm and 256 otherwise, every n_m rung, same-seed repeats averaged. L_inf = mean of the two top rungs (a decade apart, agreeing within 0.5%). n_m^req = log-log interpolation of the -5% crossing between the last rung below -5% and the next rung."
+  },
+  "n_y_req": {
+   "rows": [
+    {
+     "e_y_nm": 0.5,
+     "D_y": 137.82751349998446,
+     "value": 124.86942897261173,
+     "uncertainty_ln": {
+      "value": 0.011129865179271725,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 123.52861572389017,
+     "mc_percentile_84": 126.3091616918072,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 11.781454000000002,
+     "L_inf_se_1e34": {
+      "value": 0.004509922652699288,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      64.0,
+      128.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": false,
+     "excluded_because": "n_y^req anomalous; shown, not fitted"
+    },
+    {
+     "e_y_nm": 1,
+     "D_y": 97.36393561327273,
+     "value": 145.5573537342285,
+     "uncertainty_ln": {
+      "value": 0.06048922321827899,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 136.9565508043716,
+     "mc_percentile_84": 154.56924359581626,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 7.919529999999999,
+     "L_inf_se_1e34": {
+      "value": 0.021306273590971703,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      128.0,
+      256.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 2,
+     "D_y": 68.75208777492955,
+     "value": 135.9420875826653,
+     "uncertainty_ln": {
+      "value": 0.06939108058196908,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 126.3752845473099,
+     "mc_percentile_84": 145.1892538149292,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 5.175847666666667,
+     "L_inf_se_1e34": {
+      "value": 0.009678316594899565,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      128.0,
+      256.0
+     ],
+     "bracket_seeds": [
+      5,
+      15
+     ],
+     "used_in_fit": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 4,
+     "D_y": 48.52076942837245,
+     "value": 110.90776938757072,
+     "uncertainty_ln": {
+      "value": 0.09820365953924082,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 101.23890880642996,
+     "mc_percentile_84": 123.21003200697741,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 3.426687,
+     "L_inf_se_1e34": {
+      "value": 0.015386838347540153,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      64.0,
+      128.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 8,
+     "D_y": 34.21550740608676,
+     "value": 103.27168853694704,
+     "uncertainty_ln": {
+      "value": 0.1477464310072385,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 90.77369397543315,
+     "mc_percentile_84": 121.98064586766895,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 2.3241193333333334,
+     "L_inf_se_1e34": {
+      "value": 0.017533529083191245,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      64.0,
+      128.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 12,
+     "D_y": 27.878324813548918,
+     "value": 75.3097601994425,
+     "uncertainty_ln": {
+      "value": 0.13525452757775502,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 66.98020496318647,
+     "mc_percentile_84": 87.78636413342213,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 1.7897663333333333,
+     "L_inf_se_1e34": {
+      "value": 0.019442770467308555,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      64.0,
+      128.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 16,
+     "D_y": 24.100777107523154,
+     "value": 81.22654254931133,
+     "uncertainty_ln": {
+      "value": 0.13328064130864004,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 71.82405175214447,
+     "mc_percentile_84": 93.76397169855629,
+     "mc_draws_with_crossing_fraction": 1.0,
+     "L_inf_1e34": 1.5326799999999998,
+     "L_inf_se_1e34": {
+      "value": 0.014265107886027376,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      64.0,
+      128.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": true,
+     "excluded_because": null
+    },
+    {
+     "e_y_nm": 20,
+     "D_y": 21.522963550078693,
+     "value": 71.84866012001828,
+     "uncertainty_ln": {
+      "value": 0.3012701036963348,
+      "definition": "half the 16th-84th percentile width of ln(n^req) over 4000 Monte Carlo redraws of every rung mean and of L_inf from normal distributions with their standard errors (numpy default_rng, seed 12345); a 1-sigma-equivalent uncertainty on ln(n^req), not a standard deviation over seeds"
+     },
+     "mc_percentile_16": 57.50669260279901,
+     "mc_percentile_84": 105.05053725060199,
+     "mc_draws_with_crossing_fraction": 0.9545,
+     "L_inf_1e34": 1.3239226666666666,
+     "L_inf_se_1e34": {
+      "value": 0.028030884064624922,
+      "definition": "standard error of L_inf: the pooled seed standard deviation (ddof = 1) of the rungs defining L_inf / sqrt(total seeds)"
+     },
+     "bracket_rungs": [
+      64.0,
+      128.0
+     ],
+     "bracket_seeds": [
+      5,
+      5
+     ],
+     "used_in_fit": true,
+     "excluded_because": null
+    }
+   ],
+   "provenance": "data/results.csv, solver 3d, the n_y tuning ladder of each e_y: (n_x, n_z) = (512, 128), n_m = NM_CONS[e_y] (the older frozen table in nmreq.py) within 2%, every n_y rung, same-seed repeats averaged. L_inf = the top rung (the two-rung plateau rule needs rungs a decade apart; n_y rungs are a factor 2 apart). n_y^req = log-log interpolation of the -5% crossing."
+  }
+ },
+ "fits": {
+  "n_m": {
+   "law": "n_m^req / (n_x n_y n_z) = C_m D_y^(s - q_p)",
+   "q_p": 0.2153,
+   "fit": {
+    "exponent": {
+     "estimate": 3.267502485037838,
+     "uncertainty": {
+      "value": 0.12681844196656142,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln y = a + b ln D_y with weights 1/sigma_ln^2 (not rescaled by chi2/ndf)"
+     }
+    },
+    "prefactor": {
+     "estimate": 1.2980818234571227e-08,
+     "uncertainty": {
+      "value": 6.315281251347403e-09,
+      "definition": "C = exp(a); uncertainty C * sigma_a, the fit uncertainty on a propagated to first order"
+     }
+    },
+    "chi2": 3.0949665787823766,
+    "ndf": 4,
+    "n_points": 6,
+    "s": {
+     "estimate": 3.482802485037838,
+     "uncertainty": {
+      "value": 0.12681844196656142,
+      "definition": "uncertainty of the fitted exponent; q_p is a fixed constant"
+     }
+    }
+   },
+   "fitted_emittances_nm": [
+    2,
+    4,
+    8,
+    12,
+    16,
+    20
+   ],
+   "excluded": {
+    "0.5": "highest-D_y regime, n_m^req anomalous; shown, not fitted",
+    "1": "highest-D_y regime, n_m^req anomalous; shown, not fitted"
+   },
+   "same_fit_without_exclusions": {
+    "exponent": {
+     "estimate": 0.9124413166012442,
+     "uncertainty": {
+      "value": 0.07831085602089831,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln y = a + b ln D_y with weights 1/sigma_ln^2 (not rescaled by chi2/ndf)"
+     }
+    },
+    "prefactor": {
+     "estimate": 6.392578544097925e-05,
+     "uncertainty": {
+      "value": 2.102308014209151e-05,
+      "definition": "C = exp(a); uncertainty C * sigma_a, the fit uncertainty on a propagated to first order"
+     }
+    },
+    "chi2": 609.7716898842691,
+    "ndf": 6,
+    "n_points": 8,
+    "s": {
+     "estimate": 1.1277413166012442,
+     "uncertainty": {
+      "value": 0.07831085602089831,
+      "definition": "uncertainty of the fitted exponent; q_p is a fixed constant"
+     }
+    }
+   },
+   "provenance": "section 'requirements.n_m_req': value_per_cell and uncertainty_ln of the rows with used_in_fit = true"
+  },
+  "n_y_free": {
+   "law": "n_y^req = C_y D_y^q",
+   "fit": {
+    "exponent": {
+     "estimate": 0.4502602990763623,
+     "uncertainty": {
+      "value": 0.07506548582257208,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln y = a + b ln D_y with weights 1/sigma_ln^2 (not rescaled by chi2/ndf)"
+     }
+    },
+    "prefactor": {
+     "estimate": 19.163613266372547,
+     "uncertainty": {
+      "value": 5.946859546404588,
+      "definition": "C = exp(a); uncertainty C * sigma_a, the fit uncertainty on a propagated to first order"
+     }
+    },
+    "chi2": 2.306239332714238,
+    "ndf": 5,
+    "n_points": 7
+   },
+   "fitted_emittances_nm": [
+    1,
+    2,
+    4,
+    8,
+    12,
+    16,
+    20
+   ],
+   "excluded": {
+    "0.5": "n_y^req anomalous; shown, not fitted"
+   },
+   "same_fit_without_exclusions": {
+    "exponent": {
+     "estimate": 0.1473683551673164,
+     "uncertainty": {
+      "value": 0.03949772349450196,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln y = a + b ln D_y with weights 1/sigma_ln^2 (not rescaled by chi2/ndf)"
+     }
+    },
+    "prefactor": {
+     "estimate": 60.91294562177236,
+     "uncertainty": {
+      "value": 11.70122050986032,
+      "definition": "C = exp(a); uncertainty C * sigma_a, the fit uncertainty on a propagated to first order"
+     }
+    },
+    "chi2": 24.821331563495765,
+    "ndf": 6,
+    "n_points": 8
+   },
+   "provenance": "section 'requirements.n_y_req': value and uncertainty_ln of the rows with used_in_fit = true"
+  },
+  "n_y_exponent_constrained": {
+   "law": "n_y^req = C_y D_y^q_n, q_n = q_p + 1/4 = 0.4653 fixed",
+   "fit": {
+    "exponent_fixed": 0.4653,
+    "prefactor": {
+     "estimate": 18.016171896579795,
+     "uncertainty": {
+      "value": 0.6567814612809936,
+      "definition": "C = exp(a), a the weighted mean of ln y - q ln D_y; uncertainty C / sqrt(sum of weights), weights 1/sigma_ln^2"
+     }
+    },
+    "chi2": 2.3463812212546196,
+    "ndf": 6,
+    "n_points": 7
+   },
+   "fitted_emittances_nm": [
+    1,
+    2,
+    4,
+    8,
+    12,
+    16,
+    20
+   ],
+   "excluded": {
+    "0.5": "n_y^req anomalous; shown, not fitted"
+   },
+   "provenance": "section 'requirements.n_y_req': value and uncertainty_ln of the rows with used_in_fit = true"
+  },
+  "conservative_loci": {
+   "statement": "FROZEN values: the constants that defined the production runs (phase PN, submitted 2026-09-11) and the pinched-core dump runs, fixed in nmreq.py. They are not recomputed from the current fit; as definitions they carry no uncertainty, chi2 or ndf. The fits they were cut from are recomputed on the committed data for comparison; they differ slightly because rungs were added after the constants were frozen.",
+   "n_m": {
+    "law": "n_m^cons = C D_y^b, absolute macroparticles (the decks use the ceiling)",
+    "C_frozen": 0.44,
+    "b_frozen": 3.269,
+    "recomputed_from_current_data": {
+     "rule": "weighted fit of ln n_m^req on ln D_y over the n_m fit points; C raised to the largest upper bracket rung among them",
+     "b": {
+      "estimate": 3.2675024850378653,
+      "uncertainty": {
+       "value": 0.12681844196656142,
+       "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln y = a + b ln D_y with weights 1/sigma_ln^2 (not rescaled by chi2/ndf)"
+      }
+     },
+     "C": 0.4413053305378599,
+     "chi2": 3.0949665787823304,
+     "ndf": 4
+    }
+   },
+   "n_y": {
+    "law": "n_y^cons = smallest of {32, 64, ..., 8192} >= C D_y^q",
+    "C_frozen": 38.1,
+    "q_frozen": 0.45026,
+    "recomputed_from_current_data": {
+     "rule": "free n_y fit exponent; C raised to the largest upper bracket rung among the fit points",
+     "q": {
+      "estimate": 0.4502602990763623,
+      "uncertainty": {
+       "value": 0.07506548582257208,
+       "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln y = a + b ln D_y with weights 1/sigma_ln^2 (not rescaled by chi2/ndf)"
+      }
+     },
+     "C": 38.105096923826714,
+     "chi2": 2.306239332714238,
+     "ndf": 5
+    }
+   }
+  }
+ },
+ "kappa": {
+  "definition": "kappa = n_y^req / (2 c_y R_1(D_y) D_y^(1/4)), c_y = 16 (WarpX deck); R_1 interpolated in data/R1_table.npz",
+  "per_emittance": [
+   {
+    "e_y_nm": 0.5,
+    "D_y": 137.82751349998446,
+    "kappa": 0.21467878008761448,
+    "uncertainty": {
+     "value": 0.0023893458792256725,
+     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+    },
+    "R_1": 5.304971417444223,
+    "used_in_mean_and_slope": false,
+    "excluded_because": "n_y^req anomalous; shown, not fitted"
+   },
+   {
+    "e_y_nm": 1,
+    "D_y": 97.36393561327273,
+    "kappa": 0.2914813742562869,
+    "uncertainty": {
+     "value": 0.017631481911359256,
+     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+    },
+    "R_1": 4.967911316508612,
+    "used_in_mean_and_slope": true,
+    "excluded_because": null
+   },
+   {
+    "e_y_nm": 2,
+    "D_y": 68.75208777492955,
+    "kappa": 0.3182598581684963,
+    "uncertainty": {
+     "value": 0.022084395464176176,
+     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+    },
+    "R_1": 4.635543052406648,
+    "used_in_mean_and_slope": true,
+    "excluded_because": null
+   },
+   {
+    "e_y_nm": 4,
+    "D_y": 48.52076942837245,
+    "kappa": 0.3048321634311278,
+    "uncertainty": {
+     "value": 0.029935633994200687,
+     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+    },
+    "R_1": 4.307936412651426,
+    "used_in_mean_and_slope": true,
+    "excluded_because": null
+   },
+   {
+    "e_y_nm": 8,
+    "D_y": 34.21550740608676,
+    "kappa": 0.3348147792647292,
+    "uncertainty": {
+     "value": 0.0494676886848401,
+     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+    },
+    "R_1": 3.9853909772931515,
+    "used_in_mean_and_slope": true,
+    "excluded_because": null
+   },
+   {
+    "e_y_nm": 12,
+    "D_y": 27.878324813548918,
+    "kappa": 0.26958560031831735,
+    "uncertainty": {
+     "value": 0.036462673012819496,
+     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+    },
+    "R_1": 3.7991629994155978,
+    "used_in_mean_and_slope": true,
+    "excluded_because": null
+   },
+   {
+    "e_y_nm": 16,
+    "D_y": 24.100777107523154,
+    "kappa": 0.312314730399613,
+    "uncertainty": {
+     "value": 0.041625507557795434,
+     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+    },
+    "R_1": 3.6681556816988437,
+    "used_in_mean_and_slope": true,
+    "excluded_because": null
+   },
+   {
+    "e_y_nm": 20,
+    "D_y": 21.522963550078693,
+    "kappa": 0.29222592274320164,
+    "uncertainty": {
+     "value": 0.08803893404760148,
+     "definition": "kappa * sigma_ln(n_y^req): the n_y^req Monte Carlo uncertainty carried to kappa"
+    },
+    "R_1": 3.567175191853533,
+    "used_in_mean_and_slope": true,
+    "excluded_because": null
+   }
+  ],
+  "weighted_mean": {
+   "estimate": 0.3028911014513608,
+   "uncertainty": {
+    "value": 0.011041927295220804,
+    "definition": "standard error of the inverse-variance weighted mean of ln kappa (weights 1/sigma_ln^2), times the mean"
+   }
+  },
+  "slope_ln_kappa_vs_ln_D_y": {
+   "estimate": -0.015141528846600508,
+   "uncertainty": {
+    "value": 0.07506548582257208,
+    "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln y = a + b ln D_y with weights 1/sigma_ln^2 (not rescaled by chi2/ndf)"
+   },
+   "chi2": 2.1439700368466688,
+   "ndf": 5
+  },
+  "excluded": {
+   "0.5": "n_y^req anomalous; shown, not fitted"
+  },
+  "provenance": "section 'requirements.n_y_req' (value, uncertainty_ln, D_y); same points as the n_y fit"
+ },
+ "recommendation_table": {
+  "rule": "n_y = smallest of {32, ..., 8192} >= 38.1 D_y^0.450260; n_m = ceil(0.440 D_y^3.269); (n_x, n_z) = (512, 128); frozen locus constants",
+  "rows": [
+   {
+    "e_y_nm": 0.5,
+    "D_y": 137.82751349998446,
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 128,
+    "n_m": 4334528,
+    "n_m_unrounded": 4334527.903758975,
+    "n_y_law_unrounded": 350.09214576759786,
+    "n_m_per_cell": 0.12917899798628613,
+    "n_y_run": 512,
+    "n_m_run": 4334528,
+    "range": "fitted range"
+   },
+   {
+    "e_y_nm": 1,
+    "D_y": 97.36393561327273,
+    "n_x": 512,
+    "n_y": 512,
+    "n_z": 128,
+    "n_m": 1391638,
+    "n_m_unrounded": 1391637.5299069278,
+    "n_y_law_unrounded": 299.3788483468477,
+    "n_m_per_cell": 0.04147403031310224,
+    "n_y_run": 512,
+    "n_m_run": 1391638,
+    "range": "fitted range"
+   },
+   {
+    "e_y_nm": 2,
+    "D_y": 68.75208777492955,
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_m": 446211,
+    "n_m_unrounded": 446210.98067685857,
+    "n_y_law_unrounded": 255.9654336745309,
+    "n_m_per_cell": 0.026596246998122845,
+    "n_y_run": 256,
+    "n_m_run": 446211,
+    "range": "fitted range"
+   },
+   {
+    "e_y_nm": 4,
+    "D_y": 48.52076942837245,
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_m": 142808,
+    "n_m_unrounded": 142807.2511621197,
+    "n_y_law_unrounded": 218.7916646119091,
+    "n_m_per_cell": 0.008511975476868135,
+    "n_y_run": 256,
+    "n_m_run": 142808,
+    "range": "fitted range"
+   },
+   {
+    "e_y_nm": 8,
+    "D_y": 34.21550740608676,
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_m": 45586,
+    "n_m_unrounded": 45585.593550381,
+    "n_y_law_unrounded": 186.94946077047467,
+    "n_m_per_cell": 0.0027171131104457976,
+    "n_y_run": 256,
+    "n_m_run": 45586,
+    "range": "fitted range"
+   },
+   {
+    "e_y_nm": 12,
+    "D_y": 27.878324813548918,
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_m": 23337,
+    "n_m_unrounded": 23336.162114494924,
+    "n_y_law_unrounded": 170.47894465234032,
+    "n_m_per_cell": 0.0013909436532553985,
+    "n_y_run": 256,
+    "n_m_run": 23337,
+    "range": "fitted range"
+   },
+   {
+    "e_y_nm": 16,
+    "D_y": 24.100777107523154,
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_m": 14499,
+    "n_m_unrounded": 14498.135908780303,
+    "n_y_law_unrounded": 159.66079026676513,
+    "n_m_per_cell": 0.0008641562407481851,
+    "n_y_run": 256,
+    "n_m_run": 14499,
+    "range": "fitted range"
+   },
+   {
+    "e_y_nm": 20,
+    "D_y": 21.522963550078693,
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_m": 10017,
+    "n_m_unrounded": 10016.35120669172,
+    "n_y_law_unrounded": 151.7320976317382,
+    "n_m_per_cell": 0.0005970210556204152,
+    "n_y_run": 256,
+    "n_m_run": 10000,
+    "range": "fitted range"
+   },
+   {
+    "e_y_nm": 40,
+    "D_y": 15.127000374115525,
+    "n_x": 512,
+    "n_y": 256,
+    "n_z": 128,
+    "n_m": 3163,
+    "n_m_unrounded": 3162.748346430433,
+    "n_y_law_unrounded": 129.4554919228044,
+    "n_m_per_cell": 0.00018851449170294003,
+    "n_y_run": 256,
+    "n_m_run": 3200,
+    "range": "extrapolated beyond the fitted range"
+   },
+   {
+    "e_y_nm": 60,
+    "D_y": 12.29409691578138,
+    "n_x": 512,
+    "n_y": 128,
+    "n_z": 128,
+    "n_m": 1606,
+    "n_m_unrounded": 1605.7242557048767,
+    "n_y_law_unrounded": 117.91574014893025,
+    "n_m_per_cell": 0.00019141724773703535,
+    "n_y_run": 128,
+    "n_m_run": 1600,
+    "range": "extrapolated beyond the fitted range"
+   },
+   {
+    "e_y_nm": 80,
+    "D_y": 10.605703667736789,
+    "n_x": 512,
+    "n_y": 128,
+    "n_z": 128,
+    "n_m": 991,
+    "n_m_unrounded": 990.6979493940397,
+    "n_y_law_unrounded": 110.32765457286227,
+    "n_m_per_cell": 0.00011810039870667931,
+    "n_y_run": 128,
+    "n_m_run": 990,
+    "range": "extrapolated beyond the fitted range"
+   },
+   {
+    "e_y_nm": 100,
+    "D_y": 9.453724396493323,
+    "n_x": 512,
+    "n_y": 128,
+    "n_z": 128,
+    "n_m": 681,
+    "n_m_unrounded": 680.2971917618013,
+    "n_y_law_unrounded": 104.76107690983329,
+    "n_m_per_cell": 8.109774491331593e-05,
+    "n_y_run": 128,
+    "n_m_run": 680,
+    "range": "extrapolated beyond the fitted range"
+   }
+  ],
+  "note": "n_y_run / n_m_run are the settings of the conservative and extrapolated_extension runs. At 20 nm the runs predate the locus (n_m = 1e4, 0.2% below it); at 40-100 nm the runs used the locus rounded to two significant figures."
+ },
+ "disruption_parameter": {
+  "expression": "D_y = 2 N r_e sigma_z / (gamma sigma_y^* (sigma_x + sigma_y^*)), sigma_y^* = sqrt(beta_y eps_y / gamma)",
+  "parameters": {
+   "N": 6240000000.0,
+   "r_e_m": 2.8179403262e-15,
+   "sigma_z_m": 0.0001,
+   "sigma_x_m": 2.1012e-07,
+   "beta_y_m": 0.00012,
+   "gamma": 244618.89794489794,
+   "gamma_from": "125 GeV / 0.51099895 MeV"
+  },
+  "per_emittance": [
+   {
+    "e_y_nm": 0.5,
+    "sigma_y_star_m": 4.952569999505308e-10,
+    "D_y": 137.82751349998446
+   },
+   {
+    "e_y_nm": 1,
+    "sigma_y_star_m": 7.003991661902519e-10,
+    "D_y": 97.36393561327273
+   },
+   {
+    "e_y_nm": 2,
+    "sigma_y_star_m": 9.905139999010615e-10,
+    "D_y": 68.75208777492955
+   },
+   {
+    "e_y_nm": 4,
+    "sigma_y_star_m": 1.4007983323805038e-09,
+    "D_y": 48.52076942837245
+   },
+   {
+    "e_y_nm": 8,
+    "sigma_y_star_m": 1.981027999802123e-09,
+    "D_y": 34.21550740608676
+   },
+   {
+    "e_y_nm": 12,
+    "sigma_y_star_m": 2.426253882840788e-09,
+    "D_y": 27.878324813548918
+   },
+   {
+    "e_y_nm": 16,
+    "sigma_y_star_m": 2.8015966647610075e-09,
+    "D_y": 24.100777107523154
+   },
+   {
+    "e_y_nm": 20,
+    "sigma_y_star_m": 3.132280293971151e-09,
+    "D_y": 21.522963550078693
+   },
+   {
+    "e_y_nm": 40,
+    "sigma_y_star_m": 4.429713272887987e-09,
+    "D_y": 15.127000374115525
+   },
+   {
+    "e_y_nm": 60,
+    "sigma_y_star_m": 5.425268612704813e-09,
+    "D_y": 12.29409691578138
+   },
+   {
+    "e_y_nm": 80,
+    "sigma_y_star_m": 6.264560587942302e-09,
+    "D_y": 10.605703667736789
+   },
+   {
+    "e_y_nm": 100,
+    "sigma_y_star_m": 7.003991661902519e-09,
+    "D_y": 9.453724396493323
+   }
+  ]
+ },
+ "core_width": {
+  "rows": [
+   {
+    "e_y_nm": 0.5,
+    "D_y": 137.82751349998446,
+    "sigma_min_over_sigma_y_star": 0.25657883526983166,
+    "uncertainty": {
+     "value": 0.002184795542882053,
+     "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
+    },
+    "first_waist_prediction_1_over_R1": 0.18850242938382694,
+    "measured_over_prediction": 1.3611433874275867,
+    "measured_over_prediction_uncertainty": {
+     "value": 0.011590277907948825,
+     "definition": "the width uncertainty times R_1"
+    },
+    "n_seeds": 10,
+    "n_y": 2048,
+    "n_m": 4334528,
+    "n_m_over_n_m_cons": 1.0
+   },
+   {
+    "e_y_nm": 1,
+    "D_y": 97.36393561327273,
+    "sigma_min_over_sigma_y_star": 0.25550805863336634,
+    "uncertainty": {
+     "value": 0.003176182892068023,
+     "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
+    },
+    "first_waist_prediction_1_over_R1": 0.20129183801589837,
+    "measured_over_prediction": 1.2693413759438466,
+    "measured_over_prediction_uncertainty": {
+     "value": 0.01577899493280578,
+     "definition": "the width uncertainty times R_1"
+    },
+    "n_seeds": 10,
+    "n_y": 2048,
+    "n_m": 1391638,
+    "n_m_over_n_m_cons": 1.0
+   },
+   {
+    "e_y_nm": 2,
+    "D_y": 68.75208777492955,
+    "sigma_min_over_sigma_y_star": 0.2764855881727485,
+    "uncertainty": {
+     "value": 0.006269999785012574,
+     "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
+    },
+    "first_waist_prediction_1_over_R1": 0.21572445529997336,
+    "measured_over_prediction": 1.28166084734475,
+    "measured_over_prediction_uncertainty": {
+     "value": 0.029064853942006214,
+     "definition": "the width uncertainty times R_1"
+    },
+    "n_seeds": 10,
+    "n_y": 1024,
+    "n_m": 446211,
+    "n_m_over_n_m_cons": 1.0
+   },
+   {
+    "e_y_nm": 4,
+    "D_y": 48.52076942837245,
+    "sigma_min_over_sigma_y_star": 0.30094574948525976,
+    "uncertainty": {
+     "value": 0.010463578132503032,
+     "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
+    },
+    "first_waist_prediction_1_over_R1": 0.23212970299729316,
+    "measured_over_prediction": 1.2964551524402246,
+    "measured_over_prediction_uncertainty": {
+     "value": 0.04507642924363302,
+     "definition": "the width uncertainty times R_1"
+    },
+    "n_seeds": 10,
+    "n_y": 1024,
+    "n_m": 142808,
+    "n_m_over_n_m_cons": 1.0
+   },
+   {
+    "e_y_nm": 8,
+    "D_y": 34.21550740608676,
+    "sigma_min_over_sigma_y_star": 0.29621398357713935,
+    "uncertainty": {
+     "value": 0.01194387409212921,
+     "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
+    },
+    "first_waist_prediction_1_over_R1": 0.2509164108860388,
+    "measured_over_prediction": 1.180528537496393,
+    "measured_over_prediction_uncertainty": {
+     "value": 0.04760100804069719,
+     "definition": "the width uncertainty times R_1"
+    },
+    "n_seeds": 10,
+    "n_y": 1024,
+    "n_m": 45586,
+    "n_m_over_n_m_cons": 1.0
+   },
+   {
+    "e_y_nm": 12,
+    "D_y": 27.878324813548918,
+    "sigma_min_over_sigma_y_star": 0.31089235061824405,
+    "uncertainty": {
+     "value": 0.012428814519366203,
+     "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
+    },
+    "first_waist_prediction_1_over_R1": 0.2632158715363947,
+    "measured_over_prediction": 1.1811307152701738,
+    "measured_over_prediction_uncertainty": {
+     "value": 0.047219092248575435,
+     "definition": "the width uncertainty times R_1"
+    },
+    "n_seeds": 10,
+    "n_y": 1024,
+    "n_m": 22000,
+    "n_m_over_n_m_cons": 0.9427
+   },
+   {
+    "e_y_nm": 16,
+    "D_y": 24.100777107523154,
+    "sigma_min_over_sigma_y_star": 0.3313180289788946,
+    "uncertainty": {
+     "value": 0.018551342750773147,
+     "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
+    },
+    "first_waist_prediction_1_over_R1": 0.27261656450111926,
+    "measured_over_prediction": 1.2153261104481945,
+    "measured_over_prediction_uncertainty": {
+     "value": 0.06804921331439118,
+     "definition": "the width uncertainty times R_1"
+    },
+    "n_seeds": 10,
+    "n_y": 1024,
+    "n_m": 14000,
+    "n_m_over_n_m_cons": 0.9656
+   },
+   {
+    "e_y_nm": 20,
+    "D_y": 21.522963550078693,
+    "sigma_min_over_sigma_y_star": 0.34971405735002337,
+    "uncertainty": {
+     "value": 0.022735441570716594,
+     "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
+    },
+    "first_waist_prediction_1_over_R1": 0.2803338625710704,
+    "measured_over_prediction": 1.247491309621447,
+    "measured_over_prediction_uncertainty": {
+     "value": 0.08110130314689576,
+     "definition": "the width uncertainty times R_1"
+    },
+    "n_seeds": 10,
+    "n_y": 1024,
+    "n_m": 10000,
+    "n_m_over_n_m_cons": 0.9984
+   }
+  ],
+  "provenance": {
+   "selection": "data/joblist.csv runs of phases PQ, PQ2 with n_y = 4 n_y^cons(e_y) and 0.90 <= n_m / n_m^cons(e_y) <= 1.10; per run the minimum over steps of the Gaussian core width of the central slice (|z - z_bar| < 0.10 sigma_z), averaged over the two beams, from data/slice_widths_hw010_<label>.csv; fit error from data/slice_fiterr_hw010_<label>.csv",
+   "R_1": "data/R1_table.npz, linear interpolation in D_y"
+  },
+  "note_12_16_nm": "n_m / n_m^cons = 0.943 and 0.966 at 12 and 16 nm lie inside the [0.90, 1.10] window and are included",
+  "excluded_runs": {
+   "PQ 0.5 nm, n_y 1024, n_m/n_m^cons 0.577": "10 runs: off the locus rule, superseded",
+   "PQ 1 nm, n_y 1024, n_m/n_m^cons 0.632": "10 runs: off the locus rule, superseded",
+   "PQ 2 nm, n_y 1024, n_m/n_m^cons 0.695": "10 runs: off the locus rule, superseded",
+   "PQ 4 nm, n_y 1024, n_m/n_m^cons 0.77": "10 runs: off the locus rule, superseded",
+   "PQ 8 nm, n_y 1024, n_m/n_m^cons 0.877": "10 runs: off the locus rule, superseded"
+  }
+ },
+ "solver_and_deposition_variants": {
+  "note": "All four were run at the older frozen tuned settings (NM_CONS / NY_CONS), not at the current conservative locus; 'current_conservative_n_m' gives the locus value for comparison. Reported at every emittance run.",
+  "reference_3d_solver_3rd_order": {
+   "description": "3D solver, 3rd-order deposition (the calibration configuration)",
+   "rows": [
+    {
+     "configuration": "reference_3d_solver_3rd_order",
+     "e_y_nm": 0.5,
+     "L_mean_1e34": 11.744976416666669,
+     "L_std_1e34": {
+      "value": 0.016854522481175888,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.004351818991858181,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 2500000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d",
+      "runs_per_phase": {
+       "P3": 1,
+       "PC": 15,
+       "PD": 15,
+       "PP": 1
+      },
+      "same_seed_repeat_runs_averaged": 17
+     },
+     "current_conservative_n_m": 4334528
+    },
+    {
+     "configuration": "reference_3d_solver_3rd_order",
+     "e_y_nm": 1,
+     "L_mean_1e34": 7.859199583333332,
+     "L_std_1e34": {
+      "value": 0.03896190151445424,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.010059919713470322,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 880000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d",
+      "runs_per_phase": {
+       "P3": 1,
+       "PC": 15,
+       "PD": 15,
+       "PP": 1
+      },
+      "same_seed_repeat_runs_averaged": 17
+     },
+     "current_conservative_n_m": 1391638
+    },
+    {
+     "configuration": "reference_3d_solver_3rd_order",
+     "e_y_nm": 2,
+     "L_mean_1e34": 5.073219388888889,
+     "L_std_1e34": {
+      "value": 0.08418539398698992,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.02173657526036813,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 310000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d",
+      "runs_per_phase": {
+       "P2": 5,
+       "PC": 13,
+       "PD": 15,
+       "PP": 1
+      },
+      "same_seed_repeat_runs_averaged": 19
+     },
+     "current_conservative_n_m": 446211
+    },
+    {
+     "configuration": "reference_3d_solver_3rd_order",
+     "e_y_nm": 4,
+     "L_mean_1e34": 3.357706016666667,
+     "L_std_1e34": {
+      "value": 0.062088267508160364,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.016031121736931744,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 110000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d",
+      "runs_per_phase": {
+       "P1": 1,
+       "PC": 15,
+       "PD": 15,
+       "PP": 1
+      },
+      "same_seed_repeat_runs_averaged": 17
+     },
+     "current_conservative_n_m": 142808
+    },
+    {
+     "configuration": "reference_3d_solver_3rd_order",
+     "e_y_nm": 8,
+     "L_mean_1e34": 2.25373605,
+     "L_std_1e34": {
+      "value": 0.06285205814877895,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.016228331632338736,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 40000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d",
+      "runs_per_phase": {
+       "P0": 1,
+       "PC": 15,
+       "PD": 15,
+       "PP": 1
+      },
+      "same_seed_repeat_runs_averaged": 17
+     },
+     "current_conservative_n_m": 45586
+    },
+    {
+     "configuration": "reference_3d_solver_3rd_order",
+     "e_y_nm": 12,
+     "L_mean_1e34": 1.7909800833333336,
+     "L_std_1e34": {
+      "value": 0.02636676479756064,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.006807869396954689,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 22000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d",
+      "runs_per_phase": {
+       "P1": 1,
+       "PC": 15,
+       "PD": 15,
+       "PP": 1
+      },
+      "same_seed_repeat_runs_averaged": 17
+     },
+     "current_conservative_n_m": 23337
+    },
+    {
+     "configuration": "reference_3d_solver_3rd_order",
+     "e_y_nm": 16,
+     "L_mean_1e34": 1.52374905,
+     "L_std_1e34": {
+      "value": 0.01894946856449506,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.004892731744651355,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 14000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d",
+      "runs_per_phase": {
+       "P2": 1,
+       "PC": 15,
+       "PD": 15,
+       "PP": 1
+      },
+      "same_seed_repeat_runs_averaged": 17
+     },
+     "current_conservative_n_m": 14499
+    },
+    {
+     "configuration": "reference_3d_solver_3rd_order",
+     "e_y_nm": 20,
+     "L_mean_1e34": 1.335434511111111,
+     "L_std_1e34": {
+      "value": 0.023856545977780322,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.0061597336846649815,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 10000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d",
+      "runs_per_phase": {
+       "P2": 6,
+       "PC": 13,
+       "PD": 15,
+       "PP": 1
+      },
+      "same_seed_repeat_runs_averaged": 20
+     },
+     "current_conservative_n_m": 10017
+    }
+   ]
+  },
+  "2d_slice_solver_3rd_order": {
+   "description": "2D-slice solver, 3rd-order deposition (phase PS)",
+   "rows": [
+    {
+     "configuration": "2d_slice_solver_3rd_order",
+     "e_y_nm": 0.5,
+     "L_mean_1e34": 11.7450586,
+     "L_std_1e34": {
+      "value": 0.016808626984803808,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.0043399688256505154,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 2500000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d",
+      "runs_per_phase": {
+       "PS": 15
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 4334528
+    },
+    {
+     "configuration": "2d_slice_solver_3rd_order",
+     "e_y_nm": 1,
+     "L_mean_1e34": 7.859182466666666,
+     "L_std_1e34": {
+      "value": 0.03919830420323713,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.010120958625247306,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 880000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d",
+      "runs_per_phase": {
+       "PS": 15
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 1391638
+    },
+    {
+     "configuration": "2d_slice_solver_3rd_order",
+     "e_y_nm": 2,
+     "L_mean_1e34": 5.072617333333333,
+     "L_std_1e34": {
+      "value": 0.08426275988212337,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.021756551048595883,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 310000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d",
+      "runs_per_phase": {
+       "PS": 15
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 446211
+    },
+    {
+     "configuration": "2d_slice_solver_3rd_order",
+     "e_y_nm": 4,
+     "L_mean_1e34": 3.3579223999999996,
+     "L_std_1e34": {
+      "value": 0.062186700771375274,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.016056537096208023,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 110000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d",
+      "runs_per_phase": {
+       "PS": 15
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 142808
+    },
+    {
+     "configuration": "2d_slice_solver_3rd_order",
+     "e_y_nm": 8,
+     "L_mean_1e34": 2.2540786,
+     "L_std_1e34": {
+      "value": 0.06263927516890432,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.016173391303178013,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 40000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d",
+      "runs_per_phase": {
+       "PS": 15
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 45586
+    },
+    {
+     "configuration": "2d_slice_solver_3rd_order",
+     "e_y_nm": 12,
+     "L_mean_1e34": 1.7913149333333334,
+     "L_std_1e34": {
+      "value": 0.02632213033461354,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.0067963448281772865,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 22000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d",
+      "runs_per_phase": {
+       "PS": 15
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 23337
+    },
+    {
+     "configuration": "2d_slice_solver_3rd_order",
+     "e_y_nm": 16,
+     "L_mean_1e34": 1.5227339333333332,
+     "L_std_1e34": {
+      "value": 0.01886160174786961,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.0048700446301530465,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 14000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d",
+      "runs_per_phase": {
+       "PS": 15
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 14499
+    },
+    {
+     "configuration": "2d_slice_solver_3rd_order",
+     "e_y_nm": 20,
+     "L_mean_1e34": 1.3357694666666666,
+     "L_std_1e34": {
+      "value": 0.02321058684512818,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.005992947753792159,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 15,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 10000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d",
+      "runs_per_phase": {
+       "PS": 15
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 10017
+    }
+   ],
+   "over_reference": [
+    {
+     "e_y_nm": 0.5,
+     "value": 1.0000069973178674,
+     "se": {
+      "value": 0.0005232917599802812,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 1,
+     "value": 0.9999978220852538,
+     "se": {
+      "value": 0.0018157174402894983,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 2,
+     "value": 0.9998813267258114,
+     "se": {
+      "value": 0.0060617257620529524,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 4,
+     "value": 1.0000644437995043,
+     "se": {
+      "value": 0.006757630985966054,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 8,
+     "value": 1.0001519920666841,
+     "se": {
+      "value": 0.010166788653217372,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 12,
+     "value": 1.0001869646698565,
+     "se": {
+      "value": 0.0053716601899334105,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 16,
+     "value": 0.9993338032488573,
+     "se": {
+      "value": 0.004528983444315036,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 20,
+     "value": 1.0002508214014005,
+     "se": {
+      "value": 0.006436227356854558,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    }
+   ]
+  },
+  "3d_solver_1st_order_cic": {
+   "description": "3D solver, 1st-order (CIC) deposition (phase PC3)",
+   "rows": [
+    {
+     "configuration": "3d_solver_1st_order_cic",
+     "e_y_nm": 0.5,
+     "L_mean_1e34": 11.528612333333333,
+     "L_std_1e34": {
+      "value": 0.0542532921059483,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.03132315280179265,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 2500000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d_cic",
+      "runs_per_phase": {
+       "PC3": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 4334528
+    },
+    {
+     "configuration": "3d_solver_1st_order_cic",
+     "e_y_nm": 1,
+     "L_mean_1e34": 7.476091,
+     "L_std_1e34": {
+      "value": 0.18101980664833311,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.10451183409706914,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 880000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d_cic",
+      "runs_per_phase": {
+       "PC3": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 1391638
+    },
+    {
+     "configuration": "3d_solver_1st_order_cic",
+     "e_y_nm": 2,
+     "L_mean_1e34": 4.763029666666667,
+     "L_std_1e34": {
+      "value": 0.03436539701987055,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.019840871220230625,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 310000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d_cic",
+      "runs_per_phase": {
+       "PC3": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 446211
+    },
+    {
+     "configuration": "3d_solver_1st_order_cic",
+     "e_y_nm": 4,
+     "L_mean_1e34": 3.260346333333333,
+     "L_std_1e34": {
+      "value": 0.03862237476299629,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.02229863846615852,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 110000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d_cic",
+      "runs_per_phase": {
+       "PC3": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 142808
+    },
+    {
+     "configuration": "3d_solver_1st_order_cic",
+     "e_y_nm": 8,
+     "L_mean_1e34": 2.263309,
+     "L_std_1e34": {
+      "value": 0.029767514390691068,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.017186282446571548,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 40000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d_cic",
+      "runs_per_phase": {
+       "PC3": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 45586
+    },
+    {
+     "configuration": "3d_solver_1st_order_cic",
+     "e_y_nm": 12,
+     "L_mean_1e34": 1.7580746666666667,
+     "L_std_1e34": {
+      "value": 0.032782064064566324,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.018926733512268926,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 22000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d_cic",
+      "runs_per_phase": {
+       "PC3": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 23337
+    },
+    {
+     "configuration": "3d_solver_1st_order_cic",
+     "e_y_nm": 16,
+     "L_mean_1e34": 1.5068063333333335,
+     "L_std_1e34": {
+      "value": 0.016695563043315865,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.009639187817330783,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 14000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d_cic",
+      "runs_per_phase": {
+       "PC3": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 14499
+    },
+    {
+     "configuration": "3d_solver_1st_order_cic",
+     "e_y_nm": 20,
+     "L_mean_1e34": 1.3012656666666667,
+     "L_std_1e34": {
+      "value": 0.03469664384826479,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.020032116665772252,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 10000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "3d_cic",
+      "runs_per_phase": {
+       "PC3": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 10017
+    }
+   ],
+   "over_reference": [
+    {
+     "e_y_nm": 0.5,
+     "value": 0.9815781594055561,
+     "se": {
+      "value": 0.002691625765740064,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 1,
+     "value": 0.9512534858962262,
+     "se": {
+      "value": 0.013353654081020067,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 2,
+     "value": 0.938857420023746,
+     "se": {
+      "value": 0.005610391843636528,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 4,
+     "value": 0.9710041073131271,
+     "se": {
+      "value": 0.008099118017853502,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 8,
+     "value": 1.0042475914604108,
+     "se": {
+      "value": 0.010509121474920027,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 12,
+     "value": 0.9816271453977177,
+     "se": {
+      "value": 0.011207212107104052,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 16,
+     "value": 0.9888809009156289,
+     "se": {
+      "value": 0.007078154501983659,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 20,
+     "value": 0.9744136877097663,
+     "se": {
+      "value": 0.01565931386143848,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    }
+   ]
+  },
+  "2d_slice_solver_1st_order_cic": {
+   "description": "2D-slice solver, 1st-order (CIC) deposition (phase PC2)",
+   "rows": [
+    {
+     "configuration": "2d_slice_solver_1st_order_cic",
+     "e_y_nm": 0.5,
+     "L_mean_1e34": 11.529725333333333,
+     "L_std_1e34": {
+      "value": 0.053789654435898185,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.031055471468182768,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 2500000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d_cic",
+      "runs_per_phase": {
+       "PC2": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 4334528
+    },
+    {
+     "configuration": "2d_slice_solver_1st_order_cic",
+     "e_y_nm": 1,
+     "L_mean_1e34": 7.4758243333333345,
+     "L_std_1e34": {
+      "value": 0.1822921920690335,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.10524644616222345,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 880000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d_cic",
+      "runs_per_phase": {
+       "PC2": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 1391638
+    },
+    {
+     "configuration": "2d_slice_solver_1st_order_cic",
+     "e_y_nm": 2,
+     "L_mean_1e34": 4.764154666666666,
+     "L_std_1e34": {
+      "value": 0.03463019610590324,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.019993753043832767,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 310000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d_cic",
+      "runs_per_phase": {
+       "PC2": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 446211
+    },
+    {
+     "configuration": "2d_slice_solver_1st_order_cic",
+     "e_y_nm": 4,
+     "L_mean_1e34": 3.2598913333333335,
+     "L_std_1e34": {
+      "value": 0.039466396976837584,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.02278593491852181,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 110000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d_cic",
+      "runs_per_phase": {
+       "PC2": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 142808
+    },
+    {
+     "configuration": "2d_slice_solver_1st_order_cic",
+     "e_y_nm": 8,
+     "L_mean_1e34": 2.2627456666666665,
+     "L_std_1e34": {
+      "value": 0.03002621238740129,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.017335641804611012,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 40000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d_cic",
+      "runs_per_phase": {
+       "PC2": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 45586
+    },
+    {
+     "configuration": "2d_slice_solver_1st_order_cic",
+     "e_y_nm": 12,
+     "L_mean_1e34": 1.7595683333333334,
+     "L_std_1e34": {
+      "value": 0.031392657124450864,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.01812455904137933,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 22000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d_cic",
+      "runs_per_phase": {
+       "PC2": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 23337
+    },
+    {
+     "configuration": "2d_slice_solver_1st_order_cic",
+     "e_y_nm": 16,
+     "L_mean_1e34": 1.5071603333333332,
+     "L_std_1e34": {
+      "value": 0.016512412371707953,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.009533445727775694,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 14000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d_cic",
+      "runs_per_phase": {
+       "PC2": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 14499
+    },
+    {
+     "configuration": "2d_slice_solver_1st_order_cic",
+     "e_y_nm": 20,
+     "L_mean_1e34": 1.301467,
+     "L_std_1e34": {
+      "value": 0.035507420252673935,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.020500218641110467,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 3,
+     "seeds": [
+      1,
+      2,
+      3
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_t": 128,
+     "n_m": 10000,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     },
+     "provenance": {
+      "file": "data/results.csv",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "solver": "2d_cic",
+      "runs_per_phase": {
+       "PC2": 3
+      },
+      "same_seed_repeat_runs_averaged": 0
+     },
+     "current_conservative_n_m": 10017
+    }
+   ],
+   "over_reference": [
+    {
+     "e_y_nm": 0.5,
+     "value": 0.9816729233250836,
+     "se": {
+      "value": 0.0026690502140036855,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 1,
+     "value": 0.9512195553841125,
+     "se": {
+      "value": 0.013446735077113301,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 2,
+     "value": 0.9390791727045905,
+     "se": {
+      "value": 0.005632118627957855,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 4,
+     "value": 0.9708685981298512,
+     "se": {
+      "value": 0.008218173364166529,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 8,
+     "value": 1.0039976361325305,
+     "se": {
+      "value": 0.010556075814310015,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 12,
+     "value": 0.9824611394105861,
+     "se": {
+      "value": 0.010786997066731347,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 16,
+     "value": 0.9891132226355339,
+     "se": {
+      "value": 0.007016539827364382,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 20,
+     "value": 0.9745644501257876,
+     "se": {
+      "value": 0.01599560147404986,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    }
+   ]
+  }
+ },
+ "ps1_reference": {
+  "definition": "PS1 reference: the nominal configuration at 20 nm",
+  "L_mean_1e34": 1.3714899333333335,
+  "L_std_1e34": {
+   "value": 0.01017911907124907,
+   "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+  },
+  "L_se_1e34": {
+   "value": 0.0026282372428006635,
+   "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+  },
+  "n_seeds": 15,
+  "published_1e34": 1.35,
+  "ratio_to_published": 1.0159184691358025,
+  "ratio_se": {
+   "value": 0.0019468424020745655,
+   "definition": "standard error of L / published (published value exact)"
+  },
+  "provenance": "section 'luminosity_dataset', configuration nominal, e_y = 20 nm"
+ }
+}

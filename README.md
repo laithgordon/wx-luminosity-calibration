@@ -23,6 +23,25 @@ python paper_numbers.py     # every quoted WarpX number, printed (add --json FIL
 Both read only `data/`. `paper_numbers.py` takes each number from the same code path that draws the corresponding
 figure and never writes to `plots/`.
 
+### Paper numbers
+
+```
+python reproduce_paper_numbers.py
+```
+
+regenerates every WarpX number the paper reports and writes `paper_numbers.json` and `paper_numbers.md`, which are
+committed. The output corresponds to the numbers in the paper: a reviewer can compare `paper_numbers.md` with the
+manuscript without reading the analysis code. It covers:
+- the luminosity of each configuration and emittance, with the grid actually run and derived ratios and H_D;
+- the n_y^req and n_m^req extractions and the fits to them;
+- κ, the recommendation table from the frozen locus, and D_y;
+- the pinched-core widths, the solver and deposition variants, and the PS1 reference.
+
+The JSON holds full precision, the definition of every uncertainty, and the data file and selection rule behind every
+row; the Markdown rounds as the paper does. The script reads only committed files under `data/` and needs only
+`numpy`. Its one resampling step uses a fixed seed, so repeated runs give identical files. It stops with an error if an
+expected input or data point is missing.
+
 Three repository-only figures also need the raw per-step particle dumps, which are not in the repository:
 
 ```
