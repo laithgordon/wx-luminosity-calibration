@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """WX_extension_L_vs_ey: L vs e_y over 0.5-100 nm for four tuned/frozen series (paper style, PNG+PDF):
-  GP++ tuned   -- conservative-formula parameters (data/gp/lumi_nominal_vs_calibrated.csv 'calibrated' for 1-20 nm,
-                  data/gp/lumi_tuned_vs_frozen_highemit.csv 'tuned' for 20-100 nm)
-  WarpX tuned  -- conservative-formula parameters (NM_CONS/NY_CONS incl. the 40-100 nm extension, phase PE)
-  GP++ frozen  -- 40-100 nm at the GP parameters of 20 nm ('frozen' in the same file)
+  GP++ tuned   -- data/gp_exports/gp_luminosity_for_wx.csv: 'conservative' block for 1-20 nm, 'frozen_extension' block
+                  for 40-100 nm (the only GP data there)
+  WarpX tuned  -- the frozen production locus (plot_comparison 'wx_cal'): phase PN at 0.5-16 nm, PC/PD at 20 nm,
+                  and the extrapolated extension locus (phase PE) at 40-100 nm
+  GP++ frozen  -- 40-100 nm at the GP parameters of 20 nm ('frozen_extension' block)
   WarpX frozen -- 40-100 nm at the WarpX 20 nm tuned parameters (512x256x128, n_m = 1e4; phase PF)
 15 seeds per point, mean +/- seed STD; L_geom dashed.
 """
 import csv
-from collections import defaultdict
 from pathlib import Path
 import numpy as np
 import matplotlib
@@ -20,15 +20,13 @@ import plot_comparison as PC
 from paper_figures import PRL, save_fig, _ticks_in
 
 ROOT = Path(__file__).resolve().parent            # repository root (flat layout: scripts, data/, plots/)
-GP_EXT = Q.GP_LUMI_EXT_CSV
+GP_EXT = PC.GP_CSV
 
 
 def gp_series(path, dataset):
-    runs = defaultdict(list)
-    for r in csv.DictReader(open(path)):
-        if r["dataset"] == dataset:
-            runs[float(r["eps_y_nm"])].append(float(r["lumi_ee"]) / 1e34)
-    return {e: (np.mean(v), np.std(v, ddof=1), len(v)) for e, v in runs.items()}
+    """{e_y: (L_mean, L_std ddof=1, n_seeds)} for one block of gp_luminosity_for_wx.csv (dataset names via PC.GP_BLOCK)."""
+    return {float(r["eps_y_nm"]): (float(r["L_mean_1e34"]), float(r["L_std_1e34"]), int(r["n_seeds"]))
+            for r in csv.DictReader(l for l in open(path) if not l.startswith("#")) if r["block"] == PC.GP_BLOCK[dataset]}
 
 
 def series():

@@ -5,7 +5,6 @@ Left axis: mean L +/- seed STD with the converged nominal-grid L_inf(8 nm) and i
 Right axis: relative STD [%]. Paper style, PNG+PDF.
 """
 from collections import defaultdict
-from pathlib import Path
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")

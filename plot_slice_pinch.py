@@ -7,7 +7,7 @@ compute the weighted rms of y about the slice's own centroid (so slice-centroid 
 head/tail do not dilute it), take the minimum over steps, average the two beams. Overlay: the whole-beam
 minimum from the BeamRelevant runs (phase PD, faded) and the theory curve 1/R(D_y).
 """
-import csv, glob, sys
+import csv, glob
 from pathlib import Path
 import numpy as np
 import h5py

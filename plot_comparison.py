@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """Comparison figures (paper style, PNG+PDF in plots/):
 
-  WX_comparison_L_vs_ey   L vs e_y for four curves -- WX uncalibrated (512x512x256, n_m = 1e5),
-                       WX calibrated (512 x NY_CONS(e_y) x 128, n_m = NM_CONS(e_y)),
-                       GP uncalibrated (512x512x25, n_m = 1e5) and GP calibrated -- plus the
+  WX_comparison_L_vs_ey   L vs e_y for four curves -- WX untuned (512x512x256, n_m = 1e5),
+                       WX tuned (512 x n_y_cons(e_y) x 128, n_m = n_m_cons(e_y), the frozen production locus in nmreq),
+                       GP untuned (512x512x25, n_m = 1e5) and GP tuned (GP's conservative block) -- plus the
                        geometric luminosity L_geom(e_y) as a black dashed line.
   WX_comparison_HD_vs_ey  H_D = L / L_geom for the same four curves.
   WX_comparison_STD_vs_ey relative seed scatter STD(L)/L [%] for the same four curves.
   WX_comparison_ratio_vs_ey  L_tuned / L_untuned per code (error bar: seed STDs combined in quadrature).
 
-GP data: data/gp/lumi_nominal_vs_calibrated.csv (lumi_ee in 1e34 cm^-2 s^-1, 15 seeds per point;
-converted from the per-crossing m^-2 value by 1e-4 n_b f_rep = 1.596 on the GP++ side, 2026-09-09).
-WX data: Data/results.csv rows on the two comparison grids (phase PC runs; any row matching
-the grid+n_m is used). Points are mean +/- seed STD. L in 1e34 cm^-2 s^-1;
+GP data: data/gp_exports/gp_luminosity_for_wx.csv (per-emittance L_mean/L_std(ddof=1)/n_seeds in 1e34 cm^-2 s^-1, 15 seeds
+per point; blocks nominal, conservative, frozen_extension).
+WX data: data/results.csv rows on the two comparison grids (any row matching the grid+n_m is used; same-seed repeats
+averaged). Points are mean +/- seed STD. L in 1e34 cm^-2 s^-1;
 L_geom = f_coll N^2 / (4 pi sigma_x sigma_y), f_coll = 133 x 120 Hz.
 """
 import csv, math
@@ -27,7 +27,8 @@ import nmreq as Q
 from paper_figures import PRL, save_fig, _ticks_in
 
 ROOT = Path(__file__).resolve().parent            # repository root (flat layout: scripts, data/, plots/)
-GP_CSV = Q.GP_LUMI_CSV          # data/gp/lumi_nominal_vs_calibrated.csv (lumi_ee in 1e34 cm^-2 s^-1)
+GP_CSV = Q.GP_LUMI_CSV
+GP_BLOCK = {"nominal": "nominal", "calibrated": "conservative", "tuned": "frozen_extension", "frozen": "frozen_extension"}
 F_COLL = 133 * 120.0
 
 # curve definitions: (label, color, marker, ls)
@@ -64,28 +65,28 @@ def wx_curve(match, solver="3d", eys=None):
 
 
 def gp_curve(dataset, extra=None):
-    """extra = (csv_path, dataset) merged in for e_y values the main file lacks (the 40-100 nm extension)."""
-    runs = defaultdict(list)
-    for r in csv.DictReader(open(GP_CSV)):
-        if r["dataset"] == dataset:
-            runs[float(r["eps_y_nm"])].append(float(r["lumi_ee"]) / 1e34)
+    """extra = (csv_path, dataset) merged in for e_y values the main file lacks (the 40-100 nm extension).
+    Reads the per-emittance aggregates of gp_luminosity_for_wx.csv (L_mean_1e34, L_std_1e34 with ddof=1, n_seeds);
+    the dataset names map onto its blocks through GP_BLOCK."""
+    def _agg(block):
+        return {float(r["eps_y_nm"]): (float(r["L_mean_1e34"]), float(r["L_std_1e34"]), int(r["n_seeds"]))
+                for r in csv.DictReader(l for l in open(GP_CSV) if not l.startswith("#")) if r["block"] == block}
+    agg = _agg(GP_BLOCK[dataset])
     if extra:
         path, ds = extra
-        have = set(runs)                         # e_y values already covered by the main file
-        for r in csv.DictReader(open(path)):
-            if r["dataset"] == ds and float(r["eps_y_nm"]) not in have:
-                runs[float(r["eps_y_nm"])].append(float(r["lumi_ee"]) / 1e34)
-    es = sorted(runs)
-    return (np.array(es), np.array([np.mean(runs[e]) for e in es]),
-            np.array([np.std(runs[e], ddof=1) for e in es]), np.array([len(runs[e]) for e in es]))
+        have = set(agg)                          # e_y values already covered by the main block
+        agg.update({e: v for e, v in _agg(GP_BLOCK[ds]).items() if e not in have})
+    es = sorted(agg)
+    return (np.array(es), np.array([agg[e][0] for e in es]),
+            np.array([agg[e][1] for e in es]), np.array([agg[e][2] for e in es]))
 
 
 def curves():
     out = {}
     out["wx_uncal"] = wx_curve(lambda e, g, nm: g == (512, 512, 256) and abs(nm - 1e5) < 1, eys=ALL_EYS)
-    out["wx_cal"] = wx_curve(lambda e, g, nm: g == (512, Q.NY_CONS[e], 128) and abs(nm / Q.NM_CONS[e] - 1) < 0.02, eys=ALL_EYS)
+    out["wx_cal"] = wx_curve(lambda e, g, nm: g == (512, Q.n_y_cons(e), 128) and abs(nm / Q.n_m_cons(e) - 1) < 0.02, eys=ALL_EYS)
     out["gp_uncal"] = gp_curve("nominal")
-    out["gp_cal"] = gp_curve("calibrated", extra=(Q.GP_LUMI_EXT_CSV, "tuned"))
+    out["gp_cal"] = gp_curve("calibrated", extra=(GP_CSV, "tuned"))
     out["wx_cal_2d"] = wx_curve(lambda e, g, nm: g == (512, Q.NY_CONS[e], 128) and abs(nm / Q.NM_CONS[e] - 1) < 0.02, solver="2d")
     # extension batch B (phase PF): the 20 nm tuned grid and n_m held fixed (512x256x128, n_m = 1e4) out to 100 nm;
     # at 20 nm this is the tuned point itself, so the curve starts there

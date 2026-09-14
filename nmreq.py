@@ -6,7 +6,7 @@ Nominal grid: n_x = 512, n_z = 128, n_y = n_y^theory(e_y) = pow2[256 (8/e_y)^1/4
 (log-2 half-up rounding, same as wxcal.ny_theory): 256 for e_y >= 4 nm,
 512 for e_y <= 2 nm.
 """
-import csv, math
+import csv, math, re
 from collections import defaultdict
 from pathlib import Path
 import numpy as np
@@ -138,6 +138,32 @@ NY_CONS = {20: 256, 16: 256, 12: 256, 8: 256, 4: 256, 2: 256, 1: 512, 0.5: 512}
 EYS_EXT = [40, 60, 80, 100]
 NM_CONS.update({40: 3.2e3, 60: 1.6e3, 80: 9.9e2, 100: 6.8e2})
 NY_CONS.update({40: 256, 60: 128, 80: 128, 100: 128})
+# NB: NM_CONS / NY_CONS above are the older frozen tables that define the Stage-B ladder and comparison runs. They are
+# NOT the production conservative locus below.
+
+# ---------------------------------------------------------------------------
+# Production conservative locus -- FROZEN. These constants defined the production runs (phase PN, submitted
+# 2026-09-11) and the pinched-core dump re-runs (PQ2/PP2) at the time they were submitted:
+#     n_m^cons = 0.440 D_y^3.269            (unrounded; the decks use ceil)
+#     n_y^cons = smallest sampled power of two >= 38.1 D_y^0.450260
+# with D_y = D_y(e_y) above at full precision. They must NOT be recomputed from the current ladder fit: that fit
+# drifts as rungs are added (the raw locus slope moved from 3.26883 to 3.26750 once the production runs joined the
+# ladders), and any check that re-derived the locus would eventually disagree with the decks that were run.
+# ---------------------------------------------------------------------------
+LOCUS_NM_PREFACTOR, LOCUS_NM_EXPONENT = 0.440, 3.269
+LOCUS_NY_PREFACTOR, LOCUS_NY_EXPONENT = 38.1, 0.450260
+LOCUS_NY_RUNGS = (32, 64, 128, 256, 512, 1024, 2048, 4096, 8192)
+
+
+def n_m_cons(e_y_nm):
+    """Production conservative macroparticle count at e_y (unrounded), from the frozen locus constants."""
+    return LOCUS_NM_PREFACTOR * D_y(float(e_y_nm)) ** LOCUS_NM_EXPONENT
+
+
+def n_y_cons(e_y_nm):
+    """Production conservative vertical cell count at e_y: smallest sampled power of two >= the frozen law."""
+    raw = LOCUS_NY_PREFACTOR * D_y(float(e_y_nm)) ** LOCUS_NY_EXPONENT
+    return min(p for p in LOCUS_NY_RUNGS if p >= raw)
 
 
 def ny_ladders(nm_tol=0.02):
@@ -486,59 +512,32 @@ def kappa_drift(D, ny_req, sig_log, c_y):
 
 
 # ---------------------------------------------------------------------------
-# GUINEA-PIG++ exports (data/gp/gp_*_export.csv), produced by the GP++ analysis.
-# GP runs its own deck cut (c_y = 20, carried in the files); nothing here assumes
-# the WarpX value.
+# GUINEA-PIG++ values are read ONLY from the two CSVs exported by the GP++ analysis (gp-luminosity-calibration) into
+# data/gp_exports/. GP runs its own deck cut (c_y = 20, recorded in the luminosity export header); nothing here
+# assumes the WarpX value.
+#   gp_luminosity_for_wx.csv    per-emittance luminosity aggregates in blocks nominal / conservative / frozen_extension
+#   gp_requirements_for_wx.csv  tuning-ladder n_y^req and n_m^req rows; the published fit constants in its header
 # ---------------------------------------------------------------------------
-# All GP++ data live in Analysis/"Example from GP" (refreshed 2026-09-09 by the GP++ analysis; luminosities
-# there are in 10^34 cm^-2 s^-1 with the per-crossing m^-2 -> cm^-2 s^-1 factor 1e-4 * n_b * f_rep = 1.596
-# applied at extraction, and the raw value kept in lumi_ee_m2). The earlier copies in Data/ were removed.
-GP_DIR = ROOT / "data" / "gp"
-GP_CONSTANTS_CSV = GP_DIR / "gp_constants_export.csv"
-GP_KAPPA_CSV = GP_DIR / "gp_kappa_export.csv"
-GP_CALIB_CSV = GP_DIR / "gp_calibration_export.csv"
-GP_LUMI_CSV = GP_DIR / "lumi_nominal_vs_calibrated.csv"          # nominal + calibrated, 0.5-20 nm
-GP_LUMI_EXT_CSV = GP_DIR / "lumi_tuned_vs_frozen_highemit.csv"   # tuned vs frozen-at-20 nm, 20-100 nm
+GP_DIR = ROOT / "data" / "gp_exports"
+GP_LUMI_CSV = GP_DIR / "gp_luminosity_for_wx.csv"
+GP_REQ_CSV = GP_DIR / "gp_requirements_for_wx.csv"
 
 
-def gp_constants():
-    """{name: (value, error, note)} from gp_constants_export.csv; {} if absent."""
-    if not GP_CONSTANTS_CSV.exists():
-        return {}
+def gp_published_constants():
+    """GP++ fit constants as stored in the gp_requirements_for_wx.csv header: C_y_fit, q_n_fit, C_m_fit, s_fit, and
+    q_pred (from its 's_cons = b_cons + q_pred' line). Raises if any is missing; there is no hardcoded fallback."""
+    hdr = "".join(l for l in open(GP_REQ_CSV) if l.startswith("#"))
     out = {}
-    with open(GP_CONSTANTS_CSV) as fh:
-        for r in csv.DictReader(fh):
-            err = r["error"].strip()
-            out[r["name"]] = (float(r["value"]), float(err) if err else None, r.get("note", ""))
+    for name in ("C_y_fit", "q_n_fit", "C_m_fit", "s_fit"):
+        m = re.search(rf"# constant {name}\s+published .*?\| stored in export ([-+0-9.eE]+)", hdr)
+        if not m:
+            raise ValueError(f"{name} not found in the {GP_REQ_CSV.name} header")
+        out[name] = float(m.group(1))
+    m = re.search(r"b_cons \+ q_pred = ([-+0-9.eE]+) \+ ([-+0-9.eE]+)", hdr)
+    if not m:
+        raise ValueError(f"q_pred not found in the {GP_REQ_CSV.name} header")
+    out["q_pred"] = float(m.group(2))
     return out
-
-
-def gp_kappa():
-    """GP++ per-point kappa table: dict of arrays (eps_y, D_y, R_pinch, n_y_req, sigma_log, c_y,
-    kappa, sigma_kappa); None if absent. kappa is GP's own per-point value at GP's own c_y."""
-    if not GP_KAPPA_CSV.exists():
-        return None
-    cols = defaultdict(list)
-    with open(GP_KAPPA_CSV) as fh:
-        for r in csv.DictReader(fh):
-            for k in ("eps_y_nm", "D_y", "R_pinch", "n_y_req", "sigma_log", "c_y", "kappa", "sigma_kappa"):
-                cols[k].append(float(r[k]))
-    return {k: np.asarray(v, float) for k, v in cols.items()} if cols["D_y"] else None
-
-
-def gp_calibration(family):
-    """GP++ rows of gp_calibration_export.csv for family 'n_y' or 'n_m' (value column is
-    n_y^req for n_y, and n_m^req/(n_x n_y n_z) for n_m). None if absent/empty."""
-    if not GP_CALIB_CSV.exists():
-        return None
-    cols = defaultdict(list)
-    with open(GP_CALIB_CSV) as fh:
-        for r in csv.DictReader(fh):
-            if r["family"] != family:
-                continue
-            for k in ("eps_y_nm", "D_y", "R_pinch", "value", "sigma_log", "c_y"):
-                cols[k].append(float(r[k]))
-    return {k: np.asarray(v, float) for k, v in cols.items()} if cols["D_y"] else None
 
 
 def occupancy_prefactor(c_x, c_y):

@@ -18,7 +18,7 @@ Uses every results.csv row with e_y = 8, n_y = 256, n_z = 128 (any n_x, any n_m)
 
 Output: plots/nx_nm_coupling.png
 """
-import csv, math
+import csv
 from collections import defaultdict
 from pathlib import Path
 import numpy as np

@@ -4,17 +4,17 @@ saved to plots/<name>.{png,pdf}:
 
   WX_L_vs_nm             (1) all Stage-A ladders on one axis: L/L_inf vs n_m per e_y (viridis), mean +/- STD,
                           star at (n_m^req, 0.95), grey +/-5% band, legend above the axes
-  WX_nm_req_calibration  (2) n_m^req/(n_x n_y n_z) vs D_y: points (C3, statistical bars), ONE weighted fit
+  WX_nm_req_convergence  (2) n_m^req/(n_x n_y n_z) vs D_y: points (C3, statistical bars), ONE weighted fit
                           C_m D_y^(s-q) on the 20-2 nm points drawn across the whole range (1-sigma band); the
                           1/0.5 nm points faded & labelled, not fitted; conservative locus (gold dashed); GP++ law
   WX_L_vs_ny             (3) all Stage-B ladders: L/L_inf vs n_y per e_y, star at n_y^req
-  WX_ny_req_calibration  (4) n_y^req vs D_y: points, weighted fit C_y D_y^q with band, theory q = Q_PRED with the
+  WX_ny_req_convergence  (4) n_y^req vs D_y: points, weighted fit C_y D_y^q with band, theory q = Q_PRED with the
                           normalisation fitted (dashed C0), chi2/ndf box
   kappa_vs_Dy            (5) kappa_i = n_y^req/(2 c_y R(D_y)) vs D_y with the weighted mean; the same kappa built
-                          on Schulte Eq. 2.4 as the failing comparison (climbs monotonically). GP++ series is
-                          drawn when Data/gp_ny_req.csv exists.
+                          on Schulte Eq. 2.4 as the failing comparison (climbs monotonically). GP++ series from
+                          data/gp_exports/gp_requirements_for_wx.csv.
 
-Fit parameters are also written by write_results.py (section 'Paper figures'). Run after collect.py.
+Run after collect.py.
 """
 import math
 from pathlib import Path
@@ -30,15 +30,15 @@ PLOT_DIR = ROOT / "plots"
 PLOT_DIR.mkdir(parents=True, exist_ok=True)
 NOM_CELLS = 512 * 256 * 128
 MID, HIGH = (4, 20), (0.5, 2)          # e_y ranges [nm] of the two D_y regimes
-# GUINEA-PIG++ laws: read from data/gp/gp_constants_export.csv when present (the GP++ analysis is the
-# authority for them), else the last hardcoded values. GP quotes s = b + q with the same q used here.
-_GPC = Q.gp_constants()
-GP_CM = _GPC["C_m_fit"][0] if "C_m_fit" in _GPC else 1.4e-07
-# GP's exported s_fit was formed with the OLD q = 0.379; rebuild s from the raw slope b with Q_P.
-GP_B = _GPC["b_fit"][0] if "b_fit" in _GPC else (_GPC["s_fit"][0] - 0.379 if "s_fit" in _GPC else 3.115)
+# GUINEA-PIG++ laws: the published fit constants stored in the data/gp_exports/gp_requirements_for_wx.csv header (the
+# GP++ analysis is the authority for them). GP quotes s = b + q_pred; the raw slope b is rebuilt from GP's own q_pred and
+# s is formed with the WarpX Q_P, as these figures always have.
+_GPC = Q.gp_published_constants()
+GP_CM = _GPC["C_m_fit"]
+GP_B = _GPC["s_fit"] - _GPC["q_pred"]
 GP_S = GP_B + Q.Q_P
-GP_CY = _GPC["C_y_fit"][0] if "C_y_fit" in _GPC else 26.2
-GP_Q = _GPC["q_fit"][0] if "q_fit" in _GPC else 0.402
+GP_CY = _GPC["C_y_fit"]
+GP_Q = _GPC["q_n_fit"]
 NY_ANOMALY = (0.5,)                     # e_y whose n_y^req is anomalous: faded, labelled, excluded from the fits
 NM_ANOMALY = (0.5, 1)                   # e_y whose n_m^req is anomalous (highest-D_y regime): faded, labelled, excluded from the fit
                                         # (2 nm re-included 2026-08-20: after seeding, its window moved to [1.7e5, 3.1e5] and the point sits 0.3 sigma from the 20-4 nm law)
@@ -141,7 +141,7 @@ def WX_nm_req_calibration(A):
     with plt.rc_context(PRL):
         fig, ax = plt.subplots(figsize=(3.5, 2.7))
         ax.errorbar(D[use], rho[use], yerr=[(nr[use] - p16[use]) / cells[use], (p84[use] - nr[use]) / cells[use]], fmt="o", ms=4.5,
-                    color="C3", capsize=1.5, ecolor="C3", elinewidth=0.7, lw=0, zorder=5, label="calibration")
+                    color="C3", capsize=1.5, ecolor="C3", elinewidth=0.7, lw=0, zorder=5, label="convergence")
         if (~use).any():
             ax.errorbar(D[~use], rho[~use], yerr=[(nr[~use] - p16[~use]) / cells[~use], (p84[~use] - nr[~use]) / cells[~use]], fmt="o",
                         ms=4.5, color="C3", capsize=1.5, ecolor="C3", elinewidth=0.7, lw=0, zorder=5, alpha=0.3)
@@ -178,7 +178,7 @@ def WX_nm_req_calibration(A):
         ax.xaxis.set_minor_formatter(mticker.NullFormatter())     # majors only (10^2)
         ax.set_xlabel(r"$D_y(\varepsilon_y)$"); ax.set_ylabel(r"$n_m^{\mathrm{req}}/(n_x n_y n_z)$")
         _ticks_in(ax); ax.legend(loc="upper left", frameon=False, fontsize=6.2)
-        save_fig(fig, "WX_nm_req_calibration"); plt.close(fig)
+        save_fig(fig, "WX_nm_req_convergence"); plt.close(fig)
     out["excluded"] = [float(x) for x in e[~use]]
     return out
 
@@ -195,7 +195,7 @@ def WX_ny_req_calibration(B):
     with plt.rc_context(PRL):
         fig, ax = plt.subplots(figsize=(3.5, 2.7))
         ax.errorbar(D[use], nr[use], yerr=[nr[use] - p16[use], p84[use] - nr[use]], fmt="o", ms=4.5, color="C3", capsize=1.5,
-                    ecolor="C3", elinewidth=0.7, lw=0, zorder=5, label="calibration")
+                    ecolor="C3", elinewidth=0.7, lw=0, zorder=5, label="convergence")
         if (~use).any():   # anomalous point(s): same marker at low opacity, labelled, not fitted, not in the legend
             ax.errorbar(D[~use], nr[~use], yerr=[nr[~use] - p16[~use], p84[~use] - nr[~use]], fmt="o", ms=4.5, color="C3",
                         capsize=1.5, ecolor="C3", elinewidth=0.7, lw=0, zorder=5, alpha=0.3)
@@ -220,7 +220,7 @@ def WX_ny_req_calibration(B):
         ax.set_ylim(min(p16.min(), 40) * 0.8, max(nr.max(), 200) * 3.2)      # headroom for the legend; long MC tails clipped (values in RESULTS)
         ax.set_xlabel(r"$D_y(\varepsilon_y)$"); ax.set_ylabel(r"$n_y^{\mathrm{req}}$")
         _ticks_in(ax); ax.legend(loc="upper left", frameon=False, fontsize=6.2)
-        save_fig(fig, "WX_ny_req_calibration"); plt.close(fig)
+        save_fig(fig, "WX_ny_req_convergence"); plt.close(fig)
     # kappa: the per-point route (S3/S4) only. c_y is the WarpX deck cut, not a shared default.
     kap = Q.kappa_drift(D[use], nr[use], sig[use], c_y=Q.C_Y_WX)
     kap_at20 = Q.kappa_drift(D[use], nr[use], sig[use], c_y=20)   # same data at the GP++ cut, for scale
@@ -236,8 +236,21 @@ def WX_ny_req_calibration(B):
 # A flat kappa validates R(D_y); a monotonic climb falsifies the size law used.
 # ---------------------------------------------------------------------------
 def _gp_kappa():
-    """GP++ per-point kappa table (data/gp/gp_kappa_export.csv), already at GP++'s own c_y."""
-    return Q.gp_kappa()
+    """GP++ n_y^req table for kappa, from data/gp_exports/gp_requirements_for_wx.csv. Supplies the keys kappa_vs_Dy
+    reads: D_y, n_y_req, sigma_log (the export's sigma_tot on ln n_y^req) and c_y, GP++'s deck cut, taken from the
+    'cut multipliers 20/20/3.5' line of gp_luminosity_for_wx.csv. kappa itself is recomputed by kappa_drift, so the
+    kappa/sigma_kappa entries are placeholders."""
+    import csv as _csv
+    hdr = "".join(l for l in open(Q.GP_LUMI_CSV) if l.startswith("#"))
+    assert "cut multipliers 20/20/3.5" in hdr, "GP++ cut multipliers not found in gp_luminosity_for_wx.csv"
+    rows = [r for r in _csv.DictReader(l for l in open(Q.GP_REQ_CSV) if not l.startswith("#"))
+            if r["quantity"] == "n_y_req"]
+    if not rows:
+        return None
+    col = lambda k: np.array([float(r[k]) for r in rows])
+    n = len(rows)
+    return dict(eps_y_nm=col("eps_y_nm"), D_y=col("D_y"), n_y_req=col("value"), sigma_log=col("sigma_tot"),
+                c_y=np.full(n, 20.0), kappa=np.full(n, np.nan), sigma_kappa=np.full(n, np.nan))
 
 
 def kappa_vs_Dy(B, c_y=None, show_eq24=False):
@@ -303,86 +316,7 @@ def kappa_vs_Dy(B, c_y=None, show_eq24=False):
     return out
 
 
-def WX_GP_comparison(A, B):
-    """Inter-code comparison, two panels:
-    (a) n_y^req vs D_y for both codes with their free fits;
-    (b) pinched-core occupancy n_pinch = (2 c_x c_y/pi)(n_m/(n_x n_y n_z)) R(D_y)  (eq:npinch).
-
-    Panel (b) is deliberately NOT the raw per-cell n_m: that quantity carries the code's own
-    cut multipliers through the occupancy prefactor 2 c_x c_y/pi, which differs by
-    (20*20)/(16*16) = 1.5625 between the two decks, so raw C_m values are not comparable.
-    """
-    gk = Q.gp_kappa(); gm = Q.gp_calibration("n_m")
-    if gk is None:
-        return {}
-    e = np.array([b[0] for b in B]); D = np.array([b[1] for b in B])
-    nr = np.array([b[2]["nreq"] for b in B]); sig = np.array([b[2]["sig_log"] for b in B])
-    use = np.array([ee not in NY_ANOMALY for ee in e])
-    em = np.array([a[0] for a in A]); Dm = np.array([a[1] for a in A])
-    rho = np.array([a[2]["nreq"] / a[2]["cells"] for a in A]); sigm = np.array([a[2]["sig_log"] for a in A])
-    usem = np.array([ee not in NM_ANOMALY for ee in em])
-    out = {}
-    with plt.rc_context(PRL):
-        fig_, axes = plt.subplots(1, 2, figsize=(7.0, 2.7))
-        # ---- (a) n_y^req -----------------------------------------------------
-        ax = axes[0]
-        dx = np.geomspace(min(D.min(), gk["D_y"].min()) * 0.75, max(D.max(), gk["D_y"].max()) * 1.35, 60)
-        ax.errorbar(D[use], nr[use], yerr=nr[use] * sig[use], fmt="o", ms=4.2, color="C3", capsize=1.5,
-                    ecolor="C3", elinewidth=0.7, lw=0, zorder=6, label="WarpX")
-        if (~use).any():
-            ax.errorbar(D[~use], nr[~use], yerr=nr[~use] * sig[~use], fmt="o", ms=4.2, color="C3",
-                        capsize=1.5, ecolor="C3", elinewidth=0.7, lw=0, alpha=0.3, zorder=5)
-        fw = Q.powerlaw_wls(D[use], nr[use], sig[use])
-        ax.plot(dx, math.exp(fw["a"]) * dx ** fw["b"], "-", color="C3", lw=1.0, zorder=4,
-                label=fr"WX fit $q={fw['b']:.3f}\pm{fw['sb']:.3f}$")
-        ax.errorbar(gk["D_y"], gk["n_y_req"], yerr=gk["n_y_req"] * gk["sigma_log"], fmt="s", ms=3.8,
-                    color="C0", capsize=1.5, ecolor="C0", elinewidth=0.7, lw=0, zorder=6, label="GUINEA-PIG++")
-        ax.plot(dx, GP_CY * dx ** GP_Q, "-", color="C0", lw=1.0, zorder=4,
-                label=fr"GP++ fit $q={GP_Q:.3f}$")
-        ax.plot(dx, 2 * Q.C_Y_WX * 0.303 * Q.LAMBDA1 * dx ** Q.Q_N, "--", color="k", lw=1.0, zorder=3,
-                label=fr"model $q_n={Q.Q_N:.3f}$")
-        ax.set_xscale("log"); ax.set_yscale("log")
-        ax.xaxis.set_minor_formatter(mticker.NullFormatter())
-        ax.set_xlabel(r"$D_y(\varepsilon_y)$"); ax.set_ylabel(r"$n_y^{\mathrm{req}}$")
-        ax.set_title("(a) vertical resolution", fontsize=7, pad=3)
-        _ticks_in(ax); ax.legend(loc="upper left", frameon=False, fontsize=5.8)
-        # ---- (b) pinched-core occupancy -------------------------------------
-        ax = axes[1]
-        occ_wx = np.array([Q.occupancy_pinch(r, d, Q.C_X_WX, Q.C_Y_WX) for r, d in zip(rho, Dm)])
-        ax.errorbar(Dm[usem], occ_wx[usem], yerr=occ_wx[usem] * sigm[usem], fmt="o", ms=4.2, color="C3",
-                    capsize=1.5, ecolor="C3", elinewidth=0.7, lw=0, zorder=6, label="WarpX")
-        if (~usem).any():
-            ax.errorbar(Dm[~usem], occ_wx[~usem], yerr=occ_wx[~usem] * sigm[~usem], fmt="o", ms=4.2,
-                        color="C3", capsize=1.5, ecolor="C3", elinewidth=0.7, lw=0, alpha=0.3, zorder=5)
-        out["occ_wx"] = dict(D=[float(x) for x in Dm], occ=[float(x) for x in occ_wx])
-        if gm is not None:
-            cxg = cyg = float(gk["c_y"][0])
-            occ_gp = np.array([Q.occupancy_pinch(v, d, cxg, cyg) for v, d in zip(gm["value"], gm["D_y"])])
-            ax.errorbar(gm["D_y"], occ_gp, yerr=occ_gp * gm["sigma_log"], fmt="s", ms=3.8, color="C0",
-                        capsize=1.5, ecolor="C0", elinewidth=0.7, lw=0, zorder=6, label="GUINEA-PIG++")
-            out["occ_gp"] = dict(D=[float(x) for x in gm["D_y"]], occ=[float(x) for x in occ_gp])
-            fg = Q.powerlaw_wls(gm["D_y"], occ_gp, gm["sigma_log"])
-            out["occ_gp_slope"] = (fg["b"], fg["sb"])
-        fo = Q.powerlaw_wls(Dm[usem], occ_wx[usem], sigm[usem])
-        out["occ_wx_slope"] = (fo["b"], fo["sb"])
-        dxm = np.geomspace(Dm.min() * 0.7, Dm.max() * 1.5, 60)
-        ax.plot(dxm, math.exp(fo["a"]) * dxm ** fo["b"], "-", color="C3", lw=1.0, zorder=4,
-                label=fr"WX slope $={fo['b']:.2f}\pm{fo['sb']:.2f}$")
-        if gm is not None:
-            ax.plot(dxm, math.exp(fg["a"]) * dxm ** fg["b"], "-", color="C0", lw=1.0, zorder=4,
-                    label=fr"GP++ slope $={fg['b']:.2f}\pm{fg['sb']:.2f}$")
-        ax.set_xscale("log"); ax.set_yscale("log")
-        ax.xaxis.set_minor_formatter(mticker.NullFormatter())
-        ax.set_xlabel(r"$D_y(\varepsilon_y)$")
-        ax.set_ylabel(r"$\bar{n}_{\mathrm{pinch}}$  at $n_m^{\mathrm{req}}$")
-        ax.set_title("(b) pinched-core occupancy", fontsize=7, pad=3)
-        _ticks_in(ax); ax.legend(loc="upper left", frameon=False, fontsize=5.8)
-        fig_.tight_layout()
-        save_fig(fig_, "WX_GP_comparison"); plt.close(fig_)
-    return out
-
-
-def make_all(verbose=True, gp_comparison=True):
+def make_all(verbose=True):
     A = Q.requirements_stat(); B = Q.ny_requirements_stat()
     lad_m = Q.ladders(); lad_y = Q.ny_ladders()
     for e in lad_y:            # ny_ladders lacks 'nm'/'pooled'; give it the keys compact_ladder needs
@@ -392,11 +326,8 @@ def make_all(verbose=True, gp_comparison=True):
     resm = WX_nm_req_calibration(A) if len(A) >= 3 else {}
     resy = WX_ny_req_calibration(B) if len(B) >= 3 else {}
     resk = kappa_vs_Dy(B) if len(B) >= 3 else {}
-    resc = WX_GP_comparison(A, B) if (gp_comparison and len(A) >= 3 and len(B) >= 3) else {}
     if resk:
         resy["kappa_fig"] = resk
-    if resc:
-        resy["comparison"] = resc
     if verbose:
         if "fit" in resm:
             f = resm["fit"]; print(f"  nm_req fit (excl. {resm['excluded']}): s = {f['s']:.3f} ± {f['sb']:.3f}, C_m = {f['C']:.3e} ± {f['sC']:.2e}, chi2/ndf = {f['chi2']:.2f}/{f['ndf']}")

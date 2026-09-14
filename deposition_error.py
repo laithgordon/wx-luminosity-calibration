@@ -7,7 +7,6 @@ charge is deposited along y with WarpX's shape-3 (cubic B-spline) onto (a) the r
 deposition error committed at pass i. Output: delta_i(y) overlays, the correlation matrix
 C_ij = <delta_i delta_j>/(|delta_i||delta_j|) over core bins (rho_ref > 5% of peak), and the mean
 off-diagonal correlation per emittance."""
-import glob, sys
 from pathlib import Path
 import numpy as np
 import h5py

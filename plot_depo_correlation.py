@@ -9,14 +9,13 @@ Two stacked panels, shared x = e_y (log, DESCENDING 20 -> 0.5 so disruption grow
     C_bar toward 2 nm tracks n_m (shot noise diluting), the BREAK at 1-0.5 nm does not.
 Data: Data/depo_corr_stat.json (depo_corr_stat.py: PQ dumps, 10 seeds, deposited on the
 calibrated n_y = NY_CONS grid vs 8x refined reference; waists = prominent core minima, 5 %)."""
-import json, sys
+import json
 from pathlib import Path
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
-import nmreq as Q
 from paper_figures import PRL, save_fig, _ticks_in
 
 ROOT = Path(__file__).resolve().parent            # repository root (flat layout: scripts, data/, plots/)
@@ -38,7 +37,7 @@ def draw():
         ax.text(0.62, 1.02, "identical passes", fontsize=5.2, color="0.4", va="bottom", ha="left")
         ax.errorbar(es, cb, yerr=sem, fmt="o", color="C0", ecolor="C0", ms=3.8, capsize=1.5,
                     elinewidth=0.7, lw=0.9, ls="-", zorder=5)
-        ax.text(0.03, 0.62, "10 seeds, $\pm$ SEM", transform=ax.transAxes, fontsize=5.2, color="C0")
+        ax.text(0.03, 0.62, r"10 seeds, $\pm$ SEM", transform=ax.transAxes, fontsize=5.2, color="C0")
         ax.text(0.72, 0.32, "excluded", transform=ax.transAxes, fontsize=5.4, color="C3", alpha=0.8)
         ax.set_ylim(-0.22, 1.12)
         ax.set_ylabel(r"$\bar C_{i\neq j}$ (pass correlation)")

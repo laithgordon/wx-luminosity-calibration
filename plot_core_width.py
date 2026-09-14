@@ -9,7 +9,7 @@ Per beam: min over steps; beams averaged; normalised by the nominal waist sigma_
 plot_slice_pinch) and the grid cell size dy/sigma_y0 are drawn for context. Per-run per-step widths are
 cached in Data/slice_widths_<label>.csv so re-plots do not re-read the dumps.
 """
-import csv, glob, os, sys
+import csv, glob, os
 from pathlib import Path
 import numpy as np
 import h5py
@@ -129,7 +129,6 @@ def R1_table():
     minimum of the envelope beta(s), not the global one. Beyond D* ~ 18 the global minimum is
     carried by later oscillations that the real (phase-mixing) beam never reaches."""
     import math
-    from pathlib import Path as _P
     cache = ROOT / "data" / "R1_table.npz"
     if cache.exists():
         d = np.load(cache)
@@ -154,12 +153,23 @@ def R1_table():
     return Ds, np.array(R1s), np.array(Rgs), Dstar
 
 
+def _dump_on_locus(r):
+    """A pinched-core dump run qualifies iff n_y == 4 n_y^cons and n_m/n_m^cons in [0.90, 1.10], both from the frozen
+    production locus in nmreq (n_y_cons, n_m_cons)."""
+    e = float(r["e_y_nm"])
+    # lower bound 0.90, not 0.99: by the author's decision the 12 and 16 nm PQ runs (n_m ratios 0.943, 0.966) stay in;
+    # the superseded PQ runs at 0.5-8 nm (ratios 0.58-0.88) remain excluded
+    return int(r["ny"]) == 4 * Q.n_y_cons(e) and 0.90 <= float(r["nm"]) / Q.n_m_cons(e) <= 1.10
+
+
 def points():
-    """{e_y: [per-seed core minima]} from the phase-PQ runs (512 x 1024 x 128, n_m = NM_CONS)."""
+    """{e_y: [per-seed core minima]} from the pinched-core dump runs (phases PQ, PQ2) that sit on the locus rule of
+    _dump_on_locus: n_y = 4 n_y^cons and n_m/n_m^cons in [0.90, 1.10]. In practice PQ2 at 0.5-8 nm (n_y 2048/2048/1024/1024/
+    1024, n_m on locus) and PQ at 12, 16, 20 nm (n_y 1024)."""
     out = {}
     for r in csv.DictReader(open(W.JOBLIST)):
-        if r["phase"] != "PQ" or int(r["ny"]) != 1024:
-            continue
+        if r["phase"] not in ("PQ", "PQ2") or not _dump_on_locus(r):
+            continue                                      # round 5: n_y = 4 n_y^cons and n_m/n_m^cons in [0.90, 1.10]
         # trust the run directory when collect.py hasn't caught up yet
         if r["status"] != "done":
             st = W.RUN_ROOT / r["label"] / "job_status.txt"
@@ -178,7 +188,7 @@ def points():
 
 
 def draw():
-    """Two panels: (a) core pinch minimum (10-seed mean +/- STD, n_y = 1024) and theory 1/R(D_y) vs D_y;
+    """Two stacked panels: (a) core pinch minimum (10-seed mean +/- STD, n_y = 4 n_y^cons) and theory 1/R_1(D_y) vs D_y;
     (b) their ratio. The kink in the theory curve near D_y ~ 72 is real: the envelope's deepest waist
     switches from one betatron oscillation to the next there."""
     P = points()
@@ -193,7 +203,7 @@ def draw():
     N = np.array([len(P[e]) for e in es])
     th = np.array([1.0 / Q.R_of_D(d) for d in D])
     with plt.rc_context(PRL):
-        fig, (ax, ax2) = plt.subplots(1, 2, figsize=(7.0, 2.7))
+        fig, (ax, ax2) = plt.subplots(2, 1, figsize=(3.5, 5.0), sharex=True)   # vertical stack, one journal column, shared x
         dx = np.geomspace((D.min() if len(D) else 20) / 1.15, (D.max() if len(D) else 140) * 1.15, 200)
         Dt, R1t, Rgt, Dstar = R1_table()
         ax.plot(dx, np.interp(dx, Dt, 1.0 / R1t), "-", color="0.25", lw=1.0, zorder=4,
@@ -216,7 +226,7 @@ def draw():
             ax.annotate(fr"${e:g}\,$nm", (d, y), textcoords="offset points", xytext=(3, 3), fontsize=5.2)
         ax.set_xscale("log"); ax.set_yscale("log")
         ax.xaxis.set_minor_formatter(mticker.NullFormatter())
-        ax.set_xlabel(r"$D_y(\varepsilon_y)$"); ax.set_ylabel(r"$\sigma_{y,\min}/\sigma_{y,0}$")
+        ax.set_ylabel(r"$\sigma_{y,\min}/\sigma_{y,0}$")                       # x label only on the lower (shared) axis
         ax.legend(loc="lower left", frameon=False, fontsize=5.6)
         ax.text(0.03, 0.95, "(a)", transform=ax.transAxes, va="top", fontsize=7)
         _ticks_in(ax)

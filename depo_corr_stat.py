@@ -4,7 +4,7 @@ PQ dumps (10 seeds), particles deposited offline onto the CALIBRATED grid (n_y =
 8x refined reference. Waists = prominent minima (5% of median) of each run's cached core series
 (the dump window 30-85 confines everything to the collision). Output: mean pairwise correlation
 C_bar per e_y (seed mean +/- STD) and adjacent-pass correlation; cached to Data/depo_corr_stat.json."""
-import glob, json, sys
+import json
 from pathlib import Path
 import numpy as np
 import h5py

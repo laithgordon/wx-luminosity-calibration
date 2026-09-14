@@ -5,7 +5,7 @@ From the phase-PP per-step dumps of beam1: whole-beam rms; the central slice (|z
 as rms and as Gaussian-core width; and off-centre slices (z_bar +/- 0.5, +/- 1.0 sigma_z, rms) showing that
 each slice pinches at its own time. Widths normalised by sigma_y0; time as c*t/sigma_z (shifted so the
 central slice's minimum is at 0). Horizontal line: envelope-model 1/R(D_y)."""
-import glob, sys
+import glob
 from pathlib import Path
 import numpy as np
 import h5py

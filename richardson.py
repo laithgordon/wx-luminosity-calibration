@@ -15,7 +15,6 @@ No n^req extraction and no error propagation here.
 * optional asymptotic-window search: drop lowest points (floor 3) until some k
   is admissible (§2.3).
 """
-import math
 import numpy as np
 
 P_SHOT, P_CIC, ALPHA_TOL = 1.0, 2.0, 1e-2
