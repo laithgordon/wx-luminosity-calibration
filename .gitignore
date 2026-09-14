@@ -5,3 +5,4 @@ archive/
 verification/
 .ipynb_checkpoints/
 *.log
+data/depo_error.json
