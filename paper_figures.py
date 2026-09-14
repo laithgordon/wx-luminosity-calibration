@@ -31,11 +31,11 @@ PLOT_DIR.mkdir(parents=True, exist_ok=True)
 NOM_CELLS = 512 * 256 * 128
 MID, HIGH = (4, 20), (0.5, 2)          # e_y ranges [nm] of the two D_y regimes
 # GUINEA-PIG++ laws: the published fit constants stored in the data/gp_exports/gp_requirements_for_wx.csv header (the
-# GP++ analysis is the authority for them). GP quotes s = b + q_pred; the raw slope b is rebuilt from GP's own q_pred and
-# s is formed with the WarpX Q_P, as these figures always have.
+# GP++ analysis is the authority for them). GP quotes s = b + q_p; the raw slope b is rebuilt from GP's own q_p (header
+# line '# q_p = ...') and s is formed with the WarpX Q_P, as these figures always have.
 _GPC = Q.gp_published_constants()
 GP_CM = _GPC["C_m_fit"]
-GP_B = _GPC["s_fit"] - _GPC["q_pred"]
+GP_B = _GPC["s_fit"] - _GPC["q_p"]
 GP_S = GP_B + Q.Q_P
 GP_CY = _GPC["C_y_fit"]
 GP_Q = _GPC["q_n_fit"]
@@ -241,7 +241,7 @@ def WX_ny_req_calibration(B):
 # ---------------------------------------------------------------------------
 def _gp_kappa():
     """GP++ n_y^req table for kappa, from data/gp_exports/gp_requirements_for_wx.csv. Supplies the keys kappa_vs_Dy
-    reads: D_y, n_y_req, sigma_log (the export's sigma_tot on ln n_y^req) and c_y, GP++'s deck cut, taken from the
+    reads: D_y, n_y_req, sigma_log (the export's sigma_log on ln n_y^req) and c_y, GP++'s deck cut, taken from the
     'cut multipliers 20/20/3.5' line of gp_luminosity_for_wx.csv. kappa itself is recomputed by kappa_drift, so the
     kappa/sigma_kappa entries are placeholders."""
     import csv as _csv
@@ -253,7 +253,7 @@ def _gp_kappa():
         return None
     col = lambda k: np.array([float(r[k]) for r in rows])
     n = len(rows)
-    return dict(eps_y_nm=col("eps_y_nm"), D_y=col("D_y"), n_y_req=col("value"), sigma_log=col("sigma_tot"),
+    return dict(eps_y_nm=col("eps_y_nm"), D_y=col("D_y"), n_y_req=col("value"), sigma_log=col("sigma_log"),
                 c_y=np.full(n, 20.0), kappa=np.full(n, np.nan), sigma_kappa=np.full(n, np.nan))
 
 

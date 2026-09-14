@@ -525,7 +525,7 @@ GP_REQ_CSV = GP_DIR / "gp_requirements_for_wx.csv"
 
 def gp_published_constants():
     """GP++ fit constants as stored in the gp_requirements_for_wx.csv header: C_y_fit, q_n_fit, C_m_fit, s_fit, and
-    q_pred (from its 's_cons = b_cons + q_pred' line). Raises if any is missing; there is no hardcoded fallback."""
+    q_p (from its '# q_p = ...' line; GP forms s = b + q_p). Raises if any is missing; there is no hardcoded fallback."""
     hdr = "".join(l for l in open(GP_REQ_CSV) if l.startswith("#"))
     out = {}
     for name in ("C_y_fit", "q_n_fit", "C_m_fit", "s_fit"):
@@ -533,10 +533,10 @@ def gp_published_constants():
         if not m:
             raise ValueError(f"{name} not found in the {GP_REQ_CSV.name} header")
         out[name] = float(m.group(1))
-    m = re.search(r"b_cons \+ q_pred = ([-+0-9.eE]+) \+ ([-+0-9.eE]+)", hdr)
+    m = re.search(r"^# q_p = ([-+0-9.eE]+)", hdr, re.M)
     if not m:
-        raise ValueError(f"q_pred not found in the {GP_REQ_CSV.name} header")
-    out["q_pred"] = float(m.group(2))
+        raise ValueError(f"q_p not found in the {GP_REQ_CSV.name} header")
+    out["q_p"] = float(m.group(1))
     return out
 
 
