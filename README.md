@@ -1,81 +1,127 @@
 # wx-luminosity-calibration
 
-Analysis code, datasets and paper figures for the WarpX beam–beam luminosity calibration study
-(C³-250 collider configuration): how many macroparticles (`n_m`) and vertical grid cells (`n_y`)
-WarpX needs for a converged luminosity as the vertical emittance is lowered from 20 nm to 0.5 nm,
-the pinch physics behind the requirement, and the comparison with GUINEA-PIG++ at converged settings.
+Analysis code, datasets and figures for the WarpX beam–beam luminosity study of the C³-250 collider configuration:
+how many macroparticles (`n_m`) and vertical grid cells (`n_y`) WarpX needs for a converged luminosity as the
+vertical emittance is lowered from 20 nm to 0.5 nm, the pinch physics behind the requirement, and the comparison with
+GUINEA-PIG++ at converged settings.
 
-The GUINEA-PIG++ side of the same study, including the scripts that produce the `data/gp/` exports
-used here, is at <https://github.com/laithgordon/gp-luminosity-calibration>.
+The GUINEA-PIG++ side of the study is at <https://github.com/laithgordon/gp-luminosity-calibration>. Its two exported
+CSVs in `data/gp_exports/` are the only GP inputs used here.
 
-Layout follows that repository: scripts at the top level, `data/` and `plots/`.
+## Reproducing the results
 
-## Contents
+Requirements: Python ≥ 3.10 with `numpy`, `scipy`, `matplotlib`; `h5py` only for the dump-based figures.
+WarpX 26.06 produced the runs.
 
-| script | role |
-|---|---|
-| `wxcal.py`, `collect.py` | run bookkeeping and the extraction that populates `data/results.csv`: `collect.py` integrates each run's `DifferentialLuminosity` spectrum (per-crossing luminosity in m⁻²) and converts it to 10³⁴ cm⁻² s⁻¹ with `1e-4 × n_b × f_rep` (133 bunches × 120 Hz); `wxcal.py` holds the beam constants and the run-label conventions. `data/joblist.csv` is the run register they read and write |
-| `nmreq.py` | the calibration machinery: disruption parameter `D_y(ε_y)`, ladders, plateau rule, ±5 % bracket estimator, Monte-Carlo errors, weighted power-law fits, the first-waist envelope compression `R_1(D_y)`, κ, and the readers of the GP++ exports |
-| `richardson.py` | Richardson-extrapolation overlays |
-| `paper_figures.py` | figure style and the four calibration figures plus `kappa_vs_Dy` |
-| `plot_comparison.py`, `plot_extension.py`, `plot_deposition.py` | tuned-vs-untuned and WarpX-vs-GP++ luminosity comparisons, the 40–100 nm extension, and the deposition-order test |
-| `plot_coarse.py`, `plot_nx_nm_coupling.py` | coarse-grid control and the `n_x`–`n_m` coupling test |
-| `plot_core_width.py`, `plot_slice_pinch.py`, `plot_pinch_evolution.py` | the pinched-core measurements from per-step particle dumps; `plot_core_width.py` also builds and caches `data/slice_widths_*.csv`, `data/slice_fiterr_*.csv` and `data/R1_table.npz` |
-| `deposition_error.py`, `depo_corr_stat.py`, `plot_depo_correlation.py` | per-pass deposition-error measurement at the waists and its seed statistics (`data/depo_error.json`, `data/depo_corr_stat.json`) |
-| `submit.py`, `add_jobs.py` | job submission: `add_jobs.py` appends runs to `data/joblist.csv`; `submit.py` renders `inputs/template.sbatch` per pending row (grid, `n_m`, ε_y, seed on the WarpX command line, `--extra` for variant flags) and submits it |
-| `make_figures.py` | regenerates every figure in `plots/` |
+From a fresh clone, with no configuration, in this order:
+
+```
+python make_figures.py      # every figure in plots/ that needs only data/
+python paper_numbers.py     # every quoted WarpX number, printed (add --json FILE to save them)
+```
+
+Both read only `data/`. `paper_numbers.py` takes each number from the same code path that draws the corresponding
+figure and never writes to `plots/`.
+
+Three repository-only figures also need the raw per-step particle dumps, which are not in the repository:
+
+```
+WX_RUN_ROOT=/path/to/run/directories python make_figures.py --dumps
+```
+
+The upstream steps are also here. `python collect.py` rebuilds `data/results.csv` and `data/joblist.csv` from raw
+output; `python depo_corr_stat.py` rebuilds `data/depo_corr_stat.json` from the dumps. Both need `WX_RUN_ROOT`.
+`add_jobs.py` then `submit.py` submit new runs, with the configuration below.
 
 ## Figures (`plots/`)
 
+**In the manuscript**
+
 | figure | content |
 |---|---|
-| `WX_L_vs_nm`, `WX_nm_req_calibration` | luminosity vs macroparticle count per ε_y, and the requirement `n_m^req/(n_x n_y n_z)` vs `D_y` with its power-law fit and conservative locus |
-| `WX_L_vs_ny`, `WX_ny_req_calibration` | luminosity vs vertical cell count, and `n_y^req` vs `D_y` |
+| `WX_nm_req_convergence` | the requirement `n_m^req/(n_x n_y n_z)` vs `D_y` with its power-law fit and conservative locus |
+| `WX_ny_req_convergence` | `n_y^req` vs `D_y` |
 | `kappa_vs_Dy` | cells per pinched vertical σ for both codes, each at its own box cut |
-| `nx_nm_coupling` | luminosity vs `n_m` at eight `n_x` values (the test that fixed the nominal grid) |
-| `WX_coarse_grid_L_vs_nm` | a deliberately under-resolved grid: seed scatter collapses while L converges to the wrong value |
-| `WX_comparison_L_vs_ey`, `WX_comparison_HD_vs_ey`, `WX_comparison_ratio_vs_ey` | L and `H_D = L/L_geom` for untuned and tuned WarpX and GP++, and the tuned/untuned ratios |
-| `WX_extension_L_vs_ey`, `WX_code_ratio_vs_ey` | the tuned sets extended to 40–100 nm, and WarpX/GP++ from 1 to 100 nm |
-| `WX_deposition_L_vs_ey` | 1st-order (CIC) vs 3rd-order deposition, 2D-slice vs 3D solver, against GP++ |
-| `WX_core_width_vs_Dy` | minimum Gaussian-core width of the central slice vs `D_y` with the envelope prediction `1/R_1(D_y)` |
-| `WX_pinch_evolution`, `WX_pinch_histogram` | vertical width through the crossing (whole beam, central and off-centre slices) and the slice y-distribution at the pinch |
-| `WX_depo_correlation`, `WX_depo_error_passes` | deposition-error correlation between successive waists, and the per-pass residuals |
+| `WX_comparison_L_vs_ey` | L vs ε_y for untuned and tuned WarpX and GP++, with the geometric luminosity |
+| `WX_comparison_HD_vs_ey` | `H_D = L/L_geom` for the same series |
+| `WX_code_ratio_vs_ey` | WarpX/GP++ tuned luminosity from 1 to 100 nm |
+| `WX_core_width_vs_Dy` | minimum Gaussian-core width of the central slice vs `D_y`, and measured against the envelope prediction `1/R_1(D_y)` |
 
-## Inputs and job submission (`inputs/`)
+**Repository only**
+
+| figure | content |
+|---|---|
+| `WX_L_vs_nm`, `WX_L_vs_ny` | luminosity vs macroparticle count and vs vertical cell count per ε_y (the tuning ladders) |
+| `nx_nm_coupling` | luminosity vs `n_m` at eight `n_x` values |
+| `WX_coarse_grid_L_vs_nm` | a deliberately under-resolved grid: seed scatter collapses while L converges to the wrong value |
+| `WX_comparison_ratio_vs_ey` | tuned/untuned luminosity ratio per code |
+| `WX_extension_L_vs_ey` | the tuned sets extended to 40–100 nm |
+| `WX_deposition_L_vs_ey` | 1st-order (CIC) vs 3rd-order deposition, 2D-slice vs 3D solver, against GP++ |
+| `WX_depo_correlation` | deposition-error correlation between successive waists |
+| `WX_pinch_evolution`, `WX_pinch_histogram` | vertical width through the crossing and the slice y-distribution at the pinch (dumps) |
+| `WX_depo_error_passes` | per-pass deposition residuals at the waists (dumps) |
+
+## Configuration
+
+Every machine-specific location is set in one place, `wxcal.py`, from an environment variable. None is needed to
+regenerate figures or numbers from `data/`.
+
+| variable | used by | default | value in the study (NERSC Perlmutter) |
+|---|---|---|---|
+| `WX_RUN_ROOT` | `collect.py`, `submit.py`, `depo_corr_stat.py`, dump-based figures | `runs/` | `/pscratch/sd/l/laithg/simulations/wx_calibration` |
+| `WX_WARPX_EXE` | `submit.py` | `warpx.3d.MPI.CUDA.DP.PDP.OPMD.FFT.QED` | `/pscratch/sd/l/laithg/WarpX/build/bin/warpx.3d.MPI.CUDA.DP.PDP.OPMD.FFT.QED` |
+| `WX_QED_TABLE_DIR` | `submit.py` | `qed_tables/` | `/global/cfs/cdirs/m4272/aforment/qed_tables` |
+| `WX_SITE_ENV` | `submit.py` | `inputs/site_env_perlmutter.sh` | (default) |
+
+`inputs/site_env_perlmutter.sh` is the module and library environment of the study's WarpX build on Perlmutter;
+replace it on another machine. The QED lookup-table paths are passed to WarpX on the command line at submission, so
+the decks carry only the table file names.
+
+## Frozen production locus
+
+The production runs were defined by the conservative locus
+
+    n_m^cons = 0.440 D_y^3.269            n_y^cons = smallest sampled power of two >= 38.1 D_y^0.450260
+
+These constants are fixed in `nmreq.py` (`LOCUS_*`, `n_m_cons`, `n_y_cons`), frozen at the time the runs were
+submitted. Downstream code uses them and never re-derives the locus from the current ladder fit, which drifts as rungs
+are added. `NM_CONS` / `NY_CONS` in the same file are the older frozen tables that define the tuning-ladder runs, not
+this locus.
+
+## Scripts
+
+| script | role |
+|---|---|
+| `make_figures.py` | regenerates every figure in `plots/` |
+| `paper_numbers.py` | computes every quoted WarpX number |
+| `wxcal.py`, `collect.py` | run bookkeeping, the site configuration, and the extraction that populates `data/results.csv`: `collect.py` integrates each run's `DifferentialLuminosity` spectrum (per-crossing luminosity in m⁻²) and converts it to 10³⁴ cm⁻² s⁻¹ with `1e-4 × n_b × f_rep` (133 bunches × 120 Hz) |
+| `nmreq.py` | the convergence machinery: disruption parameter `D_y(ε_y)`, ladders, plateau rule, ±5 % bracket estimator, Monte-Carlo errors, weighted power-law fits, the first-waist envelope compression `R_1(D_y)`, κ, the frozen production locus, and the readers of the GP++ exports |
+| `richardson.py` | Richardson-extrapolation overlays |
+| `paper_figures.py` | figure style, the ladder and convergence figures, and `kappa_vs_Dy` |
+| `plot_comparison.py`, `plot_extension.py`, `plot_deposition.py` | tuned-vs-untuned and WarpX-vs-GP++ luminosity comparisons, the 40–100 nm extension, and the deposition-order test |
+| `plot_coarse.py`, `plot_nx_nm_coupling.py` | coarse-grid control and the `n_x`–`n_m` coupling test |
+| `plot_core_width.py`, `plot_slice_pinch.py`, `plot_pinch_evolution.py` | the pinched-core measurements from per-step particle dumps; `plot_core_width.py` also builds the `data/slice_*` caches |
+| `deposition_error.py`, `depo_corr_stat.py`, `plot_depo_correlation.py` | per-pass deposition error at the waists and its seed statistics |
+| `add_jobs.py`, `submit.py` | job submission: `add_jobs.py` appends runs to `data/joblist.csv`; `submit.py` renders `inputs/template.sbatch` per pending row and submits it |
+
+## Inputs (`inputs/`)
 
 | file | content |
 |---|---|
-| `input_calib_C3_250.txt` | the default WarpX deck used for every calibration run: C³-250 beams, 3D integrated-Green-function Poisson solver, 3rd-order (cubic B-spline) deposition, Vay pusher, quantum-synchrotron beamstrahlung on, per-crossing luminosity from the `DifferentialLuminosity` diagnostic. Grid (`nx, ny, nz`), `nmacropart`, `emity`/`sigmay` and the seed are overridden per run on the command line, so one deck serves the whole scan |
-| `input_calib_C3_250_2dslice.txt` | variant: `warpx.use_2d_slices_fft_solver = 1` (2D-slice solver, the GP++ field model; phase PS) |
-| `input_calib_C3_250_cic.txt` | variant: `algo.particle_shape = 1` (first-order CIC deposition, 3D solver; phase PC3) |
-| `input_calib_C3_250_2dslice_cic.txt` | variant: both (phase PC2). WarpX applies one shape order to all axes, so this is (1,1,1) against GP++'s (1,1,0) |
-| `template.sbatch` | the Slurm template `submit.py` renders: whole GPU nodes on Perlmutter (4 ranks per node, `--gpu-bind=none`), the WarpX executable and module environment, the command-line overrides, and a watchdog that cancels a run whose solver has aborted. Site-specific paths (executable, account, CUDA libraries) are the ones used for the study and will need changing elsewhere |
-
-In the study the three variants were run by passing the changed lines through `submit.py --extra "..."` rather than
-as separate decks; they are written out in full here so each configuration is self-contained.
+| `input_calib_C3_250.txt` | the default WarpX deck: C³-250 beams, 3D integrated-Green-function Poisson solver, 3rd-order deposition, Vay pusher, quantum-synchrotron beamstrahlung, per-crossing luminosity from the `DifferentialLuminosity` diagnostic. Grid, `nmacropart`, `emity`/`sigmay`, seed and QED table paths are set on the command line |
+| `input_calib_C3_250_2dslice.txt` | variant: 2D-slice solver |
+| `input_calib_C3_250_cic.txt` | variant: first-order (CIC) deposition, 3D solver |
+| `input_calib_C3_250_2dslice_cic.txt` | variant: both |
+| `template.sbatch`, `site_env_perlmutter.sh` | the Slurm template `submit.py` renders (whole GPU nodes, 4 ranks per node, a watchdog that cancels a run whose solver has aborted) and the site environment it sources |
 
 ## Datasets (`data/`)
 
-| file | content |
+| file | read by |
 |---|---|
-| `results.csv` | one row per WarpX run: ε_y, σ_y, grid (`nx, ny, nz`), `nm`, seed, luminosity `L` in 10³⁴ cm⁻² s⁻¹, and `solver` (`3d` calibration; `2d` 2D-slice solver; `3d_cic`/`2d_cic` first-order deposition) |
-| `joblist.csv` | the run register (label, phase, grid, `n_m`, seed, node/walltime, status); read by `plot_core_width.py` to enumerate runs |
-| `slice_widths_hw010_*.csv`, `slice_fiterr_hw010_*.csv` | per-step central-slice widths (rms, IQR, Gaussian core) and the core-fit errors, cached from the particle dumps (phases PP and PQ) |
-| `R1_table.npz` | first-waist envelope compression `R_1(D_y)` on a `D_y` grid |
-| `depo_error.json`, `depo_corr_stat.json` | per-pass deposition residuals and their correlations |
-| `gp/*.csv` | the GUINEA-PIG++ exports: `n_y^req`/κ tables and fitted constants (`gp_*_export.csv`) and the luminosity sets (`lumi_nominal_vs_calibrated.csv`, `lumi_tuned_vs_frozen_highemit.csv`, `lumi_ee` in 10³⁴ cm⁻² s⁻¹, raw per-crossing value in `lumi_ee_m2`) |
-
-## Regenerating
-
-```
-python make_figures.py            # every figure that needs only data/
-python make_figures.py --dumps    # also WX_pinch_evolution, WX_pinch_histogram, WX_depo_error_passes
-```
-
-The three dump-based figures, and rebuilding the `slice_*` caches, `depo_*.json` and `results.csv`, need the raw WarpX
-outputs (per-step openPMD particle dumps and `DifferentialLuminosity` spectra, stored externally); `wxcal.RUN_ROOT`
-points at them. Everything else regenerates from `data/` alone.
-
-## Requirements
-
-Python ≥ 3.10 with `numpy`, `scipy`, `matplotlib`; `h5py` for the dump-based scripts. WarpX 26.06 produced the runs.
+| `results.csv` — one row per WarpX run: ε_y, σ_y, grid (`nx, ny, nz`), `nm`, seed, luminosity `L` in 10³⁴ cm⁻² s⁻¹, and `solver` (`3d`; `2d` 2D-slice; `3d_cic`/`2d_cic` first-order deposition) | every luminosity figure, `paper_numbers.py` |
+| `joblist.csv` — the run register (label, phase, grid, `n_m`, seed, node/walltime, status) | `plot_core_width.py`, `collect.py`, `submit.py` |
+| `slice_widths_hw010_*.csv`, `slice_fiterr_hw010_*.csv` — per-step central-slice widths and core-fit errors cached from the particle dumps | `plot_core_width.py`, `depo_corr_stat.py`, `deposition_error.py` |
+| `R1_table.npz` — first-waist envelope compression `R_1(D_y)` | `nmreq.py`, `plot_core_width.py` |
+| `depo_corr_stat.json` — per-seed deposition-error correlations | `plot_depo_correlation.py` |
+| `gp_exports/gp_luminosity_for_wx.csv` — GUINEA-PIG++ luminosity per emittance in blocks `nominal`, `conservative`, `frozen_extension` | `plot_comparison.py`, `plot_extension.py`, `plot_deposition.py`, `paper_figures.py` |
+| `gp_exports/gp_requirements_for_wx.csv` — GUINEA-PIG++ tuning-ladder requirements, with the published fit constants in its header | `paper_figures.py` |
