@@ -18,21 +18,13 @@
 #SBATCH -o __RUNDIR__/slurm.out
 #SBATCH -e __RUNDIR__/slurm.err
 
-EXE=/pscratch/sd/l/laithg/WarpX/build/bin/warpx.3d.MPI.CUDA.DP.PDP.OPMD.FFT.QED
+EXE=__EXE__
 INPUT=__INPUT__
 
 cd __RUNDIR__ || exit 1
 
-# runtime environment for this build
-source /opt/cray/pe/lmod/lmod/init/bash
-module load PrgEnv-gnu/8.6.0
-module load cray-mpich/9.0.1
-module load cudatoolkit/12.9
-
-# 2026-08-20 NERSC maintenance moved the CUDA stack: the binary needs the CUDA 12.9
-# libraries (cufft 11, nvJitLink 12) while the rebuilt cray-mpich GPU layer
-# (libmpi_gtl_cuda) needs libcudart.so.13 -- expose both.
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/25.5/cuda/12.9/lib64:/opt/nvidia/hpc_sdk/Linux_x86_64/25.5/math_libs/12.9/lib64:/opt/nvidia/hpc_sdk/Linux_x86_64/26.5/cuda/13.2/lib64
+# runtime environment for this build (site-specific; wxcal.SITE_ENV)
+source __SITE_ENV__
 
 export OMP_NUM_THREADS=1
 export MPICH_GPU_SUPPORT_ENABLED=1
@@ -58,7 +50,9 @@ srun --ntasks=__NTASKS__ --ntasks-per-node=4 --gpu-bind=none -c 32 \
     warpx.numprocs="__NUMPROCS__" \
     diagnostics.diags_names=particles_in \
     particles_in.intervals=0 \
-    particles_in.openpmd_backend=h5 __EXTRA__ \
+    particles_in.openpmd_backend=h5 \
+    qed_qs.load_table_from=__QED_QS_TABLE__ \
+    qed_bw.load_table_from=__QED_BW_TABLE__ __EXTRA__ \
     > output.txt 2> output.err &
 SRUN_PID=$!
 

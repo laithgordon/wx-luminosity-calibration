@@ -1,16 +1,24 @@
 #!/usr/bin/env python3
 """Shared helpers for the WX_Calibration pipeline (joblist I/O, model rules)."""
-import csv, math, re
+import csv, math, os, re
 from pathlib import Path
 
 HERE      = Path(__file__).resolve().parent          # repository root
 ROOT      = HERE
 JOBLIST   = HERE / "data" / "joblist.csv"
 RESULTS   = HERE / "data" / "results.csv"
-PLAN_CSV  = ROOT / "Plan" / "WX Calibration Plan.csv"
 TEMPLATE  = HERE / "inputs" / "template.sbatch"
 INPUT     = HERE / "inputs" / "input_calib_C3_250.txt"
-RUN_ROOT  = Path("/pscratch/sd/l/laithg/simulations/wx_calibration")
+
+# Site configuration -- the ONLY place machine-specific locations are set, each from an environment variable.
+# Figures and numbers built from data/ need none of them; they are used only to submit jobs (submit.py), to collect
+# raw output (collect.py) and by the dump-based figures. See README "Configuration".
+RUN_ROOT      = Path(os.environ.get("WX_RUN_ROOT", HERE / "runs"))                 # one directory per job label
+WARPX_EXE     = os.environ.get("WX_WARPX_EXE", "warpx.3d.MPI.CUDA.DP.PDP.OPMD.FFT.QED")
+QED_TABLE_DIR = Path(os.environ.get("WX_QED_TABLE_DIR", HERE / "qed_tables"))
+SITE_ENV      = Path(os.environ.get("WX_SITE_ENV", HERE / "inputs" / "site_env_perlmutter.sh"))
+QED_QS_TABLE  = "qs_table_chi_min_1.e-5_chi_max_1.e1_points_1024"                 # file names inside QED_TABLE_DIR
+QED_BW_TABLE  = "bw_table_chi_min_1.e-2_chi_max_1.e1_points_1024"
 
 FIELDS = ["label","phase","stage","sim","e_y_nm","nx","ny","nz","nm","seed",
           "nodes","walltime","qos","status","slurm_id","L_rate"]

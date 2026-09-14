@@ -229,12 +229,13 @@ bh2.probability_target_value = 0.01
 ###########
 qed_qs.photon_creation_energy_threshold = 0.
 qed_qs.lookup_table_mode = load
-qed_qs.load_table_from = /global/cfs/cdirs/m4272/aforment/qed_tables/qs_table_chi_min_1.e-5_chi_max_1.e1_points_1024
+# table paths are set on the command line at submission (submit.py, from wxcal.QED_TABLE_DIR)
+qed_qs.load_table_from = qs_table_chi_min_1.e-5_chi_max_1.e1_points_1024
 qed_qs.chi_min = 1.e-5
 
 qed_bw.lookup_table_mode = load
 qed_bw.chi_min = 1.e-2
-qed_bw.load_table_from = /global/cfs/cdirs/m4272/aforment/qed_tables/bw_table_chi_min_1.e-2_chi_max_1.e1_points_1024
+qed_bw.load_table_from = bw_table_chi_min_1.e-2_chi_max_1.e1_points_1024
 
 warpx.do_qed_schwinger = 0.
 

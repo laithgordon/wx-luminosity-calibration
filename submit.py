@@ -9,10 +9,10 @@ Usage examples:
   python3 submit.py --phase P5-gated --qos regular   # gated truths, when quota allows
 
 Only 'pending' jobs are ever submitted (safe to re-run). Each job gets its own
-run directory under /pscratch/.../wx_calibration/<label>/ with the rendered
+run directory under wxcal.RUN_ROOT/<label>/ (env WX_RUN_ROOT) with the rendered
 sbatch kept alongside the outputs.
 """
-import argparse, subprocess, re, datetime
+import argparse, subprocess, re
 import wxcal as W
 
 ap = argparse.ArgumentParser()
@@ -49,7 +49,9 @@ for r in picked:
            .replace("__WALL__", r["walltime"]).replace("__NODES__", str(nodes))
            .replace("__NTASKS__", str(ntasks)).replace("__ACCOUNT__", args.account)
            .replace("__QOS__", qos).replace("__RUNDIR__", str(rundir))
-           .replace("__INPUT__", str(W.INPUT))
+           .replace("__INPUT__", str(W.INPUT)).replace("__EXE__", W.WARPX_EXE).replace("__SITE_ENV__", str(W.SITE_ENV))
+           .replace("__QED_QS_TABLE__", str(W.QED_TABLE_DIR / W.QED_QS_TABLE))
+           .replace("__QED_BW_TABLE__", str(W.QED_TABLE_DIR / W.QED_BW_TABLE))
            .replace("__NX__", r["nx"]).replace("__NY__", r["ny"])
            .replace("__NZ__", r["nz"]).replace("__NM__", r["nm"])
            .replace("__EMITY__", f"{emity:.6e}").replace("__SIGMAY__", f"{sigmay:.6e}")
