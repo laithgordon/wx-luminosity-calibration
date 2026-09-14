@@ -157,12 +157,16 @@ def WX_nm_req_calibration(A):
                     label=fr"fit, no exclusions: $s^{{\mathrm{{fit}}}}={f_allm['s']:.2f}$")
             # conservative locus: raw fit slope on the fitted points, intercept above every upper bracket edge; per nominal cell
             fc = Q.powerlaw_wls(D[use], nr[use], sig[use]); ac = float(np.max(np.log(hi[use]) - fc["b"] * np.log(D[use])))
-            Cc = math.exp(ac) / NOM_CELLS; mc, exc = _stdform(Cc)
+            Cc = math.exp(ac) / NOM_CELLS
             # Conservative locus: a RAW n_m recommendation, so it keeps the RAW slope b_raw.
             # No s is derived from it: s is defined through the per-cell law, s = b_percell + q,
             # and b_raw != b_percell whenever the fit set spans more than one grid.
-            ax.plot(dx, Cc * dx ** fc["b"], "--", color="gold", lw=1.4, zorder=4,
-                    label=fr"cons: $C_m^{{\mathrm{{cons}}}}\,D_y^{{b^{{\mathrm{{raw}}}}}}$, $C_m^{{\mathrm{{cons}}}}={mc}\!\times\!10^{{{exc}}}$, $b^{{\mathrm{{raw}}}}={fc['b']:.3f}$")
+            # The dashed line is the production locus the runs were placed on, drawn and labelled from the constants
+            # frozen in nmreq (n_m^cons = LOCUS_NM_PREFACTOR D_y^LOCUS_NM_EXPONENT), shown per nominal cell. It is never
+            # re-derived from the current fit; the fitted locus (Cc, fc) is still computed and returned below.
+            Cp = Q.LOCUS_NM_PREFACTOR / NOM_CELLS; mc, exc = _stdform(Cp)
+            ax.plot(dx, Cp * dx ** Q.LOCUS_NM_EXPONENT, "--", color="gold", lw=1.4, zorder=4,
+                    label=fr"cons: $C_m^{{\mathrm{{cons}}}}\,D_y^{{b^{{\mathrm{{raw}}}}}}$, $C_m^{{\mathrm{{cons}}}}={mc}\!\times\!10^{{{exc}}}$, $b^{{\mathrm{{raw}}}}={Q.LOCUS_NM_EXPONENT:.3f}$")
             out["cons"] = dict(C=Cc, C_raw=math.exp(ac), b_raw=fc["b"], sb_raw=fc["sb"],
                                b_percell=f["b"], sb_percell=f["sb"],
                                fit_set=[float(x) for x in e[use]],
