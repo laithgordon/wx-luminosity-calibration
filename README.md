@@ -105,7 +105,7 @@ The production runs were defined by the conservative locus
 
 These constants are fixed in `nmreq.py` (`LOCUS_*`, `n_m_cons`, `n_y_cons`), frozen at the time the runs were
 submitted. Downstream code uses them and never re-derives the locus from the current ladder fit, which drifts as rungs
-are added. `NM_CONS` / `NY_CONS` in the same file are the older frozen tables that define the tuning-ladder runs, not
+are added. `NM_CONS` / `NY_CONS` in the same file are the tables that define the tuning-ladder runs, not
 this locus.
 
 ## Scripts

@@ -40,7 +40,6 @@ GP_CY = _GPC["C_y_fit"]
 GP_Q = _GPC["q_n_fit"]
 NY_ANOMALY = (0.5,)                     # e_y whose n_y^req is anomalous: faded, labelled, excluded from the fits
 NM_ANOMALY = (0.5, 1)                   # e_y whose n_m^req is anomalous (highest-D_y regime): faded, labelled, excluded from the fit
-                                        # (2 nm re-included 2026-08-20: after seeding, its window moved to [1.7e5, 3.1e5] and the point sits 0.3 sigma from the 20-4 nm law)
 
 PRL = {'font.family': 'serif', 'font.size': 8, 'axes.labelsize': 8.5, 'axes.titlesize': 8, 'legend.fontsize': 6.5,
        'xtick.labelsize': 7, 'ytick.labelsize': 7, 'axes.linewidth': 0.7, 'axes.grid': True, 'grid.alpha': 0.25,
@@ -287,7 +286,7 @@ def kappa_vs_Dy(B, c_y=None):
             Dg, kg, kgs, cyg = gp["D_y"], gp["kappa"], gp["sigma_kappa"], float(gp["c_y"][0])
             kg_d = Q.kappa_drift(Dg, gp["n_y_req"], gp["sigma_log"], c_y=cyg)
             out["GP"] = kg_d; out["GP_c_y"] = cyg
-            kg = np.array(kg_d["kappa"]); kgs = kg * np.asarray(gp["sigma_log"])   # recomputed on R_1 D^(1/4) (export kappa used the old R)
+            kg = np.array(kg_d["kappa"]); kgs = kg * np.asarray(gp["sigma_log"])   # kappa on R_1 D^(1/4)
             ax.errorbar(Dg / dodge, kg, yerr=kgs, fmt="s", ms=4.0, color="C0", capsize=1.5, ecolor="C0",
                         elinewidth=0.7, lw=0, zorder=6, label=fr"GUINEA-PIG++ ($c_y={cyg:g}$)")
             ax.axhline(kg_d["mean"], color="C0", ls="-", lw=1.0, zorder=4,

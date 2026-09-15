@@ -8,8 +8,8 @@
 # units: L_* in 1e34 cm^-2 s^-1; L = lumi_ee[m^-2 per crossing] * 1e-4 * n_b * f_rep with n_b=133, f_rep=120 read from each .ref (factor 1.596), applied once
 # L_std_1e34 = sample standard deviation (ddof=1); L_sem_1e34 = L_std / sqrt(n_seeds)
 # blocks: nominal = tab:code_comparison configuration (512x512x25, n_m=1e5); conservative = on-locus runs above; frozen_extension = 40-100 nm, NOT conservative, never merge
-# note: the nominal 20 nm row has do_photons=do_pairs=1 (all other nominal rows 0); round 1 measured the flag effect on lumi_ee at < 0.05%
-# note: frozen_extension runs are frozen at n_y=128, n_m=50000 -- the pre-campaign 20 nm grid, not the conservative 20 nm grid (n_y=256, n_m=48411)
+# note: the nominal 20 nm row has do_photons=do_pairs=1 (all other nominal rows 0); runs differing only in those flags agree in lumi_ee to < 0.05%
+# note: frozen_extension runs are frozen at n_y=128, n_m=50000 -- not the conservative 20 nm grid (n_y=256, n_m=48411)
 # note: frozen_extension D_y computed from each run's echoed beam parameters (no prompt value above 20 nm)
 # note: data/lumi_tuned_vs_frozen_highemit.csv 'tuned' and 'frozen' labels point at the same 75 .ref files; exported once, as frozen_extension
 # EXCLUDED conservative eps_y=0.5 nm: no completed run at n_y_cons with n_m/n_m_cons in [0.99, 1.10] (n_y_cons=512, n_m_cons=44381750.2; on disk at n_y_cons: n_m=250000 ratio 0.0056 15 seeds)

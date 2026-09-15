@@ -69,7 +69,7 @@ def run_widths(label):
     rows = []
     allf = sorted(glob.glob(str(W.RUN_ROOT / label / "diags" / "pd" / "*.h5")))
     keep = W.drop_bad_ost(allf)
-    if len(keep) < len(allf):           # dumps stranded on a hung OST: rebuild this cache after the outage
+    if len(keep) < len(allf):           # dumps on a hung OST are skipped and listed for a rebuild
         with open(ROOT / "data" / "caches_built_during_ost_outage.txt", "a") as fo:
             skipped = ",".join(Path(f).name for f in allf if f not in keep)
             fo.write(f"{cache.name}: skipped {skipped}\n")
@@ -157,8 +157,8 @@ def _dump_on_locus(r):
     """A pinched-core dump run qualifies iff n_y == 4 n_y^cons and n_m/n_m^cons in [0.90, 1.10], both from the frozen
     production locus in nmreq (n_y_cons, n_m_cons)."""
     e = float(r["e_y_nm"])
-    # lower bound 0.90, not 0.99: by the author's decision the 12 and 16 nm PQ runs (n_m ratios 0.943, 0.966) stay in;
-    # the superseded PQ runs at 0.5-8 nm (ratios 0.58-0.88) remain excluded
+    # lower bound 0.90: the 12 and 16 nm PQ runs (n_m ratios 0.943, 0.966) are included;
+    # the PQ runs at 0.5-8 nm (ratios 0.58-0.88) are excluded
     return int(r["ny"]) == 4 * Q.n_y_cons(e) and 0.90 <= float(r["nm"]) / Q.n_m_cons(e) <= 1.10
 
 
@@ -169,7 +169,7 @@ def points():
     out = {}
     for r in csv.DictReader(open(W.JOBLIST)):
         if r["phase"] not in ("PQ", "PQ2") or not _dump_on_locus(r):
-            continue                                      # round 5: n_y = 4 n_y^cons and n_m/n_m^cons in [0.90, 1.10]
+            continue                                      # n_y = 4 n_y^cons and n_m/n_m^cons in [0.90, 1.10]
         # trust the run directory when collect.py hasn't caught up yet
         if r["status"] != "done":
             st = W.RUN_ROOT / r["label"] / "job_status.txt"
@@ -220,7 +220,7 @@ def draw():
                        p=f["b"], sp=f["sb"], chi2=f["chi2"], ndf=f["ndf"],
                        amp=float(np.exp(a_c) * Q.LAMBDA1), chi2_c=chi2_c, ndf_c=len(D) - 1,
                        nsig=float(abs(f["b"] + Q.Q_P) / np.hypot(f["sb"], Q.SQ_P)))
-            # the free power-law fit is computed (quoted in the results file) but no longer drawn (2026-09-10)
+            # the free power-law fit is computed (quoted in the results file) but not drawn
         for e, d, y in zip(es, D, gs):
             ax.annotate(fr"${e:g}\,$nm", (d, y), textcoords="offset points", xytext=(3, 3), fontsize=5.2)
         ax.set_xscale("log"); ax.set_yscale("log")

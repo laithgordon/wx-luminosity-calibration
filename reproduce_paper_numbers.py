@@ -62,8 +62,8 @@ FIT_C = "C = exp(a); uncertainty C * sigma_a, the fit uncertainty on a propagate
 LOCUS_RULE = ("solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, "
               "with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')")
 FROZEN_RULE = "solver 3d; (n_x, n_y, n_z) = (512, 256, 128); |n_m / 1e4 - 1| < 0.02: the 20 nm conservative settings held fixed"
-OLD_TUNED_RULE = ("(n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen "
-                  "tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)")
+TUNING_TABLE_RULE = ("(n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder "
+                  "table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)")
 
 
 class InputError(RuntimeError):
@@ -291,8 +291,8 @@ def kappa_block(es, D, n, sig, use, c_y, excluded, provenance):
 
 
 def gp_kappa():
-    """GUINEA-PIG++ kappa from its n_y^req export. Raises if the export lacks the sigma_log column (earlier versions
-    carried sigma_tot from a superseded budget) or its deck cut does not match C_Y_GP."""
+    """GUINEA-PIG++ kappa from its n_y^req export. Raises if the export lacks the sigma_log column or its deck cut
+    does not match C_Y_GP."""
     hdr = "".join(l for l in open(Q.GP_LUMI_CSV) if l.startswith("#"))
     if f"cut multipliers {C_Y_GP}/{C_Y_GP}/3.5" not in hdr:
         fail(f"data/gp_exports/gp_luminosity_for_wx.csv header does not state the GP++ cut multipliers {C_Y_GP}/{C_Y_GP}/3.5")
@@ -354,7 +354,7 @@ def core_width():
                          first_waist_prediction_1_over_R1=1 / R1,
                          measured_over_prediction=float(g * R1), measured_over_prediction_uncertainty=U(err * R1, "the width uncertainty times R_1"),
                          n_seeds=len(per[e]), n_y=ny, n_m=nm, n_m_over_n_m_cons=rnm))
-    note = {f"{p} {e:g} nm, n_y {ny}, n_m/n_m^cons {rr}": f"{c} runs: off the locus rule, superseded"
+    note = {f"{p} {e:g} nm, n_y {ny}, n_m/n_m^cons {rr}": f"{c} runs: off the locus rule"
             for (p, e, ny, rr), c in sorted(excluded.items())}
     return dict(rows=rows, provenance=dict(selection=rule, R_1="data/R1_table.npz, linear interpolation in D_y"),
                 note_12_16_nm="n_m / n_m^cons = 0.943 and 0.966 at 12 and 16 nm lie inside the [0.90, 1.10] window and are included",
@@ -407,7 +407,7 @@ def build():
                                 "= log-log interpolation of the -5% crossing between the last rung below -5% and the next rung."),
         n_y_req=dict(rows=requirement_rows(B, "n_y"),
                      provenance="data/results.csv, solver 3d, the n_y tuning ladder of each e_y: (n_x, n_z) = (512, 128), "
-                                "n_m = NM_CONS[e_y] (the older frozen table in nmreq.py) within 2%, every n_y rung, same-seed "
+                                "n_m = NM_CONS[e_y] (the tuning-ladder table in nmreq.py) within 2%, every n_y rung, same-seed "
                                 "repeats averaged. L_inf = the top rung (the two-rung plateau rule needs rungs a decade apart; "
                                 "n_y rungs are a factor 2 apart). n_y^req = log-log interpolation of the -5% crossing."))
     fits, kappa = fits_and_kappa(A, B)
@@ -424,28 +424,28 @@ def build():
              f"n_m = ceil({Q.LOCUS_NM_PREFACTOR:.3f} D_y^{Q.LOCUS_NM_EXPONENT:.3f}); (n_x, n_z) = (512, 128); frozen locus constants",
         rows=rec,
         note="n_y_run / n_m_run are the settings of the conservative and extrapolated_extension runs. At 20 nm the runs "
-             "predate the locus (n_m = 1e4, 0.2% below it); at 40-100 nm the runs used the locus rounded to two significant figures.")
+             "used n_m = 1e4, 0.2% below the locus; at 40-100 nm the runs used the locus rounded to two significant figures.")
 
     dy = dict(expression="D_y = 2 N r_e sigma_z / (gamma sigma_y^* (sigma_x + sigma_y^*)), sigma_y^* = sqrt(beta_y eps_y / gamma)",
               parameters=dict(N=Q.N_PART, r_e_m=Q.R_E, sigma_z_m=Q.SIGMA_Z, sigma_x_m=Q.SIGMA_X, beta_y_m=Q.BETA_Y,
                               gamma=Q.GAMMA, gamma_from="125 GeV / 0.51099895 MeV"),
               per_emittance=[dict(e_y_nm=e, sigma_y_star_m=Q.sigma_y(e), D_y=Q.D_y(e)) for e in ALL_EYS])
 
-    old_tuned = lambda e, g, nm: g == (512, Q.NY_CONS[e], 128) and abs(nm / Q.NM_CONS[e] - 1) < 0.02
+    tuning_table = lambda e, g, nm: g == (512, Q.NY_CONS[e], 128) and abs(nm / Q.NM_CONS[e] - 1) < 0.02
     variants = {}
     for key, solver, label in (("reference_3d_solver_3rd_order", "3d", "3D solver, 3rd-order deposition (the calibration configuration)"),
                                ("2d_slice_solver_3rd_order", "2d", "2D-slice solver, 3rd-order deposition (phase PS)"),
                                ("3d_solver_1st_order_cic", "3d_cic", "3D solver, 1st-order (CIC) deposition (phase PC3)"),
                                ("2d_slice_solver_1st_order_cic", "2d_cic", "2D-slice solver, 1st-order (CIC) deposition (phase PC2)")):
-        rows = aggregate(runs, key, solver, Q.EYS, old_tuned, f"solver {solver}; " + OLD_TUNED_RULE)
+        rows = aggregate(runs, key, solver, Q.EYS, tuning_table, f"solver {solver}; " + TUNING_TABLE_RULE)
         for r in rows:
-            r["current_conservative_n_m"] = math.ceil(Q.n_m_cons(r["e_y_nm"]))
+            r["conservative_locus_n_m"] = math.ceil(Q.n_m_cons(r["e_y_nm"]))
         variants[key] = dict(description=label, rows=rows)
     ref = {r["e_y_nm"]: r for r in variants["reference_3d_solver_3rd_order"]["rows"]}
     for key in list(variants)[1:]:
         variants[key]["over_reference"] = [dict(e_y_nm=r["e_y_nm"], **ratio(r, ref[r["e_y_nm"]])) for r in variants[key]["rows"]]
-    variants_block = dict(note="All four were run at the older frozen tuned settings (NM_CONS / NY_CONS), not at the current "
-                               "conservative locus; 'current_conservative_n_m' gives the locus value for comparison. "
+    variants_block = dict(note="All four were run at the tuning-ladder settings (NM_CONS / NY_CONS); 'conservative_locus_n_m' gives the "
+                               "production-locus value for comparison. "
                                "Reported at every emittance run.", **variants)
 
     ps = at("nominal", 20.0)
@@ -619,7 +619,7 @@ def markdown(P):
     ref = {r["e_y_nm"]: r for r in sv[keys[0]]["rows"]}
     rows = []
     for e in Q.EYS:
-        row = [f"{e:g}", ref[e]["n_y"], ref[e]["n_m"], ref[e]["current_conservative_n_m"]]
+        row = [f"{e:g}", ref[e]["n_y"], ref[e]["n_m"], ref[e]["conservative_locus_n_m"]]
         for kk in keys:
             r = next(x for x in sv[kk]["rows"] if x["e_y_nm"] == e)
             cell = f"{pm(r['L_mean_1e34'], r['L_std_1e34']['value'], 2)} ({r['n_seeds']})"

@@ -127,7 +127,7 @@ Uncertainty σ_ln: half the 16th-84th percentile width of ln(n^req) over 4000 Mo
 
 data/results.csv, solver 3d, the n_m tuning ladder of each e_y on its tuning grid (512, n_y, 128) with n_y = 512 at 0.5 nm and 256 otherwise, every n_m rung, same-seed repeats averaged. L_inf = mean of the two top rungs (a decade apart, agreeing within 0.5%). n_m^req = log-log interpolation of the -5% crossing between the last rung below -5% and the next rung.
 
-data/results.csv, solver 3d, the n_y tuning ladder of each e_y: (n_x, n_z) = (512, 128), n_m = NM_CONS[e_y] (the older frozen table in nmreq.py) within 2%, every n_y rung, same-seed repeats averaged. L_inf = the top rung (the two-rung plateau rule needs rungs a decade apart; n_y rungs are a factor 2 apart). n_y^req = log-log interpolation of the -5% crossing.
+data/results.csv, solver 3d, the n_y tuning ladder of each e_y: (n_x, n_z) = (512, 128), n_m = NM_CONS[e_y] (the tuning-ladder table in nmreq.py) within 2%, every n_y rung, same-seed repeats averaged. L_inf = the top rung (the two-rung plateau rule needs rungs a decade apart; n_y rungs are a factor 2 apart). n_y^req = log-log interpolation of the -5% crossing.
 
 
 ## 4. Fitted constants
@@ -207,7 +207,7 @@ n_y = smallest of {32, ..., 8192} >= 38.1 D_y^0.450260; n_m = ceil(0.440 D_y^3.2
 | 80 | 10.6 | 512 | 128 | 128 | 991 | 0.000118 | (128, 990) | extrapolated beyond the fitted range |
 | 100 | 9.5 | 512 | 128 | 128 | 681 | 8.11e-05 | (128, 680) | extrapolated beyond the fitted range |
 
-n_y_run / n_m_run are the settings of the conservative and extrapolated_extension runs. At 20 nm the runs predate the locus (n_m = 1e4, 0.2% below it); at 40-100 nm the runs used the locus rounded to two significant figures.
+n_y_run / n_m_run are the settings of the conservative and extrapolated_extension runs. At 20 nm the runs used n_m = 1e4, 0.2% below the locus; at 40-100 nm the runs used the locus rounded to two significant figures.
 
 
 ## 7. Disruption parameter
@@ -244,12 +244,12 @@ Selection: data/joblist.csv runs of phases PQ, PQ2 with n_y = 4 n_y^cons(e_y) an
 | 16 | 24.1 | 0.331 ± 0.019 | 0.273 | 1.22 ± 0.07 | 10 | 1024 | 14000 | 0.966 |
 | 20 | 21.5 | 0.350 ± 0.023 | 0.280 | 1.25 ± 0.08 | 10 | 1024 | 10000 | 0.998 |
 
-err: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*. Excluded runs: PQ 0.5 nm, n_y 1024, n_m/n_m^cons 0.577 (10 runs: off the locus rule, superseded); PQ 1 nm, n_y 1024, n_m/n_m^cons 0.632 (10 runs: off the locus rule, superseded); PQ 2 nm, n_y 1024, n_m/n_m^cons 0.695 (10 runs: off the locus rule, superseded); PQ 4 nm, n_y 1024, n_m/n_m^cons 0.77 (10 runs: off the locus rule, superseded); PQ 8 nm, n_y 1024, n_m/n_m^cons 0.877 (10 runs: off the locus rule, superseded).
+err: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*. Excluded runs: PQ 0.5 nm, n_y 1024, n_m/n_m^cons 0.577 (10 runs: off the locus rule); PQ 1 nm, n_y 1024, n_m/n_m^cons 0.632 (10 runs: off the locus rule); PQ 2 nm, n_y 1024, n_m/n_m^cons 0.695 (10 runs: off the locus rule); PQ 4 nm, n_y 1024, n_m/n_m^cons 0.77 (10 runs: off the locus rule); PQ 8 nm, n_y 1024, n_m/n_m^cons 0.877 (10 runs: off the locus rule).
 
 
 ## 9. Solver and deposition variants
 
-All four were run at the older frozen tuned settings (NM_CONS / NY_CONS), not at the current conservative locus; 'current_conservative_n_m' gives the locus value for comparison. Reported at every emittance run.
+All four were run at the tuning-ladder settings (NM_CONS / NY_CONS); 'conservative_locus_n_m' gives the production-locus value for comparison. Reported at every emittance run.
 
 | ε_y [nm] | n_y | n_m run | n_m^cons today | 3D solver, 3rd-order deposition (the calibration configuration) | 2D-slice solver, 3rd-order deposition (phase PS) | 3D solver, 1st-order (CIC) deposition (phase PC3) | 2D-slice solver, 1st-order (CIC) deposition (phase PC2) |
 |---|---|---|---|---|---|---|---|

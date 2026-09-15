@@ -2682,7 +2682,7 @@
      "excluded_because": null
     }
    ],
-   "provenance": "data/results.csv, solver 3d, the n_y tuning ladder of each e_y: (n_x, n_z) = (512, 128), n_m = NM_CONS[e_y] (the older frozen table in nmreq.py) within 2%, every n_y rung, same-seed repeats averaged. L_inf = the top rung (the two-rung plateau rule needs rungs a decade apart; n_y rungs are a factor 2 apart). n_y^req = log-log interpolation of the -5% crossing."
+   "provenance": "data/results.csv, solver 3d, the n_y tuning ladder of each e_y: (n_x, n_z) = (512, 128), n_m = NM_CONS[e_y] (the tuning-ladder table in nmreq.py) within 2%, every n_y rung, same-seed repeats averaged. L_inf = the top rung (the two-rung plateau rule needs rungs a decade apart; n_y rungs are a factor 2 apart). n_y^req = log-log interpolation of the -5% crossing."
   }
  },
  "fits": {
@@ -3322,7 +3322,7 @@
     "range": "extrapolated beyond the fitted range"
    }
   ],
-  "note": "n_y_run / n_m_run are the settings of the conservative and extrapolated_extension runs. At 20 nm the runs predate the locus (n_m = 1e4, 0.2% below it); at 40-100 nm the runs used the locus rounded to two significant figures."
+  "note": "n_y_run / n_m_run are the settings of the conservative and extrapolated_extension runs. At 20 nm the runs used n_m = 1e4, 0.2% below the locus; at 40-100 nm the runs used the locus rounded to two significant figures."
  },
  "disruption_parameter": {
   "expression": "D_y = 2 N r_e sigma_z / (gamma sigma_y^* (sigma_x + sigma_y^*)), sigma_y^* = sqrt(beta_y eps_y / gamma)",
@@ -3559,15 +3559,15 @@
   },
   "note_12_16_nm": "n_m / n_m^cons = 0.943 and 0.966 at 12 and 16 nm lie inside the [0.90, 1.10] window and are included",
   "excluded_runs": {
-   "PQ 0.5 nm, n_y 1024, n_m/n_m^cons 0.577": "10 runs: off the locus rule, superseded",
-   "PQ 1 nm, n_y 1024, n_m/n_m^cons 0.632": "10 runs: off the locus rule, superseded",
-   "PQ 2 nm, n_y 1024, n_m/n_m^cons 0.695": "10 runs: off the locus rule, superseded",
-   "PQ 4 nm, n_y 1024, n_m/n_m^cons 0.77": "10 runs: off the locus rule, superseded",
-   "PQ 8 nm, n_y 1024, n_m/n_m^cons 0.877": "10 runs: off the locus rule, superseded"
+   "PQ 0.5 nm, n_y 1024, n_m/n_m^cons 0.577": "10 runs: off the locus rule",
+   "PQ 1 nm, n_y 1024, n_m/n_m^cons 0.632": "10 runs: off the locus rule",
+   "PQ 2 nm, n_y 1024, n_m/n_m^cons 0.695": "10 runs: off the locus rule",
+   "PQ 4 nm, n_y 1024, n_m/n_m^cons 0.77": "10 runs: off the locus rule",
+   "PQ 8 nm, n_y 1024, n_m/n_m^cons 0.877": "10 runs: off the locus rule"
   }
  },
  "solver_and_deposition_variants": {
-  "note": "All four were run at the older frozen tuned settings (NM_CONS / NY_CONS), not at the current conservative locus; 'current_conservative_n_m' gives the locus value for comparison. Reported at every emittance run.",
+  "note": "All four were run at the tuning-ladder settings (NM_CONS / NY_CONS); 'conservative_locus_n_m' gives the production-locus value for comparison. Reported at every emittance run.",
   "reference_3d_solver_3rd_order": {
    "description": "3D solver, 3rd-order deposition (the calibration configuration)",
    "rows": [
@@ -3613,7 +3613,7 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d",
       "runs_per_phase": {
        "P3": 1,
@@ -3623,7 +3623,7 @@
       },
       "same_seed_repeat_runs_averaged": 17
      },
-     "current_conservative_n_m": 4334528
+     "conservative_locus_n_m": 4334528
     },
     {
      "configuration": "reference_3d_solver_3rd_order",
@@ -3667,7 +3667,7 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d",
       "runs_per_phase": {
        "P3": 1,
@@ -3677,7 +3677,7 @@
       },
       "same_seed_repeat_runs_averaged": 17
      },
-     "current_conservative_n_m": 1391638
+     "conservative_locus_n_m": 1391638
     },
     {
      "configuration": "reference_3d_solver_3rd_order",
@@ -3721,7 +3721,7 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d",
       "runs_per_phase": {
        "P2": 5,
@@ -3731,7 +3731,7 @@
       },
       "same_seed_repeat_runs_averaged": 19
      },
-     "current_conservative_n_m": 446211
+     "conservative_locus_n_m": 446211
     },
     {
      "configuration": "reference_3d_solver_3rd_order",
@@ -3775,7 +3775,7 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d",
       "runs_per_phase": {
        "P1": 1,
@@ -3785,7 +3785,7 @@
       },
       "same_seed_repeat_runs_averaged": 17
      },
-     "current_conservative_n_m": 142808
+     "conservative_locus_n_m": 142808
     },
     {
      "configuration": "reference_3d_solver_3rd_order",
@@ -3829,7 +3829,7 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d",
       "runs_per_phase": {
        "P0": 1,
@@ -3839,7 +3839,7 @@
       },
       "same_seed_repeat_runs_averaged": 17
      },
-     "current_conservative_n_m": 45586
+     "conservative_locus_n_m": 45586
     },
     {
      "configuration": "reference_3d_solver_3rd_order",
@@ -3883,7 +3883,7 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d",
       "runs_per_phase": {
        "P1": 1,
@@ -3893,7 +3893,7 @@
       },
       "same_seed_repeat_runs_averaged": 17
      },
-     "current_conservative_n_m": 23337
+     "conservative_locus_n_m": 23337
     },
     {
      "configuration": "reference_3d_solver_3rd_order",
@@ -3937,7 +3937,7 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d",
       "runs_per_phase": {
        "P2": 1,
@@ -3947,7 +3947,7 @@
       },
       "same_seed_repeat_runs_averaged": 17
      },
-     "current_conservative_n_m": 14499
+     "conservative_locus_n_m": 14499
     },
     {
      "configuration": "reference_3d_solver_3rd_order",
@@ -3991,7 +3991,7 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d",
       "runs_per_phase": {
        "P2": 6,
@@ -4001,7 +4001,7 @@
       },
       "same_seed_repeat_runs_averaged": 20
      },
-     "current_conservative_n_m": 10017
+     "conservative_locus_n_m": 10017
     }
    ]
   },
@@ -4050,14 +4050,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d",
       "runs_per_phase": {
        "PS": 15
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 4334528
+     "conservative_locus_n_m": 4334528
     },
     {
      "configuration": "2d_slice_solver_3rd_order",
@@ -4101,14 +4101,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d",
       "runs_per_phase": {
        "PS": 15
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 1391638
+     "conservative_locus_n_m": 1391638
     },
     {
      "configuration": "2d_slice_solver_3rd_order",
@@ -4152,14 +4152,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d",
       "runs_per_phase": {
        "PS": 15
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 446211
+     "conservative_locus_n_m": 446211
     },
     {
      "configuration": "2d_slice_solver_3rd_order",
@@ -4203,14 +4203,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d",
       "runs_per_phase": {
        "PS": 15
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 142808
+     "conservative_locus_n_m": 142808
     },
     {
      "configuration": "2d_slice_solver_3rd_order",
@@ -4254,14 +4254,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d",
       "runs_per_phase": {
        "PS": 15
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 45586
+     "conservative_locus_n_m": 45586
     },
     {
      "configuration": "2d_slice_solver_3rd_order",
@@ -4305,14 +4305,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d",
       "runs_per_phase": {
        "PS": 15
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 23337
+     "conservative_locus_n_m": 23337
     },
     {
      "configuration": "2d_slice_solver_3rd_order",
@@ -4356,14 +4356,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d",
       "runs_per_phase": {
        "PS": 15
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 14499
+     "conservative_locus_n_m": 14499
     },
     {
      "configuration": "2d_slice_solver_3rd_order",
@@ -4407,14 +4407,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d",
       "runs_per_phase": {
        "PS": 15
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 10017
+     "conservative_locus_n_m": 10017
     }
    ],
    "over_reference": [
@@ -4517,14 +4517,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d_cic",
       "runs_per_phase": {
        "PC3": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 4334528
+     "conservative_locus_n_m": 4334528
     },
     {
      "configuration": "3d_solver_1st_order_cic",
@@ -4556,14 +4556,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d_cic",
       "runs_per_phase": {
        "PC3": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 1391638
+     "conservative_locus_n_m": 1391638
     },
     {
      "configuration": "3d_solver_1st_order_cic",
@@ -4595,14 +4595,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d_cic",
       "runs_per_phase": {
        "PC3": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 446211
+     "conservative_locus_n_m": 446211
     },
     {
      "configuration": "3d_solver_1st_order_cic",
@@ -4634,14 +4634,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d_cic",
       "runs_per_phase": {
        "PC3": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 142808
+     "conservative_locus_n_m": 142808
     },
     {
      "configuration": "3d_solver_1st_order_cic",
@@ -4673,14 +4673,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d_cic",
       "runs_per_phase": {
        "PC3": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 45586
+     "conservative_locus_n_m": 45586
     },
     {
      "configuration": "3d_solver_1st_order_cic",
@@ -4712,14 +4712,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d_cic",
       "runs_per_phase": {
        "PC3": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 23337
+     "conservative_locus_n_m": 23337
     },
     {
      "configuration": "3d_solver_1st_order_cic",
@@ -4751,14 +4751,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d_cic",
       "runs_per_phase": {
        "PC3": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 14499
+     "conservative_locus_n_m": 14499
     },
     {
      "configuration": "3d_solver_1st_order_cic",
@@ -4790,14 +4790,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 3d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "3d_cic",
       "runs_per_phase": {
        "PC3": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 10017
+     "conservative_locus_n_m": 10017
     }
    ],
    "over_reference": [
@@ -4900,14 +4900,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d_cic",
       "runs_per_phase": {
        "PC2": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 4334528
+     "conservative_locus_n_m": 4334528
     },
     {
      "configuration": "2d_slice_solver_1st_order_cic",
@@ -4939,14 +4939,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d_cic",
       "runs_per_phase": {
        "PC2": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 1391638
+     "conservative_locus_n_m": 1391638
     },
     {
      "configuration": "2d_slice_solver_1st_order_cic",
@@ -4978,14 +4978,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d_cic",
       "runs_per_phase": {
        "PC2": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 446211
+     "conservative_locus_n_m": 446211
     },
     {
      "configuration": "2d_slice_solver_1st_order_cic",
@@ -5017,14 +5017,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d_cic",
       "runs_per_phase": {
        "PC2": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 142808
+     "conservative_locus_n_m": 142808
     },
     {
      "configuration": "2d_slice_solver_1st_order_cic",
@@ -5056,14 +5056,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d_cic",
       "runs_per_phase": {
        "PC2": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 45586
+     "conservative_locus_n_m": 45586
     },
     {
      "configuration": "2d_slice_solver_1st_order_cic",
@@ -5095,14 +5095,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d_cic",
       "runs_per_phase": {
        "PC2": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 23337
+     "conservative_locus_n_m": 23337
     },
     {
      "configuration": "2d_slice_solver_1st_order_cic",
@@ -5134,14 +5134,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d_cic",
       "runs_per_phase": {
        "PC2": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 14499
+     "conservative_locus_n_m": 14499
     },
     {
      "configuration": "2d_slice_solver_1st_order_cic",
@@ -5173,14 +5173,14 @@
      },
      "provenance": {
       "file": "data/results.csv",
-      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the older frozen tuned table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
+      "selection": "solver 2d_cic; (n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)",
       "solver": "2d_cic",
       "runs_per_phase": {
        "PC2": 3
       },
       "same_seed_repeat_runs_averaged": 0
      },
-     "current_conservative_n_m": 10017
+     "conservative_locus_n_m": 10017
     }
    ],
    "over_reference": [

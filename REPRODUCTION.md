@@ -45,14 +45,14 @@ It uses no network access, no environment variables, and no paths outside the re
 - **Same-seed repeats.** Runs repeated at an identical configuration and seed are averaged into one sample before seed statistics; each row states how many were.
 - **Exclusions.** Points left out of a fit are listed with the reason:
   - n_m^req at 0.5 and 1 nm, and n_y^req at 0.5 nm: anomalous, shown in the figures but not fitted.
-  - Superseded pinched-core runs: off the locus rule.
+  - Pinched-core runs off the locus rule.
 - **Frozen loci.** The conservative loci are reported as the frozen constants that defined the production runs: n_m^cons = 0.440 D_y^3.269, and n_y^cons = smallest power of two ≥ 38.1 D_y^0.450260. They are not recomputed from the current fit. The fits they were cut from are recomputed alongside for comparison.
 
 ## What it deliberately does not cover
 
 - **GUINEA-PIG++ numbers**, including the IPC background table and the n_x convergence study. These are reproduced from the [gp-luminosity-calibration](https://github.com/laithgordon/gp-luminosity-calibration) repository.
 - **Material behind repository-only figures and not quoted in the paper**: the coarse-grid control, the n_x–n_m coupling test, the deposition-error correlation study, and the pinch evolution and histograms.
-- **Intermediate products**: per-run luminosities, per-step width caches, ladder rungs other than those that define n^req, and settings superseded by the production runs.
+- **Intermediate products**: per-run luminosities, per-step width caches, ladder rungs other than those that define n^req, and settings other than those of the production runs.
 
 ## Verification
 
@@ -74,11 +74,11 @@ At the commit containing this document, on a fresh clone with Python 3.13.15 and
   - removing runs from `results.csv`;
   - removing an emittance from the data;
   - deleting the GP++ requirements export;
-  - substituting its earlier version, which has a `sigma_tot` column instead of `sigma_log`.
+  - substituting a GP++ requirements export without a `sigma_log` column.
 
 ## Limits
 
 - **n_t and cut multipliers** are not stored per run. They follow from the deck, `inputs/input_calib_C3_250.txt`: n_t = n_z, and the domain spans ±16 σ_x, ±16 σ_y, ±8 σ_z in every configuration.
 - **Variant emittances.** The solver and deposition variants are reported at all eight emittances run. The emittances the manuscript quotes were not singled out.
 - **Rounding.** `paper_numbers.md` rounds to the precision of the values quoted in the manuscript: luminosities, ratios and H_D to two decimals; exponents and κ to three. The table layout and rounding were not compared line by line with the manuscript source. The JSON is authoritative.
-- **`paper_numbers.py`** is the earlier summary printer. Its `--json` option writes a different layout, so do not point it at `paper_numbers.json`.
+- **`paper_numbers.py`** is a separate summary printer. Its `--json` option writes a different layout, so do not point it at `paper_numbers.json`.

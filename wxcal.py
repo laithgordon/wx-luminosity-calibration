@@ -61,10 +61,7 @@ def pow2_nodes(n):
 
 def numprocs(nodes, nx, ny):
     """Decomposition. 1 node -> "4 1 1"; 2+ nodes -> "px 2 2".
-    NOTE (2026-08-15): the earlier "py=2, pz=1 hangs" theory was wrong -- every
-    hang was a GPU OOM in the FFT Poisson solver (see Plan §8). The decomposition
-    is irrelevant to that; keeping the z split for 2+ nodes only because it
-    balances the two beams' particles when nm is large (Plan §8 rule 2)."""
+    The z split for 2+ nodes balances the two beams' particles when nm is large."""
     g = int(nodes) * 4
     if g <= 4:
         return f"{g} 1 1"
@@ -105,14 +102,11 @@ def integrate_difflum(path):
 def lumi_to_rate(L_m2):
     return L_m2 * 1e-4 * NUM_BUNCHES * TRAIN_REP / 1e34
 
-# pscratch OST outage (2026-09-01, NERSC ticket pending): several OSTs are hung
-# (122 and 18 confirmed) — any data read or stat() of a file striped there
-# blocks forever in the kernel (cl_sync_io_wait), with no error. `lfs getstripe
-# -i` only queries the metadata server, so it never blocks; a 5 s `timeout dd`
-# read probe then classifies the file's OST as hung or healthy. Hung verdicts
-# are persisted in bad_osts.txt so each OST is probed at most once ever.
-# DELETE bad_osts.txt once NERSC restores the filesystem, and rebuild the
-# analysis caches listed in Analysis/Data/caches_built_during_ost_outage.txt.
+# Hung pscratch OSTs: any data read or stat() of a file striped on a hung OST
+# blocks in the kernel (cl_sync_io_wait), with no error. `lfs getstripe -i` only
+# queries the metadata server, so it never blocks; a 5 s `timeout dd` read probe
+# then classifies the file's OST as hung or healthy. Hung verdicts are persisted
+# in bad_osts.txt so each OST is probed at most once.
 BAD_OSTS_FILE = HERE / "bad_osts.txt"
 _ost_good = set()
 _ost_bad = None
@@ -180,7 +174,7 @@ def on_bad_ost(path):
 
 
 # results.csv 'solver' tag per phase (anything not listed is the 3D IGF calibration configuration).
-# PS  = warpx.use_2d_slices_fft_solver=1                         (2026-08, field-solver test)
-# PC3 = algo.particle_shape=1 (CIC, all axes), 3D solver         (2026-09-08, deposition test mimicking GP++'s (1,1,0))
-# PC2 = algo.particle_shape=1 + warpx.use_2d_slices_fft_solver=1 (2026-09-08)
+# PS  = warpx.use_2d_slices_fft_solver=1                         (field-solver test)
+# PC3 = algo.particle_shape=1 (CIC, all axes), 3D solver         (deposition test mimicking GP++'s (1,1,0))
+# PC2 = algo.particle_shape=1 + warpx.use_2d_slices_fft_solver=1
 SOLVER_TAG = {"PS": "2d", "PC3": "3d_cic", "PC2": "2d_cic"}

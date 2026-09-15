@@ -93,7 +93,7 @@ def ny_theory(e_y):
     return 2 ** int(math.floor(math.log2(x) + 0.5))
 
 
-NY_OVERRIDE = {2.0: 256, 1.0: 256}   # 2026-08-16: 2 nm and 1 nm redone on the 256 grid (n_y = 512 study kept in results.csv)
+NY_OVERRIDE = {2.0: 256, 1.0: 256}   # 1 and 2 nm ladders use the 256 grid (512-grid runs at these emittances are also in results.csv)
 
 
 def grid(e_y):
@@ -119,32 +119,31 @@ def D_y(e_y_nm):
     return 2 * N_PART * R_E * SIGMA_Z / (GAMMA * sy * (SIGMA_X + sy))
 
 
-# conservative n_m^req(e_y) adopted 2026-08-16 for the Stage-B (n_y) runs: fit slope D_y^2.97 on the
+# conservative n_m^req(e_y) for the Stage-B (n_y) runs: fit slope D_y^2.97 on the
 # 20-4 nm points (512x256x128), intercept raised above every bracket. Frozen here so the n_y ladders
 # stay reproducible even as the fit drifts with more seeds.
 NM_CONS = {20: 1.0e4, 16: 1.4e4, 12: 2.2e4, 8: 4.0e4, 4: 1.1e5, 2: 3.1e5, 1: 8.8e5, 0.5: 2.5e6}
 
-# conservative n_y^req(e_y) adopted 2026-08-19 for the calibrated-vs-uncalibrated comparison: the Stage-B fit
+# conservative n_y^req(e_y) for the calibrated-vs-uncalibrated comparison: the Stage-B fit
 # slope (q = 0.447, 0.5 nm excluded), intercept raised above the upper bracket edge of every fitted point
 # (C_y^cons = 38.6), the line rounded UP to the next power of 2 for the run grid. Frozen for reproducibility.
 NY_CONS = {20: 256, 16: 256, 12: 256, 8: 256, 4: 256, 2: 256, 1: 512, 0.5: 512}
 
-# extension of the tuned set to e_y = 40-100 nm (2026-08-21): the same conservative formulas evaluated at the new D_y
+# extension of the tuned set to e_y = 40-100 nm: the same conservative formulas evaluated at the new D_y
 # (n_m^cons = 0.4349 D_y^3.272 rounded to 2 figures; n_y^cons = 38.3 D_y^0.449 rounded up to the next run rung, 512x n_y x128)
 EYS_EXT = [40, 60, 80, 100]
 NM_CONS.update({40: 3.2e3, 60: 1.6e3, 80: 9.9e2, 100: 6.8e2})
 NY_CONS.update({40: 256, 60: 128, 80: 128, 100: 128})
-# NB: NM_CONS / NY_CONS above are the older frozen tables that define the Stage-B ladder and comparison runs. They are
+# NB: NM_CONS / NY_CONS above are the frozen tables that define the Stage-B ladder and comparison runs. They are
 # NOT the production conservative locus below.
 
 # ---------------------------------------------------------------------------
-# Production conservative locus -- FROZEN. These constants defined the production runs (phase PN, submitted
-# 2026-09-11) and the pinched-core dump re-runs (PQ2/PP2) at the time they were submitted:
+# Production conservative locus -- FROZEN. These constants defined the production runs (phase PN) and the
+# pinched-core dump runs (PQ2/PP2):
 #     n_m^cons = 0.440 D_y^3.269            (unrounded; the decks use ceil)
 #     n_y^cons = smallest sampled power of two >= 38.1 D_y^0.450260
-# with D_y = D_y(e_y) above at full precision. They must NOT be recomputed from the current ladder fit: that fit
-# drifts as rungs are added (the raw locus slope moved from 3.26883 to 3.26750 once the production runs joined the
-# ladders), and any check that re-derived the locus would eventually disagree with the decks that were run.
+# with D_y = D_y(e_y) above at full precision. They must NOT be recomputed from the ladder fit, which changes
+# as rungs are added; a locus re-derived from it would not match the decks that were run.
 # ---------------------------------------------------------------------------
 LOCUS_NM_PREFACTOR, LOCUS_NM_EXPONENT = 0.440, 3.269
 LOCUS_NY_PREFACTOR, LOCUS_NY_EXPONENT = 38.1, 0.450260

@@ -37,7 +37,7 @@ def series():
     return {"gp_tuned": gp_t, "wx_tuned": wx("wx_cal"), "gp_frozen": gp_f, "wx_frozen": wx("wx_frz20")}
 
 
-STYLE = {"wx_tuned": (r"WarpX tuned", "C0", "s", "--"), "gp_tuned": (r"GP++ tuned", "C3", "s", "--")}   # frozen series dropped (verification only)
+STYLE = {"wx_tuned": (r"WarpX tuned", "C0", "s", "--"), "gp_tuned": (r"GP++ tuned", "C3", "s", "--")}   # frozen series not drawn
 
 
 def draw():
