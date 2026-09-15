@@ -56,7 +56,7 @@ It uses no network access, no environment variables, and no paths outside the re
 
 ## Verification
 
-At commit `858998b` (the code and data this document describes), on a fresh clone with Python 3.13.15 and numpy 2.4.6, all of the following were confirmed.
+At the commit containing this document, on a fresh clone with Python 3.13.15 and numpy 2.4.6, all of the following were confirmed.
 
 - **Determinism.** Two consecutive runs give byte-identical `paper_numbers.json` and `paper_numbers.md`.
 - **Internal consistency (611 checks).** Every derived quantity was recomputed from the rows of the same JSON file with an independent implementation. The GP++ κ was recomputed from `data/gp_exports/gp_requirements_for_wx.csv`. The checks cover:
