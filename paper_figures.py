@@ -8,10 +8,9 @@ saved to plots/<name>.{png,pdf}:
                           C_m D_y^(s-q) on the 20-2 nm points drawn across the whole range (1-sigma band); the
                           1/0.5 nm points faded & labelled, not fitted; conservative locus (gold dashed); GP++ law
   WX_L_vs_ny             (3) all Stage-B ladders: L/L_inf vs n_y per e_y, star at n_y^req
-  WX_ny_req_convergence  (4) n_y^req vs D_y: points, weighted fit C_y D_y^q with band, theory q = Q_PRED with the
+  WX_ny_req_convergence  (4) n_y^req vs D_y: points, weighted fit C_y D_y^q with band, q_n = Q_N with the
                           normalisation fitted (dashed C0), chi2/ndf box
-  kappa_vs_Dy            (5) kappa_i = n_y^req/(2 c_y R(D_y)) vs D_y with the weighted mean; the same kappa built
-                          on Schulte Eq. 2.4 as the failing comparison (climbs monotonically). GP++ series from
+  kappa_vs_Dy            (5) kappa_i = n_y^req/(2 c_y R(D_y)) vs D_y with the weighted mean. GP++ series from
                           data/gp_exports/gp_requirements_for_wx.csv.
 
 Run after collect.py.
@@ -257,18 +256,12 @@ def _gp_kappa():
                 c_y=np.full(n, 20.0), kappa=np.full(n, np.nan), sigma_kappa=np.full(n, np.nan))
 
 
-def kappa_vs_Dy(B, c_y=None, show_eq24=False):
+def kappa_vs_Dy(B, c_y=None):
     """kappa_i = n_y^req/(2 c_y R(D_y)) vs D_y for both codes, with weighted means as
-    horizontal lines, plus the Schulte eq. 2.4 series as the failing comparison.
+    horizontal lines.
 
     c_y defaults to the WarpX deck cut (C_Y_WX = 16); the GP++ series uses its own exported c_y.
-    There is no shared default -- each code is divided by its own deck's cut.
-
-    show_eq24 (default False) overlays the same kappa rebuilt on Schulte's eq. 2.4 effective size.
-    It is OFF for the paper figure: eq. 2.4 is a luminosity-equivalent size averaged over the
-    crossing and was never intended to give the transient minimum, so plotting it reads as a
-    strawman and it costs the figure most of its vertical dynamic range. The number is still
-    computed and quoted in the text (write_results.py) and R_schulte_eq24 remains in nmreq.py."""
+    There is no shared default -- each code is divided by its own deck's cut."""
     c_y = Q.C_Y_WX if c_y is None else c_y
     e = np.array([b[0] for b in B]); D = np.array([b[1] for b in B])
     nr = np.array([b[2]["nreq"] for b in B]); sig = np.array([b[2]["sig_log"] for b in B])
@@ -299,16 +292,6 @@ def kappa_vs_Dy(B, c_y=None, show_eq24=False):
                         elinewidth=0.7, lw=0, zorder=6, label=fr"GUINEA-PIG++ ($c_y={cyg:g}$)")
             ax.axhline(kg_d["mean"], color="C0", ls="-", lw=1.0, zorder=4,
                        label=fr"GP++ $\langle\kappa\rangle={kg_d['mean']:.3f}$, slope $={kg_d['slope']:+.3f}\pm{kg_d['sig_slope']:.3f}$")
-        # Same kappa rebuilt on Schulte eq. 2.4 -- always COMPUTED (quoted in the text), only
-        # PLOTTED when show_eq24 is set. See the docstring for why it is off by default.
-        k24 = np.array([nr[i] / (2 * c_y * Q.R_schulte_eq24(e[i])) for i in range(len(e)) if use[i]])
-        f24 = Q.powerlaw_wls(D[use], k24, sig[use])
-        out["eq24"] = dict(kappa=[float(x) for x in k24], slope=f24["b"], sig_slope=f24["sb"],
-                           drift=float((D[use].max() / D[use].min()) ** f24["b"] - 1.0))
-        if show_eq24:
-            ax.plot(D[use], k24, "^", ms=3.6, color="0.45", lw=0, zorder=5, label=r"WX under Schulte Eq. 2.4")
-            ax.plot(dx, math.exp(f24["a"]) * dx ** f24["b"], ":", color="0.45", lw=1.1, zorder=3,
-                    label=fr"Eq. 2.4 slope $={f24['b']:+.3f}\pm{f24['sb']:.3f}$")
         ax.set_xscale("log")          # y stays LINEAR: kappa spans a narrow range and the test is
         ax.xaxis.set_minor_formatter(mticker.NullFormatter())   # "is the line flat", read better linearly
         ax.set_xlabel(r"$D_y(\varepsilon_y)$")

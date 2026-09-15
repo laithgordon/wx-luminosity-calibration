@@ -189,8 +189,7 @@ def points():
 
 def draw():
     """Two stacked panels: (a) core pinch minimum (10-seed mean +/- STD, n_y = 4 n_y^cons) and theory 1/R_1(D_y) vs D_y;
-    (b) their ratio. The kink in the theory curve near D_y ~ 72 is real: the envelope's deepest waist
-    switches from one betatron oscillation to the next there."""
+    (b) their ratio."""
     P = points()
     es = np.array(sorted(P), float); D = np.array([Q.D_y(e) for e in es])
     s0 = np.array([Q.sigma_y(e) for e in es])
@@ -201,7 +200,7 @@ def draw():
     rr = np.array([np.mean([v[2] for v in P[e]]) for e in es])
     nsl = np.array([np.min([v[3] for v in P[e]]) for e in es])
     N = np.array([len(P[e]) for e in es])
-    th = np.array([1.0 / Q.R_of_D(d) for d in D])
+    th = np.array([1.0 / Q.R1_of_D(d) for d in D])
     with plt.rc_context(PRL):
         fig, (ax, ax2) = plt.subplots(2, 1, figsize=(3.5, 5.0), sharex=True)   # vertical stack, one journal column, shared x
         dx = np.geomspace((D.min() if len(D) else 20) / 1.15, (D.max() if len(D) else 140) * 1.15, 200)

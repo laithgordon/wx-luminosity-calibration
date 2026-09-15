@@ -80,8 +80,8 @@ def draw():
         ax.plot(x, wb / s0, "--", color="C0", lw=1.0, zorder=4, label="whole beam (rms)")
         ax.plot(x, s_rms / s0, "-", color="C3", lw=1.0, zorder=5, label=fr"central slice rms ($|z-\bar z|<{HW:g}\,\sigma_z$)")
         ax.plot(x, s_core / s0, "-", color="C2", lw=1.0, zorder=6, label="central slice, Gaussian core")
-        ax.axhline(1.0 / Q.R_of_D(D), color="0.35", lw=0.8, ls=":", zorder=3)
-        ax.text(0.985, 1.0 / Q.R_of_D(D) * 1.05, r"$1/R(D_y)$", transform=ax.get_yaxis_transform(),
+        ax.axhline(1.0 / Q.R1_of_D(D), color="0.35", lw=0.8, ls=":", zorder=3)
+        ax.text(0.985, 1.0 / Q.R1_of_D(D) * 1.05, r"$1/R(D_y)$", transform=ax.get_yaxis_transform(),
                 ha="right", va="bottom", fontsize=5.6, color="0.35")
         ax.set_yscale("log")
         ax.set_xlabel(r"$c\,(t-t_{\rm pinch})/\sigma_z$"); ax.set_ylabel(r"$\sigma_y(t)/\sigma_{y,0}$")
@@ -89,7 +89,7 @@ def draw():
         _ticks_in(ax)
         save_fig(fig, "WX_pinch_evolution"); plt.close(fig)
     print(f"minima/sigma_y0: whole beam {np.nanmin(wb)/s0:.3f}, slice rms {np.nanmin(s_rms)/s0:.3f}, "
-          f"slice core {np.nanmin(s_core)/s0:.3f}, theory 1/R {1/Q.R_of_D(D):.3f}")
+          f"slice core {np.nanmin(s_core)/s0:.3f}, theory 1/R {1/Q.R1_of_D(D):.3f}")
     for o in OFFS:
         i = np.nanargmin(offs[o])
         print(f"  slice at {o:+g} sigma_z: min {offs[o][i]/s0:.3f} at c*dt/sigma_z = {x[i]:+.2f}")

@@ -100,8 +100,8 @@ def draw():
         fig, ax = plt.subplots(figsize=(3.5, 2.7))
         Dall = [Q.D_y(e) for e in set(S) | set(B)] or [20, 130]
         dx = np.geomspace(min(Dall) / 1.15, max(Dall) * 1.15, 120)
-        ax.plot(dx, [1.0 / Q.R_of_D(d) for d in dx], "-", color="0.35", lw=1.0, zorder=3,
-                label=fr"theory: $1/R(D_y)$ ($R\simeq{Q.LAMBDA}\,D_y^{{{Q.Q_PRED}}}$)")
+        ax.plot(dx, [1.0 / Q.R1_of_D(d) for d in dx], "-", color="0.35", lw=1.0, zorder=3,
+                label=fr"theory: $1/R(D_y)$ ($R\simeq{Q.LAMBDA1}\,D_y^{{{Q.Q_P}}}$)")
         if B:
             eb = np.array(sorted(B), float); Db = np.array([Q.D_y(e) for e in eb])
             rb = np.array([B[e][0] / Q.sigma_y(e) for e in eb]); sb = np.array([B[e][1] / Q.sigma_y(e) for e in eb])
@@ -116,7 +116,7 @@ def draw():
                     label=fr"central slice ($|z-\bar z|<{SLICE_HW:g}\,\sigma_z$): $\sigma_{{y,\min}}^{{\rm slice}}/\sigma_{{y,0}}$")
             for e, d, r in zip(es, Ds, rs):
                 ax.annotate(fr"${e:g}\,$nm", (d, r), textcoords="offset points", xytext=(5, -3), fontsize=5.6)
-            rows = [(e, d, S[e][0] * 1e9, r, 1.0 / Q.R_of_D(d), S[e][1]) for e, d, r in zip(es, Ds, rs)]
+            rows = [(e, d, S[e][0] * 1e9, r, 1.0 / Q.R1_of_D(d), S[e][1]) for e, d, r in zip(es, Ds, rs)]
         ax.set_xscale("log"); ax.set_yscale("log")
         ax.xaxis.set_minor_formatter(mticker.NullFormatter())
         ax.set_xlabel(r"$D_y(\varepsilon_y)$"); ax.set_ylabel(r"$\sigma_{y,\min}/\sigma_{y,0}$")

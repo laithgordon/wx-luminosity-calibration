@@ -18,16 +18,12 @@ EYS = [0.5, 1, 2, 4, 8, 12, 16, 20]
 NX, NZ = 512, 128
 
 # ---------------------------------------------------------------------------
-# Pinch / vertical-compression theory (Theory_Prediction.txt, sec:ny_derivation)
-#   R(D_y) = sigma_y^* / sigma_y^min = LAMBDA * D_y^Q_PRED      (eq:R_predicted)
-#   n_y^req = 2 c_y kappa R(D_y) = C_y D_y^q, C_y = 2 c_y kappa LAMBDA (eq:ny_law)
-#   n_m^req = C_m D_y^(s-q) n_x n_y n_z                          (eq:law_nm)
-# Q_PRED is the canonical predicted exponent; LAMBDA is the normalisation of the
-# power-law fit to R(D_y) over the ten scan points (see R_of_D / _R_TABLE).
+# Pinch / vertical-compression theory (manuscript sec:ny_derivation)
+#   R(D_y) = sigma_y^* / sigma_y^min = LAMBDA1 * D_y^Q_P            (eq:R_predicted)
+#   n_y^req = 2 c_y kappa R(D_y) D_y^(1/4) = C_y D_y^Q_N            (eq:ny_law)
+#   n_m^req = C_m D_y^(s-q_p) n_x n_y n_z                          (eq:law_nm)
 # ---------------------------------------------------------------------------
-Q_PRED = 0.379                  # predicted pinch exponent q (supersedes the old 1/2)
-LAMBDA = 1.217                  # R(D_y) = LAMBDA D_y^q normalisation
-# --- first-waist pinch model (supersedes the global-minimum R for all predictions) ---
+# --- first-waist pinch model ---
 # R_1(D_y) is the FIRST local minimum of the envelope beta(s), not the global one: beyond
 # D* ~ 18 the global minimum is carried by later betatron oscillations that the real
 # (phase-mixing, filamenting) beam never reaches. Fit over all ten D_Y_SCAN points:
@@ -78,10 +74,10 @@ C_X_WX, C_Y_WX = 16, 16
 #   So GP's cut_y is the HALF-extent, and the calibration deck runs cut_x/cut_y/cut_z = 20/20/3.5.
 C_X_GP, C_Y_GP = 20, 20
 # The two codes share the cell-width FORMULA (dy = 2 c_y sigma_y^*/n_y) but not the value of
-# c_y: 16 for WarpX, 20 for GP++. kappa scales as 1/c_y and the occupancy prefactor as c_x c_y,
+# c_y: 16 for WarpX, 20 for GP++. kappa scales as 1/c_y and the occupancy prefactor as c_x c_y c_z,
 # so neither is comparable across codes until each is divided by its own deck's cuts.
 
-# The ten D_y values of the emittance scan (Theory_Prediction.txt tab:disruption_scan)
+# The ten D_y values of the emittance scan (manuscript tab:disruption_scan)
 D_Y_SCAN = (137.8, 97.4, 79.4, 68.8, 61.5, 48.5, 34.2, 27.9, 24.1, 21.5)
 L_FRAC_NM, POOL_FALLBACK, TOL = 0.75, 0.02, 0.05
 NM_FIT_MIN = 1e5        # Richardson overlay is fitted on rungs >= this (1e3/1e4 hook the p=1 series)
@@ -418,59 +414,7 @@ def powerlaw_wls(x, y, sig_log_y):
 
 
 # ---------------------------------------------------------------------------
-# S2  Vertical compression factor R(D_y) = sigma_y^*/sigma_y^min
-# ---------------------------------------------------------------------------
-_R_CACHE = {}
-
-
-def R_of_D(D):
-    """R(D_y) = sigma_y^*/sigma_y^min from the Courant-Snyder envelope through the
-    Gaussian pinch field (Theory_Prediction.txt eq:Ky_gauss, eq:beta_phi, eq:init_twiss).
-
-    Units are normalised to sigma_z = 1, so beta_y^* = BETA_STAR_OVER_SIGZ. The two
-    principal solutions of y'' = -K(s) y are integrated from s0 = -3 to +3 and the
-    beta function beta = bi C^2 - 2 ai C S + gi S^2 is minimised over the crossing.
-
-    Regression values (3 dp), D_Y_SCAN order:
-        7.623 6.765 6.232 5.859 5.668 5.259 4.638 4.261 3.981 3.755
-    whose power-law fit returns q = 0.374, LAMBDA = 1.217.
-    """
-    from scipy.integrate import solve_ivp
-    key = round(float(D), 6)
-    if key in _R_CACHE:
-        return _R_CACHE[key]
-    sz, bs = 1.0, BETA_STAR_OVER_SIGZ
-    s0, s1, npts = -3.0, 3.0, 20000
-    amp = (D / (math.sqrt(3) * sz ** 2)) * (2 * math.sqrt(3) / math.sqrt(2 * math.pi))
-
-    def rhs(s, u):                     # u = [C, C', S, S']
-        k = amp * math.exp(-2.0 * s * s / sz ** 2)
-        return [u[1], -k * u[0], u[3], -k * u[2]]
-
-    sol = solve_ivp(rhs, (s0, s1), [1.0, 0.0, 0.0, 1.0], rtol=1e-10, atol=1e-12,
-                    dense_output=True, max_step=0.005)
-    ss = np.linspace(s0, s1, npts); u = sol.sol(ss)
-    bi = bs + s0 ** 2 / bs; ai = -s0 / bs; gi = (1 + ai ** 2) / bi
-    beta = bi * u[0] ** 2 - 2 * ai * u[0] * u[2] + gi * u[2] ** 2
-    val = float(math.sqrt(bs / beta.min()))
-    _R_CACHE[key] = val
-    return val
-
-
-def R_table(Ds=D_Y_SCAN):
-    """R(D_y) over the scan points; warms the cache."""
-    return [R_of_D(D) for D in Ds]
-
-
-def R_powerlaw(Ds=D_Y_SCAN):
-    """Unweighted power-law fit of R(D_y): returns (q, LAMBDA). Must give (0.374, 1.217)."""
-    r = R_table(Ds)
-    b, a = np.polyfit(np.log(np.asarray(Ds, float)), np.log(r), 1)
-    return float(b), float(math.exp(a))
-
-
-# ---------------------------------------------------------------------------
-# S3  kappa = cells per pinched vertical sigma  (Theory_Prediction.txt eq:ny_law)
+# S3  kappa = cells per pinched vertical sigma  (manuscript eq:ny_law)
 # ---------------------------------------------------------------------------
 def kappa_from_ny(ny_req, D, c_y):
     """kappa = n_y^req / (2 c_y R_1(D_y) D_y^(1/4)). Inverts the first-waist ny law point by point.
@@ -538,30 +482,6 @@ def gp_published_constants():
         raise ValueError(f"q_p not found in the {GP_REQ_CSV.name} header")
     out["q_p"] = float(m.group(1))
     return out
-
-
-def occupancy_prefactor(c_x, c_y):
-    """2 c_x c_y/pi: converts n_m/(n_x n_y n_z) into the initial peak cell occupancy
-    n_cell(0) (Theory_Prediction.txt eq:ncell). Code-specific through the deck cuts, so
-    macroparticle requirements are comparable across codes only after this factor."""
-    return 2.0 * c_x * c_y / math.pi
-
-
-def occupancy_pinch(nm_per_cell, D, c_x, c_y):
-    """n_pinch = (2 c_x c_y/pi) * [n_m/(n_x n_y n_z)] * R(D_y)   (eq:npinch)."""
-    return occupancy_prefactor(c_x, c_y) * float(nm_per_cell) * R_of_D(D)
-
-
-def R_schulte_eq24(e_y_nm, beta=None):
-    """sigma_y^*/sigma_ybar_y from Schulte's empirical pinch parametrisation (his eqs. 2.3/2.4),
-    kept only as the FAILING comparison of S5: it is a luminosity-equivalent size averaged over
-    the crossing, not the transient minimum, and scales as D_y^0.13 instead of D_y^q."""
-    beta = BETA_Y if beta is None else beta
-    D = D_y(e_y_nm); sy = sigma_y(e_y_nm)
-    H = 1 + D ** 0.25 * D ** 3 / (1 + D ** 3) * (math.log(1 + math.sqrt(D)) + math.log(SIGMA_Z / (0.8 * beta)))
-    r = SIGMA_X / sy
-    f = -(1 + 2 * r ** 3) / (6 * r ** 3)
-    return float(H ** (-f))
 
 
 def requirements():
