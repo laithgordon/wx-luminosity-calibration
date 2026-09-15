@@ -59,7 +59,7 @@ It uses no network access, no environment variables, and no paths outside the re
 At the commit containing this document, on a fresh clone with Python 3.13.15 and numpy 2.4.6, all of the following were confirmed.
 
 - **Determinism.** Two consecutive runs give byte-identical `paper_numbers.json` and `paper_numbers.md`.
-- **Internal consistency (611 checks).** Every derived quantity was recomputed from the rows of the same JSON file with an independent implementation. The GP++ κ was recomputed from `data/gp_exports/gp_requirements_for_wx.csv`. The checks cover:
+- **Internal consistency (1021 checks).** Every derived quantity was recomputed from the rows of the same JSON file with an independent implementation. The GP++ κ was recomputed from `data/gp_exports/gp_requirements_for_wx.csv`. The checks cover:
   - standard errors, ratios, H_D, L_geom, D_y, the gain and the scatter;
   - all fits, their χ² and ndf;
   - κ for both codes, the means, slopes, their ratio and the agreement;
@@ -67,7 +67,7 @@ At the commit containing this document, on a fresh clone with Python 3.13.15 and
   - the core-width ratios and the PS1 ratio.
 
   All agree to floating-point precision. Every uncertainty in the file carries a definition.
-- **Agreement with the figure code (292 checks).** The luminosity, fit, κ (both codes) and pinched-core values equal those drawn by `plot_comparison.py`, `plot_deposition.py`, `paper_figures.py` and `plot_core_width.py`. The figure code reads the same committed core-width caches.
+- **Agreement with the figure code (438 checks).** The luminosity, fit, κ (both codes) and pinched-core values equal those drawn by `plot_comparison.py`, `plot_deposition.py`, `paper_figures.py` and `plot_core_width.py`. The figure code reads the same committed core-width caches.
 - **Fails loudly.** Each of the following stops the script with an error naming what is missing or wrong:
   - deleting a core-width cache;
   - deleting `R1_table.npz`;
