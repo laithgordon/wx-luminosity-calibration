@@ -3481,13 +3481,13 @@
     "D_y": 34.21550740608676,
     "sigma_min_over_sigma_y_star": 0.29621398357713935,
     "uncertainty": {
-     "value": 0.01194387409212921,
+     "value": 0.011943874092129209,
      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
     },
     "first_waist_prediction_1_over_R1": 0.2509164108860388,
     "measured_over_prediction": 1.180528537496393,
     "measured_over_prediction_uncertainty": {
-     "value": 0.04760100804069719,
+     "value": 0.04760100804069718,
      "definition": "the width uncertainty times R_1"
     },
     "n_seeds": 10,
@@ -3500,13 +3500,13 @@
     "D_y": 27.878324813548918,
     "sigma_min_over_sigma_y_star": 0.31089235061824405,
     "uncertainty": {
-     "value": 0.012428814519366203,
+     "value": 0.012428814519366201,
      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
     },
     "first_waist_prediction_1_over_R1": 0.2632158715363947,
     "measured_over_prediction": 1.1811307152701738,
     "measured_over_prediction_uncertainty": {
-     "value": 0.047219092248575435,
+     "value": 0.04721909224857543,
      "definition": "the width uncertainty times R_1"
     },
     "n_seeds": 10,
@@ -3519,13 +3519,13 @@
     "D_y": 24.100777107523154,
     "sigma_min_over_sigma_y_star": 0.3313180289788946,
     "uncertainty": {
-     "value": 0.018551342750773147,
+     "value": 0.018551342750773143,
      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
     },
     "first_waist_prediction_1_over_R1": 0.27261656450111926,
     "measured_over_prediction": 1.2153261104481945,
     "measured_over_prediction_uncertainty": {
-     "value": 0.06804921331439118,
+     "value": 0.06804921331439116,
      "definition": "the width uncertainty times R_1"
     },
     "n_seeds": 10,
@@ -5270,5 +5270,134 @@
    "definition": "standard error of L / published (published value exact)"
   },
   "provenance": "section 'luminosity_dataset', configuration nominal, e_y = 20 nm"
+ },
+ "wx_over_gp_luminosity": {
+  "definition": "L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration: WarpX 'conservative' (0.5-20 nm) and 'extrapolated_extension' (40-100 nm) from section 'luminosity_dataset'; GUINEA-PIG++ blocks 'conservative' (1-20 nm) and 'frozen_extension' (40-100 nm) of data/gp_exports/gp_luminosity_for_wx.csv. The series drawn in WX_code_ratio_vs_ey.",
+  "per_emittance": [
+   {
+    "e_y_nm": 1,
+    "wx_configuration": "conservative",
+    "gp_block": "conservative",
+    "value": 1.2879623484811031,
+    "se": {
+     "value": 0.0106696454159273,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 2,
+    "wx_configuration": "conservative",
+    "gp_block": "conservative",
+    "value": 1.1259745017897242,
+    "se": {
+     "value": 0.006219687074559697,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 4,
+    "wx_configuration": "conservative",
+    "gp_block": "conservative",
+    "value": 1.0663358891345318,
+    "se": {
+     "value": 0.00808952837477419,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 8,
+    "wx_configuration": "conservative",
+    "gp_block": "conservative",
+    "value": 1.0193854683668258,
+    "se": {
+     "value": 0.007810383974401016,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 12,
+    "wx_configuration": "conservative",
+    "gp_block": "conservative",
+    "value": 1.007656030012824,
+    "se": {
+     "value": 0.005501274179613994,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 16,
+    "wx_configuration": "conservative",
+    "gp_block": "conservative",
+    "value": 0.9972412507391593,
+    "se": {
+     "value": 0.004369033680727608,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 20,
+    "wx_configuration": "conservative",
+    "gp_block": "conservative",
+    "value": 0.9891689559233595,
+    "se": {
+     "value": 0.005613356251164136,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 40,
+    "wx_configuration": "extrapolated_extension",
+    "gp_block": "frozen_extension",
+    "value": 0.9914110212807385,
+    "se": {
+     "value": 0.00802189777224906,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 60,
+    "wx_configuration": "extrapolated_extension",
+    "gp_block": "frozen_extension",
+    "value": 0.9844574016610516,
+    "se": {
+     "value": 0.01058113232377087,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 80,
+    "wx_configuration": "extrapolated_extension",
+    "gp_block": "frozen_extension",
+    "value": 0.9951256686498158,
+    "se": {
+     "value": 0.013317236156477875,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   },
+   {
+    "e_y_nm": 100,
+    "wx_configuration": "extrapolated_extension",
+    "gp_block": "frozen_extension",
+    "value": 0.9956099607062738,
+    "se": {
+     "value": 0.015221106800735906,
+     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+    }
+   }
+  ],
+  "range_8_to_100_nm": {
+   "min": 0.9844574016610516,
+   "e_y_nm_at_min": 60,
+   "max": 1.0193854683668258,
+   "e_y_nm_at_max": 8
+  },
+  "at_1_nm": {
+   "value": 1.2879623484811031,
+   "se": {
+    "value": 0.0106696454159273,
+    "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+   }
+  },
+  "provenance": "section 'luminosity_dataset' and data/gp_exports/gp_luminosity_for_wx.csv"
  }
 }

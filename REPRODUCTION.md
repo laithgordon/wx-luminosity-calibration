@@ -12,13 +12,14 @@ cd wx-luminosity-calibration
 python reproduce_paper_numbers.py          # about 2 s; needs Python >= 3.10 and numpy
 ```
 
-Compare `paper_numbers.md` with the manuscript, or run `git diff` after the script to confirm the committed outputs
-are reproduced unchanged.
+Compare `paper_numbers.md` with the manuscript, or run `git diff` after the script to compare with the committed outputs.
+
+The committed `paper_numbers.json` is reproduced to floating-point last-digit precision: a few values can differ in their final digit between platforms, and no quoted value depends on those digits.
 
 It reads only files under `data/`:
 - `results.csv` and `joblist.csv`;
 - `R1_table.npz`;
-- `gp_exports/gp_requirements_for_wx.csv` and `gp_exports/gp_luminosity_for_wx.csv`, for the GUINEA-PIG++ κ;
+- `gp_exports/gp_requirements_for_wx.csv` and `gp_exports/gp_luminosity_for_wx.csv`, for the GUINEA-PIG++ κ and luminosities;
 - the `slice_widths_hw010_*` and `slice_fiterr_hw010_*` caches.
 
 It uses no network access, no environment variables, and no paths outside the repository.
@@ -37,6 +38,7 @@ It uses no network access, no environment variables, and no paths outside the re
 | `core_width` | Minimum core width / σ_y* per emittance with uncertainty, the first-waist prediction 1/R_1, their ratio, seed count, and the n_y and n_m run. |
 | `solver_and_deposition_variants` | 2D-slice solver, and first-order (CIC) deposition with the 3D and 2D-slice solvers, beside the 3D third-order reference at the same settings. Each has L, seed count, the n_m run and the ratio to the reference. |
 | `ps1_reference` | Nominal 20 nm: mean, std, se, seed count, and the ratio to the published 1.35×10³⁴ cm⁻² s⁻¹. |
+| `wx_over_gp_luminosity` | L_WarpX/L_GP++ per emittance with se, each simulator at its recommended configuration (WarpX `conservative` and `extrapolated_extension`; GUINEA-PIG++ `conservative` and `frozen_extension` from `data/gp_exports/gp_luminosity_for_wx.csv`); its range over 8–100 nm and its value at 1 nm. |
 
 ### Conventions
 - **Uncertainty definitions.** Every uncertainty in the JSON carries a `definition` saying what it is: a sample standard deviation over seeds (ddof = 1), a standard error, a Monte Carlo interval half-width on ln n^req, or a fit parameter uncertainty.
@@ -49,7 +51,6 @@ It uses no network access, no environment variables, and no paths outside the re
 ## What it deliberately does not cover
 
 - **GUINEA-PIG++ numbers**, including the IPC background table and the n_x convergence study. These are reproduced from the [gp-luminosity-calibration](https://github.com/laithgordon/gp-luminosity-calibration) repository.
-- **WarpX/GP++ luminosity ratios.** Each repository's script reproduces its own luminosities, and the ratio follows from the two outputs. The κ comparison is included, from the GP++ export committed here.
 - **Material behind repository-only figures and not quoted in the paper**: the coarse-grid control, the n_x–n_m coupling test, the deposition-error correlation study, and the pinch evolution and histograms.
 - **Intermediate products**: per-run luminosities, per-step width caches, ladder rungs other than those that define n^req, and settings superseded by the production runs.
 
@@ -57,7 +58,7 @@ It uses no network access, no environment variables, and no paths outside the re
 
 At commit `858998b` (the code and data this document describes), on a fresh clone with Python 3.13.15 and numpy 2.4.6, all of the following were confirmed.
 
-- **Determinism.** Two consecutive runs give byte-identical `paper_numbers.json` and `paper_numbers.md`, identical to the committed files. A different numpy version could change the last digits of floating-point sums.
+- **Determinism.** Two consecutive runs give byte-identical `paper_numbers.json` and `paper_numbers.md`.
 - **Internal consistency (611 checks).** Every derived quantity was recomputed from the rows of the same JSON file with an independent implementation. The GP++ κ was recomputed from `data/gp_exports/gp_requirements_for_wx.csv`. The checks cover:
   - standard errors, ratios, H_D, L_geom, D_y, the gain and the scatter;
   - all fits, their χ² and ndf;

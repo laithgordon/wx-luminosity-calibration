@@ -268,3 +268,24 @@ Cells: L ± std (seeds); for the variants, ×(ratio to the 3D 3rd-order referenc
 ## 10. PS1 reference point
 
 Nominal configuration at 20 nm: L = 1.37 ± 0.01 (std), se 0.003, 15 seeds; ratio to the published 1.35 = 1.016 ± 0.002 (± se).
+
+
+## 11. WarpX / GUINEA-PIG++ luminosity ratio
+
+L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration: WarpX 'conservative' (0.5-20 nm) and 'extrapolated_extension' (40-100 nm) from section 'luminosity_dataset'; GUINEA-PIG++ blocks 'conservative' (1-20 nm) and 'frozen_extension' (40-100 nm) of data/gp_exports/gp_luminosity_for_wx.csv. The series drawn in WX_code_ratio_vs_ey.
+
+| ε_y [nm] | WarpX configuration | GP++ block | L_WarpX / L_GP++ ± se |
+|---|---|---|---|
+| 1 | conservative | conservative | 1.288 ± 0.011 |
+| 2 | conservative | conservative | 1.126 ± 0.006 |
+| 4 | conservative | conservative | 1.066 ± 0.008 |
+| 8 | conservative | conservative | 1.019 ± 0.008 |
+| 12 | conservative | conservative | 1.008 ± 0.006 |
+| 16 | conservative | conservative | 0.997 ± 0.004 |
+| 20 | conservative | conservative | 0.989 ± 0.006 |
+| 40 | extrapolated_extension | frozen_extension | 0.991 ± 0.008 |
+| 60 | extrapolated_extension | frozen_extension | 0.984 ± 0.011 |
+| 80 | extrapolated_extension | frozen_extension | 0.995 ± 0.013 |
+| 100 | extrapolated_extension | frozen_extension | 0.996 ± 0.015 |
+
+Over 8–100 nm: 0.984 (60 nm) to 1.019 (8 nm). At 1 nm: 1.288 ± 0.011.

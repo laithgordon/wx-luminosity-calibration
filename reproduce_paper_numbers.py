@@ -11,7 +11,8 @@ writes two files at the repository root:
 Inputs, all committed: data/results.csv (one row per run), data/joblist.csv (the run register, for each run's phase),
 data/R1_table.npz (first-waist compression R_1(D_y)), the data/slice_widths_hw010_* / data/slice_fiterr_hw010_*
 caches (pinched-core widths), and the GUINEA-PIG++ n_y^req export data/gp_exports/gp_requirements_for_wx.csv with its deck
-cut from data/gp_exports/gp_luminosity_for_wx.csv (for the GP++ kappa that the WarpX kappa is compared against). Nothing outside the repository is read and nothing is fetched. The only resampling, the
+cut from data/gp_exports/gp_luminosity_for_wx.csv (for the GP++ kappa that the WarpX kappa is compared against, and the GP++
+luminosities in the WarpX/GP++ luminosity ratio). Nothing outside the repository is read and nothing is fetched. The only resampling, the
 Monte Carlo behind the n^req uncertainties, uses a fixed generator seed recorded in the output, so repeated runs write
 identical files. A missing input, or an expected emittance with no qualifying runs, raises instead of writing a partial
 table.
@@ -135,6 +136,14 @@ def ratio(a, b):
     r = a["L_mean_1e34"] / b["L_mean_1e34"]
     se = r * math.hypot(a["L_se_1e34"]["value"] / a["L_mean_1e34"], b["L_se_1e34"]["value"] / b["L_mean_1e34"])
     return dict(value=r, se=U(se, RATIO_SE))
+
+
+def gp_luminosity(block):
+    """{e_y: row} for one block of data/gp_exports/gp_luminosity_for_wx.csv, with the mean and standard error of L."""
+    path = DATA / "gp_exports" / "gp_luminosity_for_wx.csv"
+    return {float(r["eps_y_nm"]): dict(L_mean_1e34=float(r["L_mean_1e34"]), L_se_1e34=U(float(r["L_sem_1e34"]), SE),
+                                       n_seeds=int(r["n_seeds"]))
+            for r in csv.DictReader(l for l in open(path) if not l.startswith("#")) if r["block"] == block}
 
 
 def L_geom(e):
@@ -446,6 +455,23 @@ def build():
                ratio_se=U(ps["L_se_1e34"]["value"] / PS1_PUBLISHED, "standard error of L / published (published value exact)"),
                provenance="section 'luminosity_dataset', configuration nominal, e_y = 20 nm")
 
+    wx_tuned = {r["e_y_nm"]: (c, r) for c in ("conservative", "extrapolated_extension") for r in ds[c]}
+    gp_tuned = {e: ("conservative", r) for e, r in gp_luminosity("conservative").items()}
+    gp_tuned.update({e: ("frozen_extension", r) for e, r in gp_luminosity("frozen_extension").items() if e not in gp_tuned})
+    per_e = [dict(e_y_nm=e, wx_configuration=wx_tuned[e][0], gp_block=gp_tuned[e][0], **ratio(wx_tuned[e][1], gp_tuned[e][1]))
+             for e in ALL_EYS if e in wx_tuned and e in gp_tuned]
+    band = [r for r in per_e if 8 <= r["e_y_nm"] <= 100]
+    lo, hi = min(band, key=lambda r: r["value"]), max(band, key=lambda r: r["value"])
+    wx_over_gp = dict(
+        definition="L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration: WarpX 'conservative' "
+                   "(0.5-20 nm) and 'extrapolated_extension' (40-100 nm) from section 'luminosity_dataset'; GUINEA-PIG++ "
+                   "blocks 'conservative' (1-20 nm) and 'frozen_extension' (40-100 nm) of "
+                   "data/gp_exports/gp_luminosity_for_wx.csv. The series drawn in WX_code_ratio_vs_ey.",
+        per_emittance=per_e,
+        range_8_to_100_nm=dict(min=lo["value"], e_y_nm_at_min=lo["e_y_nm"], max=hi["value"], e_y_nm_at_max=hi["e_y_nm"]),
+        at_1_nm=next(dict(value=r["value"], se=r["se"]) for r in per_e if r["e_y_nm"] == 1.0),
+        provenance="section 'luminosity_dataset' and data/gp_exports/gp_luminosity_for_wx.csv")
+
     return dict(
         about=dict(content="Every WarpX number reported in the paper, regenerated from committed data by reproduce_paper_numbers.py.",
                    units="luminosity L in 1e34 cm^-2 s^-1 (per-crossing luminosity x 133 bunches x 120 Hz); D_y, H_D, "
@@ -465,7 +491,7 @@ def build():
                                 rows=[r for c in ds for r in ds[c]]),
         derived_luminosity=derived, requirements=requirements, fits=fits, kappa=kappa,
         recommendation_table=recommendation, disruption_parameter=dy, core_width=core_width(),
-        solver_and_deposition_variants=variants_block, ps1_reference=ps1)
+        solver_and_deposition_variants=variants_block, ps1_reference=ps1, wx_over_gp_luminosity=wx_over_gp)
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -610,6 +636,14 @@ def markdown(P):
                f"Nominal configuration at 20 nm: L = {pm(p['L_mean_1e34'], p['L_std_1e34']['value'], 2)} (std), "
                f"se {p['L_se_1e34']['value']:.3f}, {p['n_seeds']} seeds; ratio to the published {p['published_1e34']} = "
                f"{pm(p['ratio_to_published'], p['ratio_se']['value'], 3)} (± se).\n")
+
+    g = P["wx_over_gp_luminosity"]; b = g["range_8_to_100_nm"]
+    out.append("\n## 11. WarpX / GUINEA-PIG++ luminosity ratio\n\n" + g["definition"] + "\n")
+    out.append(table(["ε_y [nm]", "WarpX configuration", "GP++ block", "L_WarpX / L_GP++ ± se"],
+                     [[f"{r['e_y_nm']:g}", r["wx_configuration"], r["gp_block"], pm(r["value"], r["se"]["value"], 3)]
+                      for r in g["per_emittance"]]))
+    out.append(f"\nOver 8–100 nm: {b['min']:.3f} ({b['e_y_nm_at_min']:g} nm) to {b['max']:.3f} ({b['e_y_nm_at_max']:g} nm). "
+               f"At 1 nm: {pm(g['at_1_nm']['value'], g['at_1_nm']['se']['value'], 3)}.\n")
     return "\n".join(out)
 
 
