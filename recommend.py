@@ -52,8 +52,17 @@ HOW THE RECOMMENDATION IS MADE
    Both laws use the conservative locus: the fitted line with its normalisation raised until
    every tuning point sits beneath it.
 
-6. Rounding, as in the paper.  GUINEA-PIG++: n_y to the next power of two, n_m as ceil(...).
-   WarpX: n_y to the smallest SAMPLED power of two, n_m to two significant figures.
+6. Rounding.  n_y goes up to a power of two (WarpX to the smallest power of two its ladders
+   sampled, 32 to 8192); n_m is the law value, which the tables of the paper quote to two
+   significant figures.
+
+6b. Box extents.  The cut multipliers set the box as +-c sigma, so the cell size is 2 c sigma/n
+   and a different box needs proportionally many cells to keep the same resolution:
+   n_x, n_y, n_z all scale with their own multiplier, as in n_x^req = 2 c_x N_0.  The occupancy
+   of the pinched central cell, [8 c_x c_y c_z/(2 pi)^(3/2)] n_m/(n_x n_y n_z), then carries the
+   cut multipliers in the denominator, so n_m is unchanged by a box that grows with its cell
+   count, and moves only through the rounding of the cells.  The study ran one box per code; any
+   other is outside it, and a smaller one can crop the collision.
 
 7. Other machine geometries (mode='model', EXPERIMENTAL).  Steps 4 and 5 both carry R through
    their normalisations, C_y proportional to Lambda and C_m inversely proportional to it.  When
@@ -189,10 +198,14 @@ class Recommendation:
 
 def recommend(E_GeV: float, N: float, sigma_z_m: float, eps_y_nm: float, beta_y_m: float,
               eps_x_nm: float, beta_x_m: float, code: str = "GP",
-              mode: str = "recommended") -> Recommendation:
+              mode: str = "recommended", cuts: tuple = None) -> Recommendation:
     """Recommended configuration for one collision.
 
     code : 'GP' (GUINEA-PIG++) or 'WX' (WarpX).
+    cuts : box half-extents (c_x, c_y, c_z) in units of the beam size; defaults to the box
+           this study ran for that code. Cell counts scale with them, so the resolution is
+           held; a box the study did not run is reported, and a smaller one may crop the
+           collision.
     mode : 'recommended' (default) applies the loci of the paper as they stand, and warns when
            this machine's geometry is not the one they were established on;
            'model' is EXPERIMENTAL: it transports them to this machine's beta_y*/sigma_z by the
@@ -221,18 +234,35 @@ def recommend(E_GeV: float, N: float, sigma_z_m: float, eps_y_nm: float, beta_y_
     d_x = 2 * N * R_E * sigma_z_m / (gamma * sx * s_sum)
     hourglass = beta_y_m / sigma_z_m
 
-    # ── steps 4-6: the conservative loci with the rounding of the paper ──
+    # ── steps 4-6: the conservative loci, in the box the caller asked for ──
+    c_ref = cfg["cuts"]
+    c = tuple(float(v) for v in cuts) if cuts is not None else c_ref
+    if len(c) != 3 or any(v <= 0 for v in c):
+        raise ValueError(f"cuts must be three positive multipliers (c_x, c_y, c_z), not {cuts!r}")
+
     def _round_ny(raw):
         if cfg is GP:
             return 2 ** math.ceil(math.log2(raw))        # next power of two
         return min((p for p in cfg["ny_rungs"] if p >= raw), default=cfg["ny_rungs"][-1])
 
-    ny_raw = cfg["C_y"] * d_y ** cfg["q_n"]
-    n_y_ref = _round_ny(ny_raw)
-    # GUINEA-PIG++ quotes the requirement per cell, WarpX as an absolute count
+    def _pow2(v):
+        return 2 ** math.ceil(math.log2(v))
+
+    # a box of +-c sigma with n cells has cell size 2 c sigma/n, so holding the resolution of
+    # the study means scaling each cell count with its own extent
+    n_x = _pow2(cfg["n_x"] * c[0] / c_ref[0])
+    n_z = _pow2(cfg["n_z"] * c[2] / c_ref[2])
+    n_t = n_z if cfg is WX else cfg["n_t"]
+    ny_law = cfg["C_y"] * d_y ** cfg["q_n"]
+    n_y_ref = _round_ny(ny_law)                          # at the box the study ran
+    ny_raw = ny_law * c[1] / c_ref[1]
+    n_y = _round_ny(ny_raw)
+    # GUINEA-PIG++ quotes the requirement per cell, WarpX as an absolute count; both are the
+    # same occupancy condition, so both transport the same way below
     nm_ref = (cfg["C_m"] * d_y ** cfg["nm_exponent"] * cfg["n_x"] * n_y_ref * cfg["n_z"]
               if cfg is GP else cfg["C_m"] * d_y ** cfg["nm_exponent"])
-    n_y, nm_val = n_y_ref, nm_ref
+    cut_ratio = (c[0] * c[1] * c[2]) / (c_ref[0] * c_ref[1] * c_ref[2])
+    cells_ref = cfg["n_x"] * n_y_ref * cfg["n_z"]
     r_ref = r_here = float("nan")
 
     # ── step 7: transport to this machine's hourglass ratio (experimental) ──
@@ -240,16 +270,19 @@ def recommend(E_GeV: float, N: float, sigma_z_m: float, eps_y_nm: float, beta_y_
     if mode == "model" and off_ratio:
         r_ref, r_here = R_pinch(d_y, HOURGLASS_REF), R_pinch(d_y, hourglass)
         n_y = _round_ny(ny_raw * r_here / r_ref)
-        # occupancy of the pinched central cell: the cell height moves with n_y, and the
-        # compression concentrates charge into that cell. Both apply for either code, so the
-        # two loci transport identically though one is quoted per cell and the other as a count.
-        nm_val = nm_ref * (n_y / n_y_ref) * (r_ref / r_here)
+
+    # occupancy of the pinched central cell is fixed by cells per sigma: n_m follows the cell
+    # count, the inverse of the box volume, and the compression that concentrates the charge.
+    # A box that grows together with its cell count therefore leaves n_m alone.
+    nm_val = nm_ref * (n_x * n_y * n_z) / cells_ref / cut_ratio
+    if mode == "model" and off_ratio:
+        nm_val *= r_ref / r_here
 
     n_m = math.ceil(nm_val) if cfg is GP else _round_2sf(nm_val)
 
-    r = Recommendation(code=cfg["code"], mode=mode, n_x=cfg["n_x"], n_y=n_y, n_z=cfg["n_z"],
-                       n_t=cfg["n_t"], n_m=n_m, D_y=d_y, D_x=d_x, hourglass=hourglass,
-                       sigma_x_m=sx, sigma_y_m=sy, cuts=cfg["cuts"], R_ref=r_ref, R_here=r_here)
+    r = Recommendation(code=cfg["code"], mode=mode, n_x=n_x, n_y=n_y, n_z=n_z,
+                       n_t=n_t, n_m=n_m, D_y=d_y, D_x=d_x, hourglass=hourglass,
+                       sigma_x_m=sx, sigma_y_m=sy, cuts=c, R_ref=r_ref, R_here=r_here)
 
     # ── what the study covered, and what it did not ──
     if off_ratio:
@@ -266,6 +299,15 @@ def recommend(E_GeV: float, N: float, sigma_z_m: float, eps_y_nm: float, beta_y_
                 "as well as on D_y, so these constants are outside the geometry they were "
                 "established on. Use mode='model' for the envelope-model estimate.")
             warnings.warn(r.warnings[-1], OutsideTestedRange, stacklevel=2)
+    if c != c_ref:
+        smaller = [ax for ax, v, vr in zip('xyz', c, c_ref) if v < vr]
+        msg = (f"box extents (c_x, c_y, c_z) = {c} are not the {c_ref} this study ran; the "
+               "cell counts have been scaled with them to hold the resolution.")
+        if smaller:
+            msg += (f" The box is smaller in {', '.join(smaller)}, so the collision may be "
+                    "cropped; this study did not test that.")
+        r.warnings.append(msg)
+        warnings.warn(msg, OutsideTestedRange, stacklevel=2)
     lo, hi = D_Y_TESTED
     if not (lo <= d_y <= hi):
         r.warnings.append(f"D_y = {d_y:.1f} is outside the tested band [{lo}, {hi}].")
