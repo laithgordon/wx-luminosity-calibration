@@ -1,0 +1,17 @@
+# nm_vs_nx_summary.csv -- WarpX n_m ladders at fixed n_y=256, n_z=128, eps_y=20 nm, one per n_x
+# L_inf: mean over the highest window of >=3 consecutive rungs spanning a decade with max/min-1 <= 0.002; blank where no such window exists
+# n_m_req: smallest n_m at which the ladder is within 5% of its own L_inf (log-log interpolation between bracketing rungs)
+# n_m_req_lower_bound: for ladders still falling at the top rung, the bound that follows from L_inf <= L(top rung)
+# n_m_predicted: eq:law_nm at this n_x, = 0.440 * D_y^3.269 * n_x/512 with D_y = 21.522964 (frozen production locus)
+# ratio: n_m_req / n_m_predicted (or the lower bound over the prediction where marked)
+# L_top_rung: luminosity at the largest n_m run at this n_x, the value the ladder is approaching or still falling from
+# approach: whether the ladder reaches its limit from below or from above; nm_top: largest n_m run at this n_x
+n_x,L_inf,L_top_rung,n_m_req,n_m_req_lower_bound,n_m_predicted,ratio,approach,nm_top
+64,1.292194,1.292501,284,,1252,0.226,from_below,12520440
+128,1.343309,1.343551,2665,,2504,1.064,from_below,25040880
+256,1.362961,1.363777,5548,,5008,1.108,from_below,15837243
+512,1.370864,1.370823,3042,,10016,0.304,from_below,100000000
+1024,1.374206,1.374086,922,,20033,0.046,from_above,63348968
+2048,,1.375781,,126698,40065,3.162,from_above,126697935
+4096,,1.384351,,2533959,80131,31.623,from_above,80130810
+8192,,1.407833,,10000000,160262,62.398,from_above,100000000
