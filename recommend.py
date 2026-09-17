@@ -1,8 +1,11 @@
 """Recommended beam-beam simulation configuration from beam parameters.
 
-Given the parameters of a flat-beam collision, this returns the configuration recommended by
-the scaling laws of the paper: the vertical cell count n_y and the macroparticle count n_m, at
-the transverse and longitudinal resolutions the study fixed.
+For a strongly disrupted flat-beam collision, this returns a configuration that resolves the
+pinched core and populates it: the cell counts, the number of steps and the macroparticle count,
+for WarpX and GUINEA-PIG++. The requirements and the study behind them are described in
+"Evaluating beam-beam simulations in the pursuit of designing next generation colliders"
+(arXiv link to be added on release); the recipe is set out under HOW THE RECOMMENDATION IS MADE
+below, so this module can be read on its own.
 
     python3 recommend.py                      # self-test, then two worked examples
 
