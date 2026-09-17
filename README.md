@@ -122,6 +122,7 @@ this locus.
 | `plot_coarse.py`, `plot_nx_nm_coupling.py` | coarse-grid control and the `n_x`–`n_m` coupling test |
 | `plot_core_width.py`, `plot_slice_pinch.py`, `plot_pinch_evolution.py` | the pinched-core measurements from per-step particle dumps; `plot_core_width.py` also builds the `data/slice_*` caches |
 | `deposition_error.py`, `depo_corr_stat.py`, `plot_depo_correlation.py` | per-pass deposition error at the waists and its seed statistics |
+| `recommend.py`, `recommend.ipynb` | recommended configuration from beam parameters: the vertical cell count and macroparticle count for either code, with the ranges the study covered enforced as warnings; the notebook is the worked interface and `selftest()` reproduces both recommendation tables |
 | `add_jobs.py`, `submit.py` | job submission: `add_jobs.py` appends runs to `data/joblist.csv`; `submit.py` renders `inputs/template.sbatch` per pending row and submits it |
 
 ## Inputs (`inputs/`)
