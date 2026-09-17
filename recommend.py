@@ -196,7 +196,8 @@ def recommend(E_GeV: float, N: float, sigma_z_m: float, eps_y_nm: float, beta_y_
     mode : 'recommended' (default) applies the loci of the paper as they stand, and warns when
            this machine's geometry is not the one they were established on;
            'model' is EXPERIMENTAL: it transports them to this machine's beta_y*/sigma_z by the
-           envelope model of step 7, giving a prediction the paper does not test.
+           envelope model of step 7. Nothing in the paper tests that transport, so the result is
+           untested.
 
     Raises ValueError for a beam that is not flat (sigma_y* >= sigma_x*): the laws describe the
     vertical plane of a flat beam, and applying them to a tall beam would put the requirement on
@@ -256,7 +257,7 @@ def recommend(E_GeV: float, N: float, sigma_z_m: float, eps_y_nm: float, beta_y_
             r.warnings.append(
                 f"EXPERIMENTAL: beta_y*/sigma_z = {hourglass:.3f} differs from the "
                 f"{HOURGLASS_REF} the study ran, and the configuration has been transported by "
-                "the envelope model. This is a prediction of the model, not a tested result.")
+                "the envelope model. That transport is untested.")
             warnings.warn(r.warnings[-1], ExperimentalRecommendation, stacklevel=2)
         else:
             r.warnings.append(
