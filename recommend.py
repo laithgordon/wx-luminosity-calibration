@@ -205,8 +205,9 @@ def recommend(E_GeV: float, N: float, sigma_z_m: float, eps_y_nm: float, beta_y_
     """Recommended configuration for one collision.
 
     code : 'GP' (GUINEA-PIG++) or 'WX' (WarpX).
-    cuts : box half-extents (c_x, c_y, c_z) in units of the beam size; defaults to the box
-           this study ran for that code. Cell counts scale with them, so the resolution is
+    cuts : box half-extents (c_x, c_y, c_z) in units of (sigma_x*, sigma_y*, sigma_z);
+           defaults to the box this study ran for that code, (20, 20, 3.5) for
+           GUINEA-PIG++ and (16, 16, 8) for WarpX. Cell counts scale with them, so the resolution is
            held; a box the study did not run is reported, and a smaller one may crop the
            collision.
     mode : 'recommended' (default) applies the loci of the paper as they stand, and warns when
