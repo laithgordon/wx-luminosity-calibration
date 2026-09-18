@@ -61,11 +61,13 @@ def draw():
 
 
 def draw_code_ratio():
-    """WX_code_ratio_vs_ey: WarpX tuned / GP++ tuned vs e_y over 1-100 nm (error bar: seed STDs in quadrature)."""
+    """WX_code_ratio_vs_ey: WarpX tuned / GP++ tuned vs e_y over 1-100 nm (error bar: standard error of the ratio of means)."""
     S = series(); wx, gp = S["wx_tuned"], S["gp_tuned"]
     es = np.array(sorted(e for e in wx if e in gp))
     r = np.array([wx[e][0] / gp[e][0] for e in es])
-    re = r * np.sqrt(np.array([(wx[e][1] / wx[e][0]) ** 2 + (gp[e][1] / gp[e][0]) ** 2 for e in es]))
+    # standard error of the ratio of means: each relative seed scatter divided by sqrt(n_seeds), in quadrature
+    re = r * np.sqrt(np.array([(wx[e][1] / wx[e][0]) ** 2 / wx[e][2] + (gp[e][1] / gp[e][0]) ** 2 / gp[e][2]
+                               for e in es]))
     with plt.rc_context(PRL):
         fig, ax = plt.subplots(figsize=(3.5, 2.7))
         ax.axhline(1.0, color="k", ls="--", lw=0.8, zorder=2)
