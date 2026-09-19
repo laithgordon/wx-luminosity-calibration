@@ -1,8 +1,8 @@
 """Recommended beam-beam simulation configuration from beam parameters.
 
 For a strongly disrupted flat-beam collision, this returns a configuration that resolves the
-pinched core and populates it: the cell counts, the number of steps and the macroparticle count,
-for WarpX and GUINEA-PIG++. The requirements and the study behind them are described in
+pinched core and populates it: the cell counts and the macroparticle count, for WarpX
+and GUINEA-PIG++. The requirements and the study behind them are described in
 "Evaluating beam-beam simulations in the pursuit of designing next generation colliders"
 (arXiv link to be added on release); the recipe is set out under HOW THE RECOMMENDATION IS MADE
 below, so this module can be read on its own.
@@ -91,10 +91,10 @@ M_E_GEV = 0.51099895000e-3      # electron rest mass [GeV]
 
 # ── GUINEA-PIG++ conservative locus (gp-luminosity-calibration: constants.py) ──
 GP = dict(code="GUINEA-PIG++", C_y=50.0, q_n=0.402, C_m=2.305e-7, nm_exponent=3.300,
-          n_x=512, n_z=64, n_t=6, cuts=(20, 20, 3.5))
+          n_x=512, n_z=64, cuts=(20, 20, 3.5))
 # ── WarpX production locus (nmreq.py) ──
 WX = dict(code="WarpX", C_y=38.1, q_n=0.450260, C_m=0.440, nm_exponent=3.269,
-          n_x=512, n_z=128, n_t=128, cuts=(16, 16, 8),
+          n_x=512, n_z=128, cuts=(16, 16, 8),
           ny_rungs=(32, 64, 128, 256, 512, 1024, 2048, 4096, 8192))
 
 # ── what the study covered ──
@@ -163,7 +163,6 @@ class Recommendation:
     n_x: int
     n_y: int
     n_z: int
-    n_t: int
     n_m: int
     D_y: float
     D_x: float
@@ -187,7 +186,7 @@ class Recommendation:
         elif any("outside" in w for w in self.warnings):
             banner = "    *** OUTSIDE THE RANGE THE STUDY COVERED ***\n"
         head = (f"{self.code} [{self.mode}]: (n_x, n_y, n_z) = ({self.n_x}, {self.n_y}, "
-                f"{self.n_z}), n_t = {self.n_t}, n_m = {self.n_m:,}\n" + banner +
+                f"{self.n_z}), n_m = {self.n_m:,}\n" + banner +
                 f"    D_y = {self.D_y:.3f}, D_x = {self.D_x:.4f}, "
                 f"beta_y*/sigma_z = {self.hourglass:.3f}, "
                 f"sigma_x* = {self.sigma_x_m * 1e9:.2f} nm, "
@@ -256,7 +255,6 @@ def recommend(E_GeV: float, N: float, sigma_z_m: float, eps_y_nm: float, beta_y_
     # the study means scaling each cell count with its own extent
     n_x = _pow2(cfg["n_x"] * c[0] / c_ref[0])
     n_z = _pow2(cfg["n_z"] * c[2] / c_ref[2])
-    n_t = n_z if cfg is WX else cfg["n_t"]
     ny_law = cfg["C_y"] * d_y ** cfg["q_n"]
     n_y_ref = _round_ny(ny_law)                          # at the box the study ran
     ny_raw = ny_law * c[1] / c_ref[1]
@@ -285,7 +283,7 @@ def recommend(E_GeV: float, N: float, sigma_z_m: float, eps_y_nm: float, beta_y_
     n_m = math.ceil(nm_val) if cfg is GP else _round_2sf(nm_val)
 
     r = Recommendation(code=cfg["code"], mode=mode, n_x=n_x, n_y=n_y, n_z=n_z,
-                       n_t=n_t, n_m=n_m, D_y=d_y, D_x=d_x, hourglass=hourglass,
+                       n_m=n_m, D_y=d_y, D_x=d_x, hourglass=hourglass,
                        sigma_x_m=sx, sigma_y_m=sy, cuts=c, R_ref=r_ref, R_here=r_here)
 
     # ── what the study covered, and what it did not ──
