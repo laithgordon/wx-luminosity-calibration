@@ -1444,7 +1444,7 @@
     "e_y_nm": 0.5,
     "value": 2.1391560518508475,
     "se": {
-     "value": 0.033014072278990184,
+     "value": 0.03301407227899018,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -1452,7 +1452,7 @@
     "e_y_nm": 1,
     "value": 1.6873258010769354,
     "se": {
-     "value": 0.022931246685850955,
+     "value": 0.022931246685850958,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -1500,7 +1500,7 @@
     "e_y_nm": 20,
     "value": 0.9737107642236996,
     "se": {
-     "value": 0.004863467891945261,
+     "value": 0.004863467891945262,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    }
@@ -1953,7 +1953,7 @@
    "definition": "L_conservative(2 nm) / L_conservative(20 nm)",
    "value": 3.840867590778152,
    "se": {
-    "value": 0.0197243485223739,
+    "value": 0.019724348522373897,
     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
    }
   },
@@ -3564,6 +3564,246 @@
    "PQ 2 nm, n_y 1024, n_m/n_m^cons 0.695": "10 runs: off the locus rule",
    "PQ 4 nm, n_y 1024, n_m/n_m^cons 0.77": "10 runs: off the locus rule",
    "PQ 8 nm, n_y 1024, n_m/n_m^cons 0.877": "10 runs: off the locus rule"
+  },
+  "luminosity_at_refined_grid": {
+   "rows": [
+    {
+     "e_y_nm": 0.5,
+     "refined": {
+      "n_y": 2048,
+      "n_m": 4334528,
+      "n_seeds": 10,
+      "L_mean_1e34": 11.7910509,
+      "L_se_1e34": {
+       "value": 0.004115798573653554,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "recommended": {
+      "n_y": 512,
+      "n_m": 4334528,
+      "n_seeds": 15,
+      "L_mean_1e34": 11.76221486666667,
+      "L_se_1e34": {
+       "value": 0.0030816780182644186,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "n_m_refined_over_recommended": 1.0,
+     "L_ratio": 1.0024515819223,
+     "L_ratio_se": {
+      "value": 0.0004375178546999987,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 1,
+     "refined": {
+      "n_y": 2048,
+      "n_m": 1391638,
+      "n_seeds": 10,
+      "L_mean_1e34": 7.9233400000000005,
+      "L_se_1e34": {
+       "value": 0.006196700819342861,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "recommended": {
+      "n_y": 512,
+      "n_m": 1391638,
+      "n_seeds": 15,
+      "L_mean_1e34": 7.889410800000002,
+      "L_se_1e34": {
+       "value": 0.005852138444477649,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "n_m_refined_over_recommended": 1.0,
+     "L_ratio": 1.0043005999890382,
+     "L_ratio_se": {
+      "value": 0.001082539502867009,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 2,
+     "refined": {
+      "n_y": 1024,
+      "n_m": 446211,
+      "n_seeds": 10,
+      "L_mean_1e34": 5.2164951,
+      "L_se_1e34": {
+       "value": 0.009454373203796575,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "recommended": {
+      "n_y": 256,
+      "n_m": 446211,
+      "n_seeds": 15,
+      "L_mean_1e34": 5.129227133333332,
+      "L_se_1e34": {
+       "value": 0.011579759394599915,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "n_m_refined_over_recommended": 1.0,
+     "L_ratio": 1.017013862790271,
+     "L_ratio_se": {
+      "value": 0.002944349815238588,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 4,
+     "refined": {
+      "n_y": 1024,
+      "n_m": 142808,
+      "n_seeds": 10,
+      "L_mean_1e34": 3.3887199000000003,
+      "L_se_1e34": {
+       "value": 0.014686447328858428,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "recommended": {
+      "n_y": 256,
+      "n_m": 142808,
+      "n_seeds": 15,
+      "L_mean_1e34": 3.3698734999999997,
+      "L_se_1e34": {
+       "value": 0.014145085197861534,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "n_m_refined_over_recommended": 1.0,
+     "L_ratio": 1.005592613491278,
+     "L_ratio_se": {
+      "value": 0.006067148488268516,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 8,
+     "refined": {
+      "n_y": 1024,
+      "n_m": 45586,
+      "n_seeds": 10,
+      "L_mean_1e34": 2.2854396,
+      "L_se_1e34": {
+       "value": 0.01665233265154697,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "recommended": {
+      "n_y": 256,
+      "n_m": 45586,
+      "n_seeds": 15,
+      "L_mean_1e34": 2.2688437333333336,
+      "L_se_1e34": {
+       "value": 0.014533252223932694,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "n_m_refined_over_recommended": 1.0,
+     "L_ratio": 1.0073146803470172,
+     "L_ratio_se": {
+      "value": 0.00977257011932187,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 12,
+     "refined": {
+      "n_y": 1024,
+      "n_m": 22000,
+      "n_seeds": 10,
+      "L_mean_1e34": 1.8027251333333332,
+      "L_se_1e34": {
+       "value": 0.009365957580376255,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "recommended": {
+      "n_y": 256,
+      "n_m": 23337,
+      "n_seeds": 15,
+      "L_mean_1e34": 1.8003626,
+      "L_se_1e34": {
+       "value": 0.007495683056520572,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "n_m_refined_over_recommended": 0.9427090028709774,
+     "L_ratio": 1.0013122541722057,
+     "L_ratio_se": {
+      "value": 0.0066665731732383675,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 16,
+     "refined": {
+      "n_y": 1024,
+      "n_m": 14000,
+      "n_seeds": 10,
+      "L_mean_1e34": 1.5327313166666667,
+      "L_se_1e34": {
+       "value": 0.005970612312750404,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "recommended": {
+      "n_y": 256,
+      "n_m": 14499,
+      "n_seeds": 15,
+      "L_mean_1e34": 1.5225554666666665,
+      "L_se_1e34": {
+       "value": 0.0047142431800486165,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "n_m_refined_over_recommended": 0.9655838333678185,
+     "L_ratio": 1.0066834018351254,
+     "L_ratio_se": {
+      "value": 0.005009308110642052,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 20,
+     "refined": {
+      "n_y": 1024,
+      "n_m": 10000,
+      "n_seeds": 10,
+      "L_mean_1e34": 1.3453449499999999,
+      "L_se_1e34": {
+       "value": 0.009345794352556547,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "recommended": {
+      "n_y": 256,
+      "n_m": 10000,
+      "n_seeds": 15,
+      "L_mean_1e34": 1.335434511111111,
+      "L_se_1e34": {
+       "value": 0.0061597336846649815,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "n_m_refined_over_recommended": 1.0,
+     "L_ratio": 1.0074211343247699,
+     "L_ratio_se": {
+      "value": 0.00840052606017285,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    }
+   ],
+   "provenance": {
+    "selection": "refined: the core-width runs above; recommended: solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')",
+    "definition": "L_ratio = refined / recommended, each a mean over per-seed means of data/results.csv"
+   }
   }
  },
  "solver_and_deposition_variants": {
@@ -4430,7 +4670,7 @@
      "e_y_nm": 1,
      "value": 0.9999978220852538,
      "se": {
-      "value": 0.0018157174402894983,
+      "value": 0.0018157174402894981,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -4805,7 +5045,7 @@
      "e_y_nm": 0.5,
      "value": 0.9815781594055561,
      "se": {
-      "value": 0.002691625765740064,
+      "value": 0.0026916257657400642,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -4813,7 +5053,7 @@
      "e_y_nm": 1,
      "value": 0.9512534858962262,
      "se": {
-      "value": 0.013353654081020067,
+      "value": 0.013353654081020065,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -4821,7 +5061,7 @@
      "e_y_nm": 2,
      "value": 0.938857420023746,
      "se": {
-      "value": 0.005610391843636528,
+      "value": 0.005610391843636529,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -4845,7 +5085,7 @@
      "e_y_nm": 12,
      "value": 0.9816271453977177,
      "se": {
-      "value": 0.011207212107104052,
+      "value": 0.011207212107104054,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -5188,7 +5428,7 @@
      "e_y_nm": 0.5,
      "value": 0.9816729233250836,
      "se": {
-      "value": 0.0026690502140036855,
+      "value": 0.002669050214003685,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -5280,7 +5520,7 @@
     "gp_block": "conservative",
     "value": 1.2879623484811031,
     "se": {
-     "value": 0.0106696454159273,
+     "value": 0.010669645415927301,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -5330,7 +5570,7 @@
     "gp_block": "conservative",
     "value": 0.9972412507391593,
     "se": {
-     "value": 0.004369033680727608,
+     "value": 0.004369033680727609,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -5350,7 +5590,7 @@
     "gp_block": "frozen_extension",
     "value": 0.9914110212807385,
     "se": {
-     "value": 0.00802189777224906,
+     "value": 0.008021897772249058,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -5370,7 +5610,7 @@
     "gp_block": "frozen_extension",
     "value": 0.9951256686498158,
     "se": {
-     "value": 0.013317236156477875,
+     "value": 0.013317236156477874,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -5380,7 +5620,7 @@
     "gp_block": "frozen_extension",
     "value": 0.9956099607062738,
     "se": {
-     "value": 0.015221106800735906,
+     "value": 0.015221106800735905,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    }
@@ -5394,7 +5634,7 @@
   "at_1_nm": {
    "value": 1.2879623484811031,
    "se": {
-    "value": 0.0106696454159273,
+    "value": 0.010669645415927301,
     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
    }
   },

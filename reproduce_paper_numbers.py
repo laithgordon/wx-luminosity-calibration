@@ -312,7 +312,7 @@ def gp_kappa():
 # ---------------------------------------------------------------------------------------------------------------------
 # pinched core
 # ---------------------------------------------------------------------------------------------------------------------
-def core_width():
+def core_width(runs):
     rule = ("data/joblist.csv runs of phases PQ, PQ2 with n_y = 4 n_y^cons(e_y) and 0.90 <= n_m / n_m^cons(e_y) <= 1.10; "
             "per run the minimum over steps of the Gaussian core width of the central slice (|z - z_bar| < 0.10 sigma_z), "
             "averaged over the two beams, from data/slice_widths_hw010_<label>.csv; fit error from "
@@ -358,7 +358,40 @@ def core_width():
             for (p, e, ny, rr), c in sorted(excluded.items())}
     return dict(rows=rows, provenance=dict(selection=rule, R_1="data/R1_table.npz, linear interpolation in D_y"),
                 note_12_16_nm="n_m / n_m^cons = 0.943 and 0.966 at 12 and 16 nm lie inside the [0.90, 1.10] window and are included",
-                excluded_runs=note)
+                excluded_runs=note, luminosity_at_refined_grid=refined_grid_luminosity(runs, nms))
+
+
+def refined_grid_luminosity(runs, nms):
+    """Luminosity of the core-width runs (n_y = 4 n_y^cons) against the recommended configuration (LOCUS_RULE) at the
+    same emittance, with the n_m of each side stated. Seed means first; ratio of the two seed means."""
+    rows = []
+    for e in Q.EYS:
+        (_, nm_ref, _), = nms[e]
+        sides = {}
+        for tag, grid, window in (("refined", (512, 4 * Q.n_y_cons(e), 128), lambda nm: nm == nm_ref),
+                                  ("recommended", (512, Q.n_y_cons(e), 128), lambda nm: abs(nm / Q.n_m_cons(e) - 1) < 0.02)):
+            per = defaultdict(list)
+            for r in runs:
+                if r["e"] == e and r["solver"] == "3d" and r["grid"] == grid and window(r["nm"]):
+                    per[r["seed"]].append(r["L"])
+            if len(per) < 2:
+                fail(f"refined-grid luminosity: {len(per)} seed(s) at e_y = {e:g} nm on the {tag} grid {grid}")
+            settings = {r["nm"] for r in runs if r["e"] == e and r["solver"] == "3d" and r["grid"] == grid and window(r["nm"])}
+            if len(settings) != 1:
+                fail(f"refined-grid luminosity: runs at e_y = {e:g} nm on the {tag} grid mix n_m {sorted(settings)}")
+            L = [float(np.mean(v)) for v in per.values()]
+            sides[tag] = dict(n_y=grid[1], n_m=int(settings.pop()), n_seeds=len(L), L_mean_1e34=float(np.mean(L)),
+                              L_se_1e34=U(float(np.std(L, ddof=1) / math.sqrt(len(L))), SE))
+        a, b = sides["refined"], sides["recommended"]
+        rows.append(dict(e_y_nm=e, refined=a, recommended=b,
+                         n_m_refined_over_recommended=a["n_m"] / b["n_m"],
+                         L_ratio=a["L_mean_1e34"] / b["L_mean_1e34"],
+                         L_ratio_se=U(a["L_mean_1e34"] / b["L_mean_1e34"] *
+                                      math.hypot(a["L_se_1e34"]["value"] / a["L_mean_1e34"],
+                                                 b["L_se_1e34"]["value"] / b["L_mean_1e34"]), RATIO_SE)))
+    return dict(rows=rows, provenance=dict(
+        selection="refined: the core-width runs above; recommended: " + LOCUS_RULE,
+        definition="L_ratio = refined / recommended, each a mean over per-seed means of data/results.csv"))
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -490,7 +523,7 @@ def build():
         luminosity_dataset=dict(cut_multipliers_definition=CUT_NOTE, n_t_definition=NT_NOTE,
                                 rows=[r for c in ds for r in ds[c]]),
         derived_luminosity=derived, requirements=requirements, fits=fits, kappa=kappa,
-        recommendation_table=recommendation, disruption_parameter=dy, core_width=core_width(),
+        recommendation_table=recommendation, disruption_parameter=dy, core_width=core_width(runs),
         solver_and_deposition_variants=variants_block, ps1_reference=ps1, wx_over_gp_luminosity=wx_over_gp)
 
 
@@ -612,6 +645,15 @@ def markdown(P):
                        r["n_seeds"], r["n_y"], r["n_m"], f"{r['n_m_over_n_m_cons']:.3f}"] for r in cw["rows"]]))
     out.append("\nerr: " + cw["rows"][0]["uncertainty"]["definition"] + ". Excluded runs: "
                + "; ".join(f"{k} ({v})" for k, v in cw["excluded_runs"].items()) + ".\n")
+
+    rg = cw["luminosity_at_refined_grid"]
+    out.append("\nLuminosity on the refined grid against the recommended configuration (" + rg["provenance"]["definition"] + ").\n")
+    out.append(table(["ε_y [nm]", "n_y refined / recommended", "n_m refined / recommended", "L refined", "L recommended", "ratio"],
+                     [[f"{r['e_y_nm']:g}", f"{r['refined']['n_y']} / {r['recommended']['n_y']}",
+                       f"{r['refined']['n_m']} / {r['recommended']['n_m']}",
+                       f"{r['refined']['L_mean_1e34']:.4f} ({r['refined']['n_seeds']})",
+                       f"{r['recommended']['L_mean_1e34']:.4f} ({r['recommended']['n_seeds']})",
+                       pm(r["L_ratio"], r["L_ratio_se"]["value"], 4)] for r in rg["rows"]]))
 
     sv = P["solver_and_deposition_variants"]
     out.append("\n## 9. Solver and deposition variants\n\n" + sv["note"] + "\n")

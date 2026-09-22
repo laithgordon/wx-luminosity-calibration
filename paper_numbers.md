@@ -247,6 +247,19 @@ Selection: data/joblist.csv runs of phases PQ, PQ2 with n_y = 4 n_y^cons(e_y) an
 err: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*. Excluded runs: PQ 0.5 nm, n_y 1024, n_m/n_m^cons 0.577 (10 runs: off the locus rule); PQ 1 nm, n_y 1024, n_m/n_m^cons 0.632 (10 runs: off the locus rule); PQ 2 nm, n_y 1024, n_m/n_m^cons 0.695 (10 runs: off the locus rule); PQ 4 nm, n_y 1024, n_m/n_m^cons 0.77 (10 runs: off the locus rule); PQ 8 nm, n_y 1024, n_m/n_m^cons 0.877 (10 runs: off the locus rule).
 
 
+Luminosity on the refined grid against the recommended configuration (L_ratio = refined / recommended, each a mean over per-seed means of data/results.csv).
+
+| ε_y [nm] | n_y refined / recommended | n_m refined / recommended | L refined | L recommended | ratio |
+|---|---|---|---|---|---|
+| 0.5 | 2048 / 512 | 4334528 / 4334528 | 11.7911 (10) | 11.7622 (15) | 1.0025 ± 0.0004 |
+| 1 | 2048 / 512 | 1391638 / 1391638 | 7.9233 (10) | 7.8894 (15) | 1.0043 ± 0.0011 |
+| 2 | 1024 / 256 | 446211 / 446211 | 5.2165 (10) | 5.1292 (15) | 1.0170 ± 0.0029 |
+| 4 | 1024 / 256 | 142808 / 142808 | 3.3887 (10) | 3.3699 (15) | 1.0056 ± 0.0061 |
+| 8 | 1024 / 256 | 45586 / 45586 | 2.2854 (10) | 2.2688 (15) | 1.0073 ± 0.0098 |
+| 12 | 1024 / 256 | 22000 / 23337 | 1.8027 (10) | 1.8004 (15) | 1.0013 ± 0.0067 |
+| 16 | 1024 / 256 | 14000 / 14499 | 1.5327 (10) | 1.5226 (15) | 1.0067 ± 0.0050 |
+| 20 | 1024 / 256 | 10000 / 10000 | 1.3453 (10) | 1.3354 (15) | 1.0074 ± 0.0084 |
+
 ## 9. Solver and deposition variants
 
 All four were run at the tuning-ladder settings (NM_CONS / NY_CONS); 'conservative_locus_n_m' gives the production-locus value for comparison. Reported at every emittance run.
