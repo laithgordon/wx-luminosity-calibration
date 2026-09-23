@@ -260,6 +260,15 @@ Luminosity on the refined grid against the recommended configuration (L_ratio = 
 | 16 | 1024 / 256 | 14000 / 14499 | 1.5327 (10) | 1.5226 (15) | 1.0067 ± 0.0050 |
 | 20 | 1024 / 256 | 10000 / 10000 | 1.3453 (10) | 1.3354 (15) | 1.0074 ± 0.0084 |
 
+Core width at n_y = 2 n_y^cons against 4 n_y^cons (relative_change = (width at 4 n_y^cons) / (width at 2 n_y^cons) - 1, at each emittance).
+
+| ε_y [nm] | n_y | n_m | occupancy / recommended | σ_min/σ_y* | change [%] |
+|---|---|---|---|---|---|
+| 0.5 | 1024 | 2500000 | 0.288 | 0.2562 |  |
+|  | 2048 | 4334528 | 0.250 | 0.2566 | 0.14 ± 0.17 |
+| 1 | 1024 | 880000 | 0.316 | 0.2558 |  |
+|  | 2048 | 1391638 | 0.250 | 0.2555 | -0.12 ± 0.25 |
+
 ## 9. Solver and deposition variants
 
 All four were run at the tuning-ladder settings (NM_CONS / NY_CONS); 'conservative_locus_n_m' gives the production-locus value for comparison. Reported at every emittance run.

@@ -3804,6 +3804,74 @@
     "selection": "refined: the core-width runs above; recommended: solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')",
     "definition": "L_ratio = refined / recommended, each a mean over per-seed means of data/results.csv"
    }
+  },
+  "width_at_halved_cell": {
+   "rows": [
+    {
+     "e_y_nm": 0.5,
+     "coarser_grid": {
+      "n_y": 1024,
+      "n_m": 2500000,
+      "n_seeds": 10,
+      "occupancy_over_recommended": 0.2883820401562023,
+      "sigma_min_over_sigma_y_star": 0.2562209424828083,
+      "se": {
+       "value": 0.00036341069924128363,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "finer_grid": {
+      "n_y": 2048,
+      "n_m": 4334528,
+      "n_seeds": 10,
+      "occupancy_over_recommended": 0.2500000055508366,
+      "sigma_min_over_sigma_y_star": 0.2565788352698317,
+      "se": {
+       "value": 0.0002554803346343879,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "relative_change": 0.001396813170521538,
+     "relative_change_se": {
+      "value": 0.0017353861040152155,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 1,
+     "coarser_grid": {
+      "n_y": 1024,
+      "n_m": 880000,
+      "n_seeds": 10,
+      "occupancy_over_recommended": 0.3161742842832264,
+      "sigma_min_over_sigma_y_star": 0.25582460913828486,
+      "se": {
+       "value": 0.0004485588746004649,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "finer_grid": {
+      "n_y": 2048,
+      "n_m": 1391638,
+      "n_seeds": 10,
+      "occupancy_over_recommended": 0.25000008444962535,
+      "sigma_min_over_sigma_y_star": 0.25550805863336634,
+      "se": {
+       "value": 0.00045921880356823914,
+       "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+      }
+     },
+     "relative_change": -0.0012373731596220239,
+     "relative_change_se": {
+      "value": 0.0025077817939799583,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    }
+   ],
+   "provenance": {
+    "selection": "phases PQ, PQ2 at n_y = 2 n_y^cons and n_y = 4 n_y^cons; widths as in the core-width rows above",
+    "definition": "relative_change = (width at 4 n_y^cons) / (width at 2 n_y^cons) - 1, at each emittance"
+   }
   }
  },
  "solver_and_deposition_variants": {

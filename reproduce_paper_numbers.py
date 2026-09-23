@@ -358,7 +358,44 @@ def core_width(runs):
             for (p, e, ny, rr), c in sorted(excluded.items())}
     return dict(rows=rows, provenance=dict(selection=rule, R_1="data/R1_table.npz, linear interpolation in D_y"),
                 note_12_16_nm="n_m / n_m^cons = 0.943 and 0.966 at 12 and 16 nm lie inside the [0.90, 1.10] window and are included",
-                excluded_runs=note, luminosity_at_refined_grid=refined_grid_luminosity(runs, nms))
+                excluded_runs=note, luminosity_at_refined_grid=refined_grid_luminosity(runs, nms),
+                width_at_halved_cell=halved_cell_width())
+
+
+def halved_cell_width():
+    """Core width at n_y = 2 n_y^cons against n_y = 4 n_y^cons, where both grids were run: e_y = 0.5 and 1 nm.
+    Halving the cell size divides the per-pass deposition error by four. The two grids carry different n_m, so the
+    per-cell occupancy of each is reported with it."""
+    def widths(e, factor):
+        out = []
+        for r in csv.DictReader(open(DATA / "joblist.csv")):
+            if r["phase"] not in ("PQ", "PQ2") or float(r["e_y_nm"]) != e or int(r["ny"]) != factor * Q.n_y_cons(e):
+                continue
+            wf = DATA / f"slice_widths_hw010_{r['label']}.csv"
+            if r["status"] != "done" or not wf.is_file():
+                fail(f"halved-cell width: run {r['label']} is not complete or its width cache is missing")
+            w = np.genfromtxt(wf, delimiter=",", names=True)
+            out.append((0.5 * sum(np.nanmin(w["gauss" + b]) for b in ("1", "2")), float(r["nm"])))
+        if len(out) < 2:
+            fail(f"halved-cell width: {len(out)} run(s) at e_y = {e:g} nm, n_y = {factor} n_y^cons")
+        if len({nm for _, nm in out}) != 1:
+            fail(f"halved-cell width: runs at e_y = {e:g} nm, n_y = {factor} n_y^cons mix n_m")
+        v = np.array([g for g, _ in out]) / Q.sigma_y(e)
+        nm = out[0][1]
+        return dict(n_y=factor * Q.n_y_cons(e), n_m=int(nm), n_seeds=len(v),
+                    occupancy_over_recommended=(nm / Q.n_m_cons(e)) / factor,
+                    sigma_min_over_sigma_y_star=float(v.mean()),
+                    se=U(float(v.std(ddof=1) / math.sqrt(len(v))), SE))
+    rows = []
+    for e in (0.5, 1):
+        coarse, fine = widths(e, 2), widths(e, 4)
+        a, b = coarse["sigma_min_over_sigma_y_star"], fine["sigma_min_over_sigma_y_star"]
+        rows.append(dict(e_y_nm=e, coarser_grid=coarse, finer_grid=fine,
+                         relative_change=b / a - 1,
+                         relative_change_se=U(math.hypot(fine["se"]["value"], b * coarse["se"]["value"] / a) / a, RATIO_SE)))
+    return dict(rows=rows, provenance=dict(
+        selection="phases PQ, PQ2 at n_y = 2 n_y^cons and n_y = 4 n_y^cons; widths as in the core-width rows above",
+        definition="relative_change = (width at 4 n_y^cons) / (width at 2 n_y^cons) - 1, at each emittance"))
 
 
 def refined_grid_luminosity(runs, nms):
@@ -654,6 +691,18 @@ def markdown(P):
                        f"{r['refined']['L_mean_1e34']:.4f} ({r['refined']['n_seeds']})",
                        f"{r['recommended']['L_mean_1e34']:.4f} ({r['recommended']['n_seeds']})",
                        pm(r["L_ratio"], r["L_ratio_se"]["value"], 4)] for r in rg["rows"]]))
+
+    hc = cw["width_at_halved_cell"]
+    out.append("\nCore width at n_y = 2 n_y^cons against 4 n_y^cons (" + hc["provenance"]["definition"] + ").\n")
+    out.append(table(["ε_y [nm]", "n_y", "n_m", "occupancy / recommended", "σ_min/σ_y*", "change [%]"],
+                     [row for r in hc["rows"] for row in (
+                         [f"{r['e_y_nm']:g}", r["coarser_grid"]["n_y"], r["coarser_grid"]["n_m"],
+                          f"{r['coarser_grid']['occupancy_over_recommended']:.3f}",
+                          f"{r['coarser_grid']['sigma_min_over_sigma_y_star']:.4f}", ""],
+                         ["", r["finer_grid"]["n_y"], r["finer_grid"]["n_m"],
+                          f"{r['finer_grid']['occupancy_over_recommended']:.3f}",
+                          f"{r['finer_grid']['sigma_min_over_sigma_y_star']:.4f}",
+                          pm(100 * r["relative_change"], 100 * r["relative_change_se"]["value"], 2)])]))
 
     sv = P["solver_and_deposition_variants"]
     out.append("\n## 9. Solver and deposition variants\n\n" + sv["note"] + "\n")
