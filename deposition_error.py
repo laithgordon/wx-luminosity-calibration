@@ -44,14 +44,17 @@ def deposit(y, w, dy, n, y0):
     return rho / dy
 
 
+WINDOW = (30, 85)        # collision window in dump steps; later dips are the expanding beam
+
+
 def waist_steps(label):
     """Waists = prominent local minima of the per-step core width (prominence >= 5 % of the
-    median width) — the same criterion as the N_osc census; shallow late dips do not count."""
+    median width) inside the collision window; dips on the expanding tail do not count."""
     from scipy.signal import find_peaks
     d = run_widths(label)
     g = 0.5 * (d["gauss1"] + d["gauss2"])
     steps = d["step"].astype(int)
-    m = np.isfinite(g)
+    m = np.isfinite(g) & (steps >= WINDOW[0]) & (steps <= WINDOW[1])
     pk, _ = find_peaks(-g[m], prominence=0.05 * np.nanmedian(g[m]))
     return [int(steps[m][i]) for i in pk]
 
