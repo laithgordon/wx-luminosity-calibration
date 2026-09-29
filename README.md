@@ -77,6 +77,7 @@ output; `python depo_corr_stat.py` rebuilds `data/depo_corr_stat.json` from the 
 | `WX_comparison_ratio_vs_ey` | tuned/untuned luminosity ratio per code |
 | `WX_extension_L_vs_ey` | the tuned sets extended to 40–100 nm |
 | `WX_deposition_L_vs_ey` | 1st-order (CIC) vs 3rd-order deposition, 2D-slice vs 3D solver, against GP++ |
+| `WX_beamstrahlung_L_vs_ey` | the recommended configuration with beamstrahlung on and off, and their seed-paired difference |
 | `WX_depo_correlation` | deposition-error correlation between successive waists |
 | `WX_pinch_evolution`, `WX_pinch_histogram` | vertical width through the crossing and the slice y-distribution at the pinch (dumps) |
 | `WX_depo_error_passes` | per-pass deposition residuals at the waists (dumps) |
@@ -120,6 +121,7 @@ this locus.
 | `paper_figures.py` | figure style, the ladder and convergence figures, and `kappa_vs_Dy` |
 | `plot_comparison.py`, `plot_extension.py`, `plot_deposition.py` | tuned-vs-untuned and WarpX-vs-GP++ luminosity comparisons, the 40–100 nm extension, and the deposition-order test |
 | `plot_coarse.py`, `plot_nx_nm_coupling.py` | coarse-grid control and the `n_x`–`n_m` coupling test |
+| `plot_beamstrahlung.py` | beamstrahlung on vs off at the recommended configuration; also writes `beamstrahlung_numbers.md` |
 | `plot_core_width.py`, `plot_slice_pinch.py`, `plot_pinch_evolution.py` | the pinched-core measurements from per-step particle dumps; `plot_core_width.py` also builds the `data/slice_*` caches |
 | `deposition_error.py`, `depo_corr_stat.py`, `plot_depo_correlation.py` | per-pass deposition error at the waists and its seed statistics |
 | `recommend.py`, `recommend.ipynb` | recommended configuration from beam parameters: the vertical cell count and macroparticle count for either code, with the ranges the study covered enforced as warnings; the notebook is the worked interface and `selftest()` reproduces both recommendation tables |
@@ -144,5 +146,6 @@ this locus.
 | `slice_widths_hw010_*.csv`, `slice_fiterr_hw010_*.csv` — per-step central-slice widths and core-fit errors cached from the particle dumps | `plot_core_width.py`, `depo_corr_stat.py`, `deposition_error.py` |
 | `R1_table.npz` — first-waist envelope compression `R_1(D_y)` | `nmreq.py`, `plot_core_width.py` |
 | `depo_corr_stat.json` — per-seed deposition-error correlations | `plot_depo_correlation.py` |
+| `results_bsoff.csv` — the recommended configuration re-run with beamstrahlung off (`beam1/beam2.do_qed_quantum_sync = 0`), 8 ε_y × 5 seeds; same columns as `results.csv` plus `beamstrahlung`. Kept apart from `results.csv` so no calibration fit or figure can read it | `plot_beamstrahlung.py` |
 | `gp_exports/gp_luminosity_for_wx.csv` — GUINEA-PIG++ luminosity per emittance in blocks `nominal`, `conservative`, `frozen_extension` | `plot_comparison.py`, `plot_extension.py`, `plot_deposition.py`, `paper_figures.py` |
 | `gp_exports/gp_requirements_for_wx.csv` — GUINEA-PIG++ tuning-ladder requirements with their `sigma_log` uncertainties, the published fit constants and `q_p` in its header | `paper_figures.py`, `reproduce_paper_numbers.py` |
