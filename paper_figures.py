@@ -10,7 +10,7 @@ saved to plots/<name>.{png,pdf}:
   WX_L_vs_ny             (3) all Stage-B ladders: L/L_inf vs n_y per e_y, star at n_y^req
   WX_ny_req_convergence  (4) n_y^req vs D_y: points, weighted fit C_y D_y^q with band, q_n = Q_N with the
                           normalisation fitted (dashed C0), chi2/ndf box
-  kappa_vs_Dy            (5) kappa_i = n_y^req/(2 c_y R(D_y)) vs D_y with the weighted mean. GP++ series from
+  kappa_vs_Dy            (5) kappa_i = n_y^req/(2 c_y R(D_y) D_y^(1/4)) vs D_y with the weighted mean. GP++ series from
                           data/gp_exports/gp_requirements_for_wx.csv.
 
 Run after collect.py.
@@ -256,7 +256,7 @@ def _gp_kappa():
 
 
 def kappa_vs_Dy(B, c_y=None):
-    """kappa_i = n_y^req/(2 c_y R(D_y)) vs D_y for both codes, with weighted means as
+    """kappa_i = n_y^req/(2 c_y R(D_y) D_y^(1/4)) vs D_y for both codes, with weighted means as
     horizontal lines.
 
     c_y defaults to the WarpX deck cut (C_Y_WX = 16); the GP++ series uses its own exported c_y.
@@ -294,7 +294,7 @@ def kappa_vs_Dy(B, c_y=None):
         ax.set_xscale("log")          # y stays LINEAR: kappa spans a narrow range and the test is
         ax.xaxis.set_minor_formatter(mticker.NullFormatter())   # "is the line flat", read better linearly
         ax.set_xlabel(r"$D_y(\varepsilon_y)$")
-        ax.set_ylabel(fr"$\kappa = n_y^{{\mathrm{{req}}}}/(2c_y R(D_y))$")
+        ax.set_ylabel(fr"$\kappa = n_y^{{\mathrm{{req}}}}/(2c_y R(D_y) D_y^{{1/4}})$")
         _ticks_in(ax)
         ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.06), frameon=False, fontsize=5.8,
                   ncol=2, columnspacing=1.0, handletextpad=0.4, borderaxespad=0.0)
