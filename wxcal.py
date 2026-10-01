@@ -177,4 +177,6 @@ def on_bad_ost(path):
 # PS  = warpx.use_2d_slices_fft_solver=1                         (field-solver test)
 # PC3 = algo.particle_shape=1 (CIC, all axes), 3D solver         (deposition test mimicking GP++'s (1,1,0))
 # PC2 = algo.particle_shape=1 + warpx.use_2d_slices_fft_solver=1
-SOLVER_TAG = {"PS": "2d", "PC3": "3d_cic", "PC2": "2d_cic"}
+SOLVER_TAG = {"PS": "2d", "PC3": "3d_cic", "PC2": "2d_cic",
+               # PC3R/PC2R: the same two CIC configurations at the recommended n_m (the production locus)
+               "PC3R": "3d_cic", "PC2R": "2d_cic"}

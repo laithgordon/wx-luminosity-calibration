@@ -65,6 +65,11 @@ FIT_C = "C = exp(a); uncertainty C * sigma_a, the fit uncertainty on a propagate
 LOCUS_RULE = ("solver 3d; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); |n_m / n_m^cons(e_y) - 1| < 0.02, "
               "with n_y^cons and n_m^cons the frozen production locus (see 'fits.conservative_loci')")
 FROZEN_RULE = "solver 3d; (n_x, n_y, n_z) = (512, 256, 128); |n_m / 1e4 - 1| < 0.02: the 20 nm conservative settings held fixed"
+PAIRED_SE = ("standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of "
+             "L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two "
+             "runs share, which is 1-3 % and far larger than the effect")
+CIC_RECOMMENDED_EYS = [0.5, 1, 2, 4, 8, 12, 16]        # 20 nm omitted: its tuning-ladder n_m is already the locus value
+
 TUNING_TABLE_RULE = ("(n_x, n_z) = (512, 128); n_y = NY_CONS[e_y] and |n_m / NM_CONS[e_y] - 1| < 0.02, the tuning-ladder "
                   "table in nmreq.py (n_m = 2.5e6, 8.8e5, 3.1e5, 1.1e5, 4e4, 2.2e4, 1.4e4, 1e4 at 0.5-20 nm)")
 
@@ -310,6 +315,69 @@ def gp_kappa():
                        "data/gp_exports/gp_requirements_for_wx.csv, rows quantity = n_y_req: value, D_y and sigma_log as "
                        f"exported (every exported point; the export has no 0.5 nm n_y^req); c_y = {C_Y_GP} from the 'cut "
                        "multipliers' line of data/gp_exports/gp_luminosity_for_wx.csv")
+
+
+def per_seed_L(runs, solver, e, grid, nm):
+    """{seed: L} for one configuration, same-seed repeat runs averaged."""
+    d = defaultdict(list)
+    for r in runs:
+        if r["solver"] == solver and r["e"] == e and r["grid"] == grid and r["nm"] == nm:
+            d[r["seed"]].append(r["L"])
+    return {s: float(np.mean(v)) for s, v in d.items()}
+
+
+def cic_at_recommended(runs, ds, wx_gp):
+    """The two CIC configurations re-run at the recommended macroparticle count, paired seed by seed with the
+    recommended 3rd-order runs at the same grid and n_m."""
+    cons = {r["e_y_nm"]: r for r in ds["conservative"]}
+    out = {}
+    for key, solver, label in (("3d_solver_1st_order_cic", "3d_cic", "3D solver, 1st-order (CIC) deposition (phase PC3R)"),
+                               ("2d_slice_solver_1st_order_cic", "2d_cic",
+                                "2D-slice solver, 1st-order (CIC) deposition (phase PC2R)")):
+        rows, paired, with_gp = [], [], []
+        for e in CIC_RECOMMENDED_EYS:
+            c = cons[e]; grid = (c["n_x"], c["n_y"], c["n_z"]); nm = float(c["n_m"])
+            cic, ref = per_seed_L(runs, solver, e, grid, nm), per_seed_L(runs, "3d", e, grid, nm)
+            if len(cic) < 2:
+                fail(f"CIC at the recommended n_m: {len(cic)} seed(s) at e_y = {e:g} nm, solver {solver}")
+            L = list(cic.values()); n = len(L); mean = float(np.mean(L)); std = float(np.std(L, ddof=1))
+            rows.append(dict(e_y_nm=e, L_mean_1e34=mean, L_std_1e34=U(std, STD), L_se_1e34=U(std / math.sqrt(n), SE),
+                             n_seeds=n, seeds=sorted(cic), n_x=c["n_x"], n_y=c["n_y"], n_z=c["n_z"], n_m=int(nm),
+                             n_t=c["n_z"], cut_multipliers=CUTS))
+            seeds = sorted(set(cic) & set(ref))
+            if len(seeds) < 2:
+                fail(f"CIC at the recommended n_m: {len(seeds)} seed pair(s) at e_y = {e:g} nm, solver {solver}")
+            v = np.array([cic[s] / ref[s] for s in seeds])
+            r = dict(e_y_nm=e, value=float(v.mean()),
+                     uncertainty=U(float(v.std(ddof=1) / math.sqrt(len(v))), PAIRED_SE), n_pairs=len(seeds), seeds=seeds)
+            paired.append(r)
+            g = next((x for x in wx_gp["per_emittance"] if x["e_y_nm"] == e), None)
+            if g:                      # GUINEA-PIG++ has no 0.5 nm recommended point
+                val = g["value"] * r["value"]
+                with_gp.append(dict(e_y_nm=e, value=val,
+                                    uncertainty=U(val * math.hypot(g["se"]["value"] / g["value"],
+                                                                   r["uncertainty"]["value"] / r["value"]),
+                                                  "standard error: the relative uncertainties of the WarpX/GP++ ratio and "
+                                                  "of the paired CIC ratio added in quadrature"),
+                                    from_wx_over_gp=g["value"], times_paired_cic_ratio=r["value"]))
+        out[key] = dict(description=label, rows=rows,
+                        paired_ratio_to_3rd_order=dict(
+                            definition="mean over seeds of L_CIC(seed) / L_3rd-order(seed) at the same grid, n_m and "
+                                       "seed; the 3rd-order runs are the 'conservative' rows of section "
+                                       "'luminosity_dataset'",
+                            per_emittance=paired),
+                        wx_over_gp_with_cic=dict(
+                            definition="the WarpX/GP++ luminosity ratio that first-order deposition would give: the "
+                                       "ratio of section 'wx_over_gp_luminosity' multiplied by the paired CIC ratio at "
+                                       "the same emittance. GUINEA-PIG++ deposits at first order, so this is the "
+                                       "like-for-like comparison; 0.5 nm has no GP++ recommended point",
+                            per_emittance=with_gp))
+    return dict(note="The same two CIC configurations as above, re-run at the recommended macroparticle count (the "
+                     "production locus) on the recommended grid, seeds 1-5, paired seed by seed with the recommended "
+                     "3rd-order runs. 20 nm is omitted: there the tuning-ladder count already equals the locus value.",
+                selection="solver 3d_cic / 2d_cic; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); n_m = the "
+                          "production-locus count the recommended runs used (phases PC3R, PC2R)",
+                **out)
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -684,7 +752,8 @@ def build():
         recommendation_table=recommendation, disruption_parameter=dy, core_width=core_width(runs),
         core_width_systematic=CWS.block(CWS.analysis()),
         solver_and_deposition_variants=variants_block, ps1_reference=ps1, wx_over_gp_luminosity=wx_over_gp,
-        pass_correlation=pass_correlation(kappa, requirements, fits))
+        pass_correlation=pass_correlation(kappa, requirements, fits),
+        cic_at_recommended_n_m=cic_at_recommended(runs, ds, wx_over_gp))
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -896,6 +965,31 @@ def markdown(P):
         rows.append(row)
     out.append(table(["ε_y [nm]", "n_y", "n_m run", "n_m^cons today"] + [sv[k]["description"] for k in keys], rows))
     out.append("\nCells: L ± std (seeds); for the variants, ×(ratio to the 3D 3rd-order reference ± se).\n")
+
+    cr = P["cic_at_recommended_n_m"]
+    out.append("\n### CIC deposition at the recommended macroparticle count\n\n" + cr["note"] + "\n\nSelection: "
+               + cr["selection"] + ".\n")
+    ck = [k for k in cr if k not in ("note", "selection")]
+    rows = []
+    for e in CIC_RECOMMENDED_EYS:
+        r0 = next(x for x in cr[ck[0]]["rows"] if x["e_y_nm"] == e)
+        row = [f"{e:g}", r0["n_y"], r0["n_m"]]
+        for kk in ck:
+            r = next(x for x in cr[kk]["rows"] if x["e_y_nm"] == e)
+            q = next(x for x in cr[kk]["paired_ratio_to_3rd_order"]["per_emittance"] if x["e_y_nm"] == e)
+            g = next((x for x in cr[kk]["wx_over_gp_with_cic"]["per_emittance"] if x["e_y_nm"] == e), None)
+            row += [f"{pm(r['L_mean_1e34'], r['L_std_1e34']['value'], 3)} ({r['n_seeds']})",
+                    pm(q["value"], q["uncertainty"]["value"], 4),
+                    pm(g["value"], g["uncertainty"]["value"], 3) if g else "—"]
+        rows.append(row)
+    head = ["ε_y [nm]", "n_y", "n_m"]
+    for kk in ck:
+        tag = "3D CIC" if kk.startswith("3d") else "2D-slice CIC"
+        head += [f"{tag}: L ± std (seeds)", f"{tag}: paired ratio", f"{tag}: WarpX/GP++"]
+    out.append(table(head, rows))
+    out.append("\nPaired ratio: " + cr[ck[0]]["paired_ratio_to_3rd_order"]["definition"] + ". WarpX/GP++: "
+               + cr[ck[0]]["wx_over_gp_with_cic"]["definition"] + ". Uncertainties: " + PAIRED_SE + ".\n")
+
 
     p = P["ps1_reference"]
     out.append("\n## 11. PS1 reference point\n\n"

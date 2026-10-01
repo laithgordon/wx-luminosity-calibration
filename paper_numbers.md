@@ -359,6 +359,25 @@ All four were run at the tuning-ladder settings (NM_CONS / NY_CONS); 'conservati
 Cells: L ± std (seeds); for the variants, ×(ratio to the 3D 3rd-order reference ± se).
 
 
+### CIC deposition at the recommended macroparticle count
+
+The same two CIC configurations as above, re-run at the recommended macroparticle count (the production locus) on the recommended grid, seeds 1-5, paired seed by seed with the recommended 3rd-order runs. 20 nm is omitted: there the tuning-ladder count already equals the locus value.
+
+Selection: solver 3d_cic / 2d_cic; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); n_m = the production-locus count the recommended runs used (phases PC3R, PC2R).
+
+| ε_y [nm] | n_y | n_m | 3D CIC: L ± std (seeds) | 3D CIC: paired ratio | 3D CIC: WarpX/GP++ | 2D-slice CIC: L ± std (seeds) | 2D-slice CIC: paired ratio | 2D-slice CIC: WarpX/GP++ |
+|---|---|---|---|---|---|---|---|---|
+| 0.5 | 512 | 4334528 | 11.650 ± 0.039 (5) | 0.9900 ± 0.0012 | — | 11.650 ± 0.040 (5) | 0.9900 ± 0.0013 | — |
+| 1 | 512 | 1391638 | 7.543 ± 0.115 (5) | 0.9557 ± 0.0053 | 1.231 ± 0.012 | 7.543 ± 0.115 (5) | 0.9557 ± 0.0053 | 1.231 ± 0.012 |
+| 2 | 256 | 446211 | 4.905 ± 0.020 (5) | 0.9518 ± 0.0014 | 1.072 ± 0.006 | 4.904 ± 0.018 (5) | 0.9516 ± 0.0013 | 1.071 ± 0.006 |
+| 4 | 256 | 142808 | 3.221 ± 0.052 (5) | 0.9617 ± 0.0020 | 1.026 ± 0.008 | 3.222 ± 0.052 (5) | 0.9618 ± 0.0021 | 1.026 ± 0.008 |
+| 8 | 256 | 45586 | 2.240 ± 0.043 (5) | 0.9811 ± 0.0023 | 1.000 ± 0.008 | 2.241 ± 0.044 (5) | 0.9813 ± 0.0024 | 1.000 ± 0.008 |
+| 12 | 256 | 23337 | 1.793 ± 0.033 (5) | 0.9909 ± 0.0018 | 0.998 ± 0.006 | 1.792 ± 0.032 (5) | 0.9902 ± 0.0019 | 0.998 ± 0.006 |
+| 16 | 256 | 14499 | 1.512 ± 0.011 (5) | 0.9911 ± 0.0010 | 0.988 ± 0.004 | 1.512 ± 0.013 (5) | 0.9910 ± 0.0014 | 0.988 ± 0.005 |
+
+Paired ratio: mean over seeds of L_CIC(seed) / L_3rd-order(seed) at the same grid, n_m and seed; the 3rd-order runs are the 'conservative' rows of section 'luminosity_dataset'. WarpX/GP++: the WarpX/GP++ luminosity ratio that first-order deposition would give: the ratio of section 'wx_over_gp_luminosity' multiplied by the paired CIC ratio at the same emittance. GUINEA-PIG++ deposits at first order, so this is the like-for-like comparison; 0.5 nm has no GP++ recommended point. Uncertainties: standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect.
+
+
 ## 11. PS1 reference point
 
 Nominal configuration at 20 nm: L = 1.37 ± 0.01 (std), se 0.003, 15 seeds; ratio to the published 1.35 = 1.016 ± 0.002 (± se).
@@ -383,6 +402,7 @@ L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration:
 | 100 | extrapolated_extension | frozen_extension | 0.996 ± 0.015 |
 
 Over 8–100 nm: 0.984 (60 nm) to 1.019 (8 nm). At 1 nm: 1.288 ± 0.011.
+
 
 ## 13. Pass-to-pass correlation and accumulation
 

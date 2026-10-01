@@ -6933,26 +6933,26 @@
    }
   ],
   "pass_count_fit": {
-   "prefactor": 0.9129510249811572,
+   "prefactor": 0.912951024981158,
    "exponent": {
-    "estimate": 0.2771751346431545,
+    "estimate": 0.27717513464315435,
     "uncertainty": {
-     "value": 0.0545732894513848,
+     "value": 0.05457328945138486,
      "definition": "standard error of the unweighted least-squares slope, from the scatter of the points about the fitted line"
     }
    },
-   "exponent_below_one_half_in_sigma": 4.083038929792627,
+   "exponent_below_one_half_in_sigma": 4.083038929792626,
    "definition": "unweighted least-squares fit of ln N against ln D_y on the per-emittance mean pass counts, all eight emittances"
   },
   "accumulation_exponent_2_to_20_nm": {
    "q_n": {
     "estimate": 0.4290811473814954,
     "uncertainty": {
-     "value": 0.02913623822639909,
+     "value": 0.02913623822639911,
      "definition": "standard error of the unweighted least-squares slope, from the scatter of the points about the fitted line, halved"
     }
    },
-   "q_n_coherent_same_counts": 0.3190458391162533,
+   "q_n_coherent_same_counts": 0.3190458391162531,
    "definition": "q_n = q_p + (1/2) b, b the unweighted least-squares slope of ln E against ln D_y on the listed emittances; q_n_coherent_same_counts is the same with C_bar = 1 (E = N)",
    "e_y_nm": [
     2.0,
@@ -6973,7 +6973,7 @@
       "predicted": {
        "estimate": 0.9403224193333982,
        "uncertainty": {
-        "value": 0.01828749217881,
+        "value": 0.018287492178810004,
         "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
        }
       },
@@ -6983,14 +6983,14 @@
      "n_m": {
       "observed": 0.011770631458038567,
       "predicted": {
-       "estimate": 0.865700314296829,
+       "estimate": 0.8657003142968294,
        "uncertainty": {
         "value": 0.08272465402808821,
         "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
        }
       },
       "in_fit": false,
-      "log_share_explained": 0.03246548677377918
+      "log_share_explained": 0.0324654867737791
      }
     },
     {
@@ -7001,7 +7001,7 @@
       "predicted": {
        "estimate": 0.9251294404497076,
        "uncertainty": {
-        "value": 0.013415503258254064,
+        "value": 0.013415503258254063,
         "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
        }
       },
@@ -7011,14 +7011,14 @@
      "n_m": {
       "observed": 0.20166505687242034,
       "predicted": {
-       "estimate": 0.8171191886127027,
+       "estimate": 0.817119188612703,
        "uncertainty": {
-        "value": 0.06234587527243745,
+        "value": 0.06234587527243742,
         "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
        }
       },
       "in_fit": false,
-      "log_share_explained": 0.12614100857054744
+      "log_share_explained": 0.1261410085705472
      }
     },
     {
@@ -7041,7 +7041,7 @@
       "predicted": {
        "estimate": 0.9380949277120123,
        "uncertainty": {
-        "value": 0.03195228258407064,
+        "value": 0.03195228258407066,
         "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
        }
       },
@@ -7069,7 +7069,7 @@
       "predicted": {
        "estimate": 1.0675051780280074,
        "uncertainty": {
-        "value": 0.04823309643941275,
+        "value": 0.048233096439412766,
         "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
        }
       },
@@ -7095,9 +7095,9 @@
      "n_m": {
       "observed": 0.751619013486078,
       "predicted": {
-       "estimate": 1.035422404261381,
+       "estimate": 1.0354224042613813,
        "uncertainty": {
-        "value": 0.05463845940461057,
+        "value": 0.05463845940461055,
         "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
        }
       },
@@ -7123,9 +7123,9 @@
      "n_m": {
       "observed": 1.0408340962737892,
       "predicted": {
-       "estimate": 1.0363239262582726,
+       "estimate": 1.0363239262582729,
        "uncertainty": {
-        "value": 0.05741230374839499,
+        "value": 0.057412303748394976,
         "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
        }
       },
@@ -7151,7 +7151,7 @@
      "n_m": {
       "observed": 1.1810583431348245,
       "predicted": {
-       "estimate": 0.9631233485435089,
+       "estimate": 0.9631233485435091,
        "uncertainty": {
         "value": 0.04847430351769265,
         "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
@@ -7205,6 +7205,804 @@
    "input": "data/depo_corr_stat.json",
    "E": "E(N, C_bar) = sqrt(N [1 + (N - 1) C_bar]) at the per-emittance mean N and C_bar",
    "over_coherent": "E/N is the accumulated error relative to coherent passes (C_bar = 1) at the same pass count; the vertical requirement scales as sqrt(E/N) and the pinched-core occupancy requirement as E/N"
+  }
+ },
+ "cic_at_recommended_n_m": {
+  "note": "The same two CIC configurations as above, re-run at the recommended macroparticle count (the production locus) on the recommended grid, seeds 1-5, paired seed by seed with the recommended 3rd-order runs. 20 nm is omitted: there the tuning-ladder count already equals the locus value.",
+  "selection": "solver 3d_cic / 2d_cic; (n_x, n_z) = (512, 128); n_y = n_y^cons(e_y); n_m = the production-locus count the recommended runs used (phases PC3R, PC2R)",
+  "3d_solver_1st_order_cic": {
+   "description": "3D solver, 1st-order (CIC) deposition (phase PC3R)",
+   "rows": [
+    {
+     "e_y_nm": 0.5,
+     "L_mean_1e34": 11.6498822,
+     "L_std_1e34": {
+      "value": 0.03936376551728755,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.017604011109403427,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_m": 4334528,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 1,
+     "L_mean_1e34": 7.543425600000001,
+     "L_std_1e34": {
+      "value": 0.11503862270037822,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.05144683607919922,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_m": 1391638,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 2,
+     "L_mean_1e34": 4.904887,
+     "L_std_1e34": {
+      "value": 0.01965655949040927,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.00879068064486475,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_m": 446211,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 4,
+     "L_mean_1e34": 3.2211856000000005,
+     "L_std_1e34": {
+      "value": 0.052335768254607666,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.02340526709439565,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_m": 142808,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 8,
+     "L_mean_1e34": 2.2402294,
+     "L_std_1e34": {
+      "value": 0.0434312118677341,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.01942302841628981,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_m": 45586,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 12,
+     "L_mean_1e34": 1.7934106,
+     "L_std_1e34": {
+      "value": 0.03290641519977524,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.014716196256505951,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_m": 23337,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 16,
+     "L_mean_1e34": 1.511893,
+     "L_std_1e34": {
+      "value": 0.01136273162580194,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.005081568065075968,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_m": 14499,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    }
+   ],
+   "paired_ratio_to_3rd_order": {
+    "definition": "mean over seeds of L_CIC(seed) / L_3rd-order(seed) at the same grid, n_m and seed; the 3rd-order runs are the 'conservative' rows of section 'luminosity_dataset'",
+    "per_emittance": [
+     {
+      "e_y_nm": 0.5,
+      "value": 0.9899579711659321,
+      "uncertainty": {
+       "value": 0.0012484634634113607,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 1,
+      "value": 0.9557389859540528,
+      "uncertainty": {
+       "value": 0.005309380227537916,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 2,
+      "value": 0.9517770477656111,
+      "uncertainty": {
+       "value": 0.001356387831969393,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 4,
+      "value": 0.961722135626738,
+      "uncertainty": {
+       "value": 0.002026679115157416,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 8,
+      "value": 0.9810847137670338,
+      "uncertainty": {
+       "value": 0.002332017173646964,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 12,
+      "value": 0.9909092753676593,
+      "uncertainty": {
+       "value": 0.001762815113661616,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 16,
+      "value": 0.991081394901413,
+      "uncertainty": {
+       "value": 0.0009523919976976364,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     }
+    ]
+   },
+   "wx_over_gp_with_cic": {
+    "definition": "the WarpX/GP++ luminosity ratio that first-order deposition would give: the ratio of section 'wx_over_gp_luminosity' multiplied by the paired CIC ratio at the same emittance. GUINEA-PIG++ deposits at first order, so this is the like-for-like comparison; 0.5 nm has no GP++ recommended point",
+    "per_emittance": [
+     {
+      "e_y_nm": 1,
+      "value": 1.2309558288843299,
+      "uncertainty": {
+       "value": 0.012277987838644276,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 1.2879623484811031,
+      "times_paired_cic_ratio": 0.9557389859540528
+     },
+     {
+      "e_y_nm": 2,
+      "value": 1.0716766871727785,
+      "uncertainty": {
+       "value": 0.006113593162984044,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 1.1259745017897242,
+      "times_paired_cic_ratio": 0.9517770477656111
+     },
+     {
+      "e_y_nm": 4,
+      "value": 1.0255188285938985,
+      "uncertainty": {
+       "value": 0.008074462962128593,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 1.0663358891345318,
+      "times_paired_cic_ratio": 0.961722135626738
+     },
+     {
+      "e_y_nm": 8,
+      "value": 1.0001035004509409,
+      "uncertainty": {
+       "value": 0.008022928100406673,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 1.0193854683668258,
+      "times_paired_cic_ratio": 0.9810847137670338
+     },
+     {
+      "e_y_nm": 12,
+      "value": 0.9984957065198599,
+      "uncertainty": {
+       "value": 0.005733372194086535,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 1.007656030012824,
+      "times_paired_cic_ratio": 0.9909092753676593
+     },
+     {
+      "e_y_nm": 16,
+      "value": 0.9883472498357957,
+      "uncertainty": {
+       "value": 0.004433005933801007,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 0.9972412507391593,
+      "times_paired_cic_ratio": 0.991081394901413
+     }
+    ]
+   }
+  },
+  "2d_slice_solver_1st_order_cic": {
+   "description": "2D-slice solver, 1st-order (CIC) deposition (phase PC2R)",
+   "rows": [
+    {
+     "e_y_nm": 0.5,
+     "L_mean_1e34": 11.6503002,
+     "L_std_1e34": {
+      "value": 0.039629180015488145,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.01772270808144153,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_m": 4334528,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 1,
+     "L_mean_1e34": 7.5430850000000005,
+     "L_std_1e34": {
+      "value": 0.11464249916806582,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.05126968425005165,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 512,
+     "n_z": 128,
+     "n_m": 1391638,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 2,
+     "L_mean_1e34": 4.9039806,
+     "L_std_1e34": {
+      "value": 0.01838781037263561,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.008223278790117793,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_m": 446211,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 4,
+     "L_mean_1e34": 3.2215046000000003,
+     "L_std_1e34": {
+      "value": 0.0524888469991484,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.023473725990136335,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_m": 142808,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 8,
+     "L_mean_1e34": 2.2407594000000004,
+     "L_std_1e34": {
+      "value": 0.043962934658641664,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.019660822077420852,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_m": 45586,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 12,
+     "L_mean_1e34": 1.7920298,
+     "L_std_1e34": {
+      "value": 0.03248677155705072,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.01452852591421442,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_m": 23337,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    },
+    {
+     "e_y_nm": 16,
+     "L_mean_1e34": 1.5117721999999998,
+     "L_std_1e34": {
+      "value": 0.013329667895337759,
+      "definition": "sample standard deviation over independent seeds, ddof = 1 (same-seed repeat runs averaged first)"
+     },
+     "L_se_1e34": {
+      "value": 0.005961208706294355,
+      "definition": "standard error of the mean: sample standard deviation (ddof = 1) / sqrt(n_seeds)"
+     },
+     "n_seeds": 5,
+     "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "n_x": 512,
+     "n_y": 256,
+     "n_z": 128,
+     "n_m": 14499,
+     "n_t": 128,
+     "cut_multipliers": {
+      "x": 16,
+      "y": 16,
+      "z": 8
+     }
+    }
+   ],
+   "paired_ratio_to_3rd_order": {
+    "definition": "mean over seeds of L_CIC(seed) / L_3rd-order(seed) at the same grid, n_m and seed; the 3rd-order runs are the 'conservative' rows of section 'luminosity_dataset'",
+    "per_emittance": [
+     {
+      "e_y_nm": 0.5,
+      "value": 0.9899934737559513,
+      "uncertainty": {
+       "value": 0.0012571100265315325,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 1,
+      "value": 0.9556959186669285,
+      "uncertainty": {
+       "value": 0.005285871657300883,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 2,
+      "value": 0.951601546541094,
+      "uncertainty": {
+       "value": 0.0012878495916199039,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 4,
+      "value": 0.9618172069180618,
+      "uncertainty": {
+       "value": 0.002077633052330725,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 8,
+      "value": 0.9813142734790551,
+      "uncertainty": {
+       "value": 0.0024257904836052706,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 12,
+      "value": 0.9901508799541718,
+      "uncertainty": {
+       "value": 0.0019271284284958817,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     {
+      "e_y_nm": 16,
+      "value": 0.9909957605365648,
+      "uncertainty": {
+       "value": 0.0013612874424538475,
+       "definition": "standard error over the seed-paired ratios: the sample standard deviation (ddof = 1) of L_CIC(seed) / L_3rd-order(seed) divided by sqrt(n_pairs); pairing cancels the seed scatter the two runs share, which is 1-3 % and far larger than the effect"
+      },
+      "n_pairs": 5,
+      "seeds": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     }
+    ]
+   },
+   "wx_over_gp_with_cic": {
+    "definition": "the WarpX/GP++ luminosity ratio that first-order deposition would give: the ratio of section 'wx_over_gp_luminosity' multiplied by the paired CIC ratio at the same emittance. GUINEA-PIG++ deposits at first order, so this is the like-for-like comparison; 0.5 nm has no GP++ recommended point",
+    "per_emittance": [
+     {
+      "e_y_nm": 1,
+      "value": 1.2309003598400625,
+      "uncertainty": {
+       "value": 0.012260767903626232,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 1.2879623484811031,
+      "times_paired_cic_ratio": 0.9556959186669285
+     },
+     {
+      "e_y_nm": 2,
+      "value": 1.0714790772689393,
+      "uncertainty": {
+       "value": 0.006093712372186421,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 1.1259745017897242,
+      "times_paired_cic_ratio": 0.951601546541094
+     },
+     {
+      "e_y_nm": 4,
+      "value": 1.0256202065238633,
+      "uncertainty": {
+       "value": 0.00808991448309734,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 1.0663358891345318,
+      "times_paired_cic_ratio": 0.9618172069180618
+     },
+     {
+      "e_y_nm": 8,
+      "value": 1.0003375102854979,
+      "uncertainty": {
+       "value": 0.008053476075541455,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 1.0193854683668258,
+      "times_paired_cic_ratio": 0.9813142734790551
+     },
+     {
+      "e_y_nm": 12,
+      "value": 0.9977315048083252,
+      "uncertainty": {
+       "value": 0.005782881067528151,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 1.007656030012824,
+      "times_paired_cic_ratio": 0.9901508799541718
+     },
+     {
+      "e_y_nm": 16,
+      "value": 0.9882618517146883,
+      "uncertainty": {
+       "value": 0.004537525976640836,
+       "definition": "standard error: the relative uncertainties of the WarpX/GP++ ratio and of the paired CIC ratio added in quadrature"
+      },
+      "from_wx_over_gp": 0.9972412507391593,
+      "times_paired_cic_ratio": 0.9909957605365648
+     }
+    ]
+   }
   }
  }
 }
