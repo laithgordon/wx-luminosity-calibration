@@ -278,7 +278,7 @@ def draw():
         sf = np.sqrt(F["sigma_a"] ** 2 + lx ** 2 * F["sigma_q"] ** 2 + 2 * lx * F["cov_aq"])
         ax.fill_between(dx, yf * np.exp(-sf), yf * np.exp(sf), color="C0", alpha=0.18, lw=0, zorder=2)
         ax.plot(dx, yf, "-", color="C0", lw=1.0, zorder=3,
-                label=fr"fit $e^{{-a}}D_y^{{-q}}$: $q={F['q']:.3f}\pm{F['sigma_q']:.3f}$, $\chi^2/\nu={F['chi2']:.1f}/{F['ndf']}$")
+                label=fr"fit $e^{{-a}}D_y^{{-q}}$: $q={F['q']:.3f}\pm{F['sigma_q']:.3f}$, $\chi^2/\mathrm{{ndf}}={F['chi2']:.1f}/{F['ndf']}$")
         ax.errorbar(Da, g, yerr=tot, fmt="none", ecolor="C2", elinewidth=0.5, capsize=0, zorder=5)
         ax.errorbar(Da, g, yerr=sc, fmt="D", color="C2", ecolor="C2", ms=3.6, capsize=1.5,
                     elinewidth=0.6, zorder=6, label="WarpX pinched core (Gaussian fit)")
@@ -296,11 +296,12 @@ def draw():
         sr = np.sqrt(S["sigma_c"] ** 2 + lx ** 2 * S["sigma_slope"] ** 2 + 2 * lx * S["cov_cs"])
         ax2.fill_between(dx, yr * np.exp(-sr), yr * np.exp(sr), color="C0", alpha=0.18, lw=0, zorder=2)
         ax2.plot(dx, yr, "-", color="C0", lw=1.0, zorder=3,
-                 label=fr"fit $\propto D_y^{{s}}$: $s={S['slope']:+.3f}\pm{S['sigma_slope']:.3f}$, $\chi^2/\nu={S['chi2']:.1f}/{S['ndf']}$")
+                 label=fr"fit, slope ${S['slope']:+.3f}\pm{S['sigma_slope']:.3f}$ in $\ln D_y$, $\chi^2/\mathrm{{ndf}}={S['chi2']:.1f}/{S['ndf']}$")
         ax2.errorbar(Da, g * r1, yerr=tot * r1, fmt="D", color="C2", ecolor="C2", ms=3.6, capsize=0,
                      elinewidth=0.6, zorder=5)
         ax2.axhline(1.0, color="0.35", lw=0.8, ls=":")
         ax2.set_xscale("log")
+        ax2.set_xlim(dx[0] / 1.08, dx[-1] * 1.08)        # explicit, so the frame does not depend on matplotlib autoscaling
         ax2.xaxis.set_major_locator(mticker.FixedLocator([20, 30, 50, 70, 100, 140]))
         ax2.xaxis.set_major_formatter(mticker.FormatStrFormatter("%g"))
         ax2.xaxis.set_minor_formatter(mticker.NullFormatter())
