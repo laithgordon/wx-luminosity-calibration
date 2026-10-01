@@ -6641,7 +6641,7 @@
   "provenance": "section 'luminosity_dataset', configuration nominal, e_y = 20 nm"
  },
  "wx_over_gp_luminosity": {
-  "definition": "L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration: WarpX 'conservative' (0.5-20 nm) and 'extrapolated_extension' (40-100 nm) from section 'luminosity_dataset'; GUINEA-PIG++ blocks 'conservative' (1-20 nm) and 'frozen_extension' (40-100 nm) of data/gp_exports/gp_luminosity_for_wx.csv. The series drawn in WX_code_ratio_vs_ey.",
+  "definition": "L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration: WarpX 'conservative' (0.5-20 nm) and 'extrapolated_extension' (40-100 nm) from section 'luminosity_dataset'; GUINEA-PIG++ blocks 'conservative' (1-20 nm) and 'frozen_extension' (40-100 nm) of data/gp_exports/gp_luminosity_for_wx.csv. The 1-20 nm part is drawn in WX_code_ratio_vs_ey.",
   "per_emittance": [
    {
     "e_y_nm": 1,
@@ -6767,7 +6767,48 @@
     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
    }
   },
-  "provenance": "section 'luminosity_dataset' and data/gp_exports/gp_luminosity_for_wx.csv"
+  "provenance": "section 'luminosity_dataset' and data/gp_exports/gp_luminosity_for_wx.csv",
+  "frozen_40_to_100_nm": {
+   "definition": "L_WarpX / L_GP++ with both simulators frozen at their recommended 20 nm configurations: WarpX 'frozen_extension' from section 'luminosity_dataset'; GUINEA-PIG++ block 'frozen_extension'. Drawn at 40-100 nm in WX_code_ratio_vs_ey.",
+   "per_emittance": [
+    {
+     "e_y_nm": 40,
+     "value": 1.0109795780286879,
+     "se": {
+      "value": 0.003498145076782586,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 60,
+     "value": 1.013211354728116,
+     "se": {
+      "value": 0.002932182498393113,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 80,
+     "value": 1.013753816133195,
+     "se": {
+      "value": 0.002962049510775779,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    },
+    {
+     "e_y_nm": 100,
+     "value": 1.0144097646362191,
+     "se": {
+      "value": 0.00298797622999351,
+      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
+     }
+    }
+   ],
+   "min": 1.0109795780286879,
+   "e_y_nm_at_min": 40,
+   "max": 1.0144097646362191,
+   "e_y_nm_at_max": 100
+  }
  },
  "pass_correlation": {
   "rows": [

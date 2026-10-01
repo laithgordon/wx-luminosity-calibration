@@ -724,11 +724,20 @@ def build():
         definition="L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration: WarpX 'conservative' "
                    "(0.5-20 nm) and 'extrapolated_extension' (40-100 nm) from section 'luminosity_dataset'; GUINEA-PIG++ "
                    "blocks 'conservative' (1-20 nm) and 'frozen_extension' (40-100 nm) of "
-                   "data/gp_exports/gp_luminosity_for_wx.csv. The series drawn in WX_code_ratio_vs_ey.",
+                   "data/gp_exports/gp_luminosity_for_wx.csv. The 1-20 nm part is drawn in WX_code_ratio_vs_ey.",
         per_emittance=per_e,
         range_8_to_100_nm=dict(min=lo["value"], e_y_nm_at_min=lo["e_y_nm"], max=hi["value"], e_y_nm_at_max=hi["e_y_nm"]),
         at_1_nm=next(dict(value=r["value"], se=r["se"]) for r in per_e if r["e_y_nm"] == 1.0),
         provenance="section 'luminosity_dataset' and data/gp_exports/gp_luminosity_for_wx.csv")
+    wx_frz = {r["e_y_nm"]: r for r in ds["frozen_extension"] if r["e_y_nm"] >= 40}
+    gp_frz = gp_luminosity("frozen_extension")
+    frz = [dict(e_y_nm=e, **ratio(wx_frz[e], gp_frz[e])) for e in ALL_EYS if e in wx_frz and e in gp_frz]
+    flo, fhi = min(frz, key=lambda r: r["value"]), max(frz, key=lambda r: r["value"])
+    wx_over_gp["frozen_40_to_100_nm"] = dict(
+        definition="L_WarpX / L_GP++ with both simulators frozen at their recommended 20 nm configurations: WarpX "
+                   "'frozen_extension' from section 'luminosity_dataset'; GUINEA-PIG++ block 'frozen_extension'. "
+                   "Drawn at 40-100 nm in WX_code_ratio_vs_ey.",
+        per_emittance=frz, min=flo["value"], e_y_nm_at_min=flo["e_y_nm"], max=fhi["value"], e_y_nm_at_max=fhi["e_y_nm"])
 
     return dict(
         about=dict(content="Every WarpX number reported in the paper, regenerated from committed data by reproduce_paper_numbers.py.",
@@ -1004,6 +1013,11 @@ def markdown(P):
                       for r in g["per_emittance"]]))
     out.append(f"\nOver 8–100 nm: {b['min']:.3f} ({b['e_y_nm_at_min']:g} nm) to {b['max']:.3f} ({b['e_y_nm_at_max']:g} nm). "
                f"At 1 nm: {pm(g['at_1_nm']['value'], g['at_1_nm']['se']['value'], 3)}.\n")
+    fz = g["frozen_40_to_100_nm"]
+    out.append("\n" + fz["definition"] + "\n")
+    out.append(table(["ε_y [nm]", "L_WarpX / L_GP++ ± se"], [[f"{r['e_y_nm']:g}", pm(r["value"], r["se"]["value"], 3)]
+                                                            for r in fz["per_emittance"]]))
+    out.append(f"\nOver 40–100 nm: {fz['min']:.3f} ({fz['e_y_nm_at_min']:g} nm) to {fz['max']:.3f} ({fz['e_y_nm_at_max']:g} nm).\n")
 
     pc = P["pass_correlation"]; q = pc["accumulation_exponent_2_to_20_nm"]; f = pc["pass_count_fit"]
     out.append("\n## 13. Pass-to-pass correlation and accumulation\n\nInput: " + pc["provenance"]["input"] + ". "

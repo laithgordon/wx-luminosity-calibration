@@ -385,7 +385,7 @@ Nominal configuration at 20 nm: L = 1.37 ± 0.01 (std), se 0.003, 15 seeds; rati
 
 ## 12. WarpX / GUINEA-PIG++ luminosity ratio
 
-L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration: WarpX 'conservative' (0.5-20 nm) and 'extrapolated_extension' (40-100 nm) from section 'luminosity_dataset'; GUINEA-PIG++ blocks 'conservative' (1-20 nm) and 'frozen_extension' (40-100 nm) of data/gp_exports/gp_luminosity_for_wx.csv. The series drawn in WX_code_ratio_vs_ey.
+L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration: WarpX 'conservative' (0.5-20 nm) and 'extrapolated_extension' (40-100 nm) from section 'luminosity_dataset'; GUINEA-PIG++ blocks 'conservative' (1-20 nm) and 'frozen_extension' (40-100 nm) of data/gp_exports/gp_luminosity_for_wx.csv. The 1-20 nm part is drawn in WX_code_ratio_vs_ey.
 
 | ε_y [nm] | WarpX configuration | GP++ block | L_WarpX / L_GP++ ± se |
 |---|---|---|---|
@@ -402,6 +402,17 @@ L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration:
 | 100 | extrapolated_extension | frozen_extension | 0.996 ± 0.015 |
 
 Over 8–100 nm: 0.984 (60 nm) to 1.019 (8 nm). At 1 nm: 1.288 ± 0.011.
+
+L_WarpX / L_GP++ with both simulators frozen at their recommended 20 nm configurations: WarpX 'frozen_extension' from section 'luminosity_dataset'; GUINEA-PIG++ block 'frozen_extension'. Drawn at 40-100 nm in WX_code_ratio_vs_ey.
+
+| ε_y [nm] | L_WarpX / L_GP++ ± se |
+|---|---|
+| 40 | 1.011 ± 0.003 |
+| 60 | 1.013 ± 0.003 |
+| 80 | 1.014 ± 0.003 |
+| 100 | 1.014 ± 0.003 |
+
+Over 40–100 nm: 1.011 (40 nm) to 1.014 (100 nm).
 
 
 ## 13. Pass-to-pass correlation and accumulation
