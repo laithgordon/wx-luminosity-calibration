@@ -438,7 +438,65 @@ def refined_grid_luminosity(runs, nms):
 # ---------------------------------------------------------------------------------------------------------------------
 # pass-to-pass correlation of the deposition error
 # ---------------------------------------------------------------------------------------------------------------------
-def pass_correlation():
+def excluded_point_test(D, N, C, rows, kappa, requirements, fits, acc):
+    """Departure of each requirement from its fitted law that the extracted accumulation E(N, C_bar) predicts, against
+    the departure observed. Vertical: the n_y law carries D_y^(1/4) (kappa), i.e. it assumes E proportional to
+    sqrt(D_y); n_y^req scales as sqrt(E), so the predicted ratio to the law is sqrt(E / sqrt(D_y)), normalised so that its
+    weighted mean over the kappa-fitted points is 1 (weights 1/sigma_ln^2, as for <kappa>). Macroparticle: the fitted
+    exponent of the n_m law absorbs the trend of E over its fitted emittances, so the law extrapolates that trend; the
+    pinched-core occupancy requirement scales as E, so the predicted ratio is E / E_trend, E_trend the unweighted power-law
+    fit of E over the n_m-fitted emittances."""
+    es = list(Q.EYS)
+    K = {r["e_y_nm"]: r for r in kappa["warpx"]["per_emittance"]}
+    M = {r["e_y_nm"]: r for r in requirements["n_m_req"]["rows"]}
+    if sorted(K) != es or sorted(M) != es:
+        fail("excluded-point test: kappa or n_m^req rows do not cover every emittance")
+    kbar = kappa["warpx"]["weighted_mean"]["estimate"]
+    usy = np.array([K[e]["used_in_mean_and_slope"] for e in es]); w = 1.0 / np.array([K[e]["sigma_ln"] for e in es]) ** 2
+    usm = np.array([M[e]["used_in_fit"] for e in es])
+    fm = fits["n_m"]["fit"]; Cm, bm = fm["prefactor"]["estimate"], fm["exponent"]["estimate"]
+    obs_y = np.array([K[e]["kappa"] for e in es]) / kbar
+    obs_m = np.array([M[e]["value_per_cell"] for e in es]) / (Cm * D ** bm)
+
+    def predict(Ev):
+        r = np.sqrt(Ev / np.sqrt(D)); py = r / math.exp(float(np.sum(w[usy] * np.log(r[usy])) / w[usy].sum()))
+        b, a = np.polyfit(np.log(D[usm]), np.log(Ev[usm]), 1); pm_ = Ev / np.exp(a + b * np.log(D))
+        return py, pm_
+
+    py, pm_ = predict(acc(N, C))
+    nseed = np.array([r["n_seeds"] for r in rows])
+    sN = np.array([r["N_passes_std"]["value"] for r in rows]) / np.sqrt(nseed)
+    sC = np.array([r["C_bar_se"]["value"] for r in rows])
+    rng = np.random.default_rng(Q.MC_SEED); dy, dm = [], []
+    for _ in range(Q.MC_DRAWS):
+        n_ = np.clip(N + rng.normal(0, 1, len(N)) * sN, 1.0, None)
+        c_ = np.clip(C + rng.normal(0, 1, len(C)) * sC, -1.0 / np.clip(n_ - 1, 1e-9, None), 1.0)
+        a_, b_ = predict(acc(n_, c_)); dy.append(a_); dm.append(b_)
+    sy, sm = np.std(dy, axis=0, ddof=1), np.std(dm, axis=0, ddof=1)
+    MC = ("Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) "
+          "and (C_bar standard error); generator, seed and draws as in 'about'")
+    share = lambda p, o: float(math.log(p) / math.log(o)) if o < 1 and p < 1 else None
+    out = []
+    for i, e in enumerate(es):
+        out.append(dict(e_y_nm=e, D_y=float(D[i]),
+                        n_y=dict(observed=float(obs_y[i]), predicted=E(py[i], sy[i], MC), in_fit=bool(usy[i]),
+                                 log_share_explained=share(py[i], obs_y[i]) if not usy[i] or e < 2 else None),
+                        n_m=dict(observed=float(obs_m[i]), predicted=E(pm_[i], sm[i], MC), in_fit=bool(usm[i]),
+                                 log_share_explained=share(pm_[i], obs_m[i]) if not usm[i] else None)))
+    gm = lambda v, u: float(np.exp(np.mean(np.log(v[u]))))
+    return dict(rows=out,
+                self_consistency=dict(n_y_mean_predicted_over_fitted_points=gm(py, usy),
+                                      n_m_mean_predicted_over_fitted_points=gm(pm_, usm),
+                                      definition="geometric mean of the predicted ratio over the points each law is "
+                                                 "fitted to; a baseline consistent with the fitted law gives about 1"),
+                definition=dict(observed_n_y="kappa / <kappa> (section 'kappa')",
+                                observed_n_m="(n_m^req per cell) / (C_m D_y^(s - q_p)) with the fitted C_m and exponent "
+                                             "(section 'fits', n_m)",
+                                log_share_explained="ln(predicted) / ln(observed): the fraction of the logarithmic "
+                                                    "departure that the extracted accumulation accounts for"))
+
+
+def pass_correlation(kappa, requirements, fits):
     """Per-emittance pass count and pass-to-pass correlation C_bar from data/depo_corr_stat.json (written by
     depo_corr_stat.py from the PQ dumps), the accumulation factor E(N, C_bar) = sqrt(N [1 + (N - 1) C_bar]) built from
     them, and the vertical-resolution exponent q_n = q_p + (1/2) d ln E / d ln D_y fitted over the n_m fit band."""
@@ -478,6 +536,7 @@ def pass_correlation():
                     e_y_nm=[float(e) for e in np.array(Q.EYS)[use]])
     band = np.array([2.0 <= e <= 20.0 for e in Q.EYS])
     bN, aN, sbN = ols(D, N)
+    excluded_test = excluded_point_test(D, N, C, rows, kappa, requirements, fits, acc)
     return dict(rows=rows,
                 pass_count_fit=dict(prefactor=float(math.exp(aN)),
                                     exponent=E(bN, sbN, SE_DEF),
@@ -485,6 +544,7 @@ def pass_correlation():
                                     definition="unweighted least-squares fit of ln N against ln D_y on the per-emittance mean "
                                                "pass counts, all eight emittances"),
                 accumulation_exponent_2_to_20_nm=q_n(band),
+                excluded_point_test=excluded_test,
                 provenance=dict(input="data/depo_corr_stat.json",
                                 E="E(N, C_bar) = sqrt(N [1 + (N - 1) C_bar]) at the per-emittance mean N and C_bar",
                                 over_coherent="E/N is the accumulated error relative to coherent passes (C_bar = 1) at the "
@@ -624,7 +684,7 @@ def build():
         recommendation_table=recommendation, disruption_parameter=dy, core_width=core_width(runs),
         core_width_systematic=CWS.block(CWS.analysis()),
         solver_and_deposition_variants=variants_block, ps1_reference=ps1, wx_over_gp_luminosity=wx_over_gp,
-        pass_correlation=pass_correlation())
+        pass_correlation=pass_correlation(kappa, requirements, fits))
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -865,6 +925,19 @@ def markdown(P):
     out.append(f"\nAccumulation exponent over {q['e_y_nm'][0]:g}–{q['e_y_nm'][-1]:g} nm: q_n = "
                f"{pm(q['q_n']['estimate'], q['q_n']['uncertainty']['value'], 3)}; with C̄ = 1 at the same pass counts, "
                f"{q['q_n_coherent_same_counts']:.3f}. {q['definition']}.\n")
+    x = pc["excluded_point_test"]
+    out.append("\n**Departure from the fitted laws predicted by the extracted accumulation.** " + " ".join(l.strip() for l in excluded_point_test.__doc__.split("\n")) + "\n")
+    f2 = lambda v: "" if v is None else f"{100 * v:.0f}%"
+    out.append(table(["ε_y [nm]", "n_y observed", "n_y predicted", "share", "n_m observed", "n_m predicted", "share"],
+                     [[f"{r['e_y_nm']:g}" + ("" if r["n_y"]["in_fit"] and r["n_m"]["in_fit"] else " *"),
+                       f"{r['n_y']['observed']:.3f}", pm(r["n_y"]["predicted"]["estimate"], r["n_y"]["predicted"]["uncertainty"]["value"], 3),
+                       f2(r["n_y"]["log_share_explained"]),
+                       f"{r['n_m']['observed']:.3f}", pm(r["n_m"]["predicted"]["estimate"], r["n_m"]["predicted"]["uncertainty"]["value"], 3),
+                       f2(r["n_m"]["log_share_explained"])] for r in x["rows"]]))
+    sc = x["self_consistency"]
+    out.append(f"\nRatios to the fitted law; * marks a point excluded from at least one fit. share: "
+               f"{x['definition']['log_share_explained']}. Self-consistency ({sc['definition']}): n_y "
+               f"{sc['n_y_mean_predicted_over_fitted_points']:.3f}, n_m {sc['n_m_mean_predicted_over_fitted_points']:.3f}.\n")
     return "\n".join(out)
 
 

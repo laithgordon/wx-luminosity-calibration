@@ -403,3 +403,19 @@ Pass count: N = 0.913 D_y^(0.277 ± 0.055), 4.1 sigma below 1/2 (unweighted leas
 
 
 Accumulation exponent over 2–20 nm: q_n = 0.429 ± 0.029; with C̄ = 1 at the same pass counts, 0.319. q_n = q_p + (1/2) b, b the unweighted least-squares slope of ln E against ln D_y on the listed emittances; q_n_coherent_same_counts is the same with C_bar = 1 (E = N).
+
+
+**Departure from the fitted laws predicted by the extracted accumulation.** Departure of each requirement from its fitted law that the extracted accumulation E(N, C_bar) predicts, against the departure observed. Vertical: the n_y law carries D_y^(1/4) (kappa), i.e. it assumes E proportional to sqrt(D_y); n_y^req scales as sqrt(E), so the predicted ratio to the law is sqrt(E / sqrt(D_y)), normalised so that its weighted mean over the kappa-fitted points is 1 (weights 1/sigma_ln^2, as for <kappa>). Macroparticle: the fitted exponent of the n_m law absorbs the trend of E over its fitted emittances, so the law extrapolates that trend; the pinched-core occupancy requirement scales as E, so the predicted ratio is E / E_trend, E_trend the unweighted power-law fit of E over the n_m-fitted emittances.
+
+| ε_y [nm] | n_y observed | n_y predicted | share | n_m observed | n_m predicted | share |
+|---|---|---|---|---|---|---|
+| 0.5 * | 0.709 | 0.940 ± 0.018 | 18% | 0.012 | 0.866 ± 0.083 | 3% |
+| 1 * | 0.962 | 0.925 ± 0.013 | 203% | 0.202 | 0.817 ± 0.062 | 13% |
+| 2 | 1.051 | 1.004 ± 0.024 |  | 0.973 | 0.938 ± 0.032 |  |
+| 4 | 1.006 | 1.084 ± 0.026 |  | 1.276 | 1.068 ± 0.048 |  |
+| 8 | 1.105 | 1.082 ± 0.031 |  | 0.752 | 1.035 ± 0.055 |  |
+| 12 | 0.890 | 1.090 ± 0.034 |  | 1.041 | 1.036 ± 0.057 |  |
+| 16 | 1.031 | 1.056 ± 0.029 |  | 1.181 | 0.963 ± 0.048 |  |
+| 20 | 0.965 | 1.063 ± 0.043 |  | 0.886 | 0.966 ± 0.054 |  |
+
+Ratios to the fitted law; * marks a point excluded from at least one fit. share: ln(predicted) / ln(observed): the fraction of the logarithmic departure that the extracted accumulation accounts for. Self-consistency (geometric mean of the predicted ratio over the points each law is fitted to; a baseline consistent with the fitted law gives about 1): n_y 1.042, n_m 1.000.

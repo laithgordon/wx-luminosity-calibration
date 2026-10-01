@@ -6963,6 +6963,244 @@
     20.0
    ]
   },
+  "excluded_point_test": {
+   "rows": [
+    {
+     "e_y_nm": 0.5,
+     "D_y": 137.82751349998446,
+     "n_y": {
+      "observed": 0.7087655565282042,
+      "predicted": {
+       "estimate": 0.9403224193333982,
+       "uncertainty": {
+        "value": 0.01828749217881,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": false,
+      "log_share_explained": 0.17875367731367175
+     },
+     "n_m": {
+      "observed": 0.011770631458038567,
+      "predicted": {
+       "estimate": 0.865700314296829,
+       "uncertainty": {
+        "value": 0.08272465402808821,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": false,
+      "log_share_explained": 0.03246548677377918
+     }
+    },
+    {
+     "e_y_nm": 1,
+     "D_y": 97.36393561327273,
+     "n_y": {
+      "observed": 0.9623305962426695,
+      "predicted": {
+       "estimate": 0.9251294404497076,
+       "uncertainty": {
+        "value": 0.013415503258254064,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": 2.0267506575448264
+     },
+     "n_m": {
+      "observed": 0.20166505687242034,
+      "predicted": {
+       "estimate": 0.8171191886127027,
+       "uncertainty": {
+        "value": 0.06234587527243745,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": false,
+      "log_share_explained": 0.12614100857054744
+     }
+    },
+    {
+     "e_y_nm": 2,
+     "D_y": 68.75208777492955,
+     "n_y": {
+      "observed": 1.0507402054517059,
+      "predicted": {
+       "estimate": 1.0038210593036652,
+       "uncertainty": {
+        "value": 0.02402223939198642,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     },
+     "n_m": {
+      "observed": 0.9733913310814688,
+      "predicted": {
+       "estimate": 0.9380949277120123,
+       "uncertainty": {
+        "value": 0.03195228258407064,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     }
+    },
+    {
+     "e_y_nm": 4,
+     "D_y": 48.52076942837245,
+     "n_y": {
+      "observed": 1.006408448351457,
+      "predicted": {
+       "estimate": 1.084426007499933,
+       "uncertainty": {
+        "value": 0.026270611189958135,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     },
+     "n_m": {
+      "observed": 1.276497015752779,
+      "predicted": {
+       "estimate": 1.0675051780280074,
+       "uncertainty": {
+        "value": 0.04823309643941275,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     }
+    },
+    {
+     "e_y_nm": 8,
+     "D_y": 34.21550740608676,
+     "n_y": {
+      "observed": 1.1053965522935472,
+      "predicted": {
+       "estimate": 1.0816039842433585,
+       "uncertainty": {
+        "value": 0.03130316458274273,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     },
+     "n_m": {
+      "observed": 0.751619013486078,
+      "predicted": {
+       "estimate": 1.035422404261381,
+       "uncertainty": {
+        "value": 0.05463845940461057,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     }
+    },
+    {
+     "e_y_nm": 12,
+     "D_y": 27.878324813548918,
+     "n_y": {
+      "observed": 0.8900413350756964,
+      "predicted": {
+       "estimate": 1.0901321738920187,
+       "uncertainty": {
+        "value": 0.03379533824744862,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     },
+     "n_m": {
+      "observed": 1.0408340962737892,
+      "predicted": {
+       "estimate": 1.0363239262582726,
+       "uncertainty": {
+        "value": 0.05741230374839499,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     }
+    },
+    {
+     "e_y_nm": 16,
+     "D_y": 24.100777107523154,
+     "n_y": {
+      "observed": 1.0311122674225062,
+      "predicted": {
+       "estimate": 1.056483387648295,
+       "uncertainty": {
+        "value": 0.028800622825732466,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     },
+     "n_m": {
+      "observed": 1.1810583431348245,
+      "predicted": {
+       "estimate": 0.9631233485435089,
+       "uncertainty": {
+        "value": 0.04847430351769265,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     }
+    },
+    {
+     "e_y_nm": 20,
+     "D_y": 21.522963550078693,
+     "n_y": {
+      "observed": 0.9647887354331147,
+      "predicted": {
+       "estimate": 1.0625398469011518,
+       "uncertainty": {
+        "value": 0.04287245434734332,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     },
+     "n_m": {
+      "observed": 0.8857450312823713,
+      "predicted": {
+       "estimate": 0.9662471536071865,
+       "uncertainty": {
+        "value": 0.05386548713128336,
+        "definition": "Monte Carlo spread with N and C_bar drawn from normal distributions of width (pass-count std / sqrt(seeds)) and (C_bar standard error); generator, seed and draws as in 'about'"
+       }
+      },
+      "in_fit": true,
+      "log_share_explained": null
+     }
+    }
+   ],
+   "self_consistency": {
+    "n_y_mean_predicted_over_fitted_points": 1.041910897579531,
+    "n_m_mean_predicted_over_fitted_points": 1.0000000000000004,
+    "definition": "geometric mean of the predicted ratio over the points each law is fitted to; a baseline consistent with the fitted law gives about 1"
+   },
+   "definition": {
+    "observed_n_y": "kappa / <kappa> (section 'kappa')",
+    "observed_n_m": "(n_m^req per cell) / (C_m D_y^(s - q_p)) with the fitted C_m and exponent (section 'fits', n_m)",
+    "log_share_explained": "ln(predicted) / ln(observed): the fraction of the logarithmic departure that the extracted accumulation accounts for"
+   }
+  },
   "provenance": {
    "input": "data/depo_corr_stat.json",
    "E": "E(N, C_bar) = sqrt(N [1 + (N - 1) C_bar]) at the per-emittance mean N and C_bar",
