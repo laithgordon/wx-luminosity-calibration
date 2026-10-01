@@ -14,7 +14,9 @@ resolution effect, or a finite-n_m artefact of the fine x grid? Two rules:
 
 Left panel: L vs n_m, one curve per n_x (bars = seed STD where >1 seed).
 Right panel: Delta(n_m) per n_x.
-Uses every results.csv row with e_y = 8, n_y = 256, n_z = 128 (any n_x, any n_m).
+Uses the results.csv rows with e_y = 8, n_y = 256, n_z = 128 (any n_x, any n_m) of the 3D solver with 3rd-order
+deposition. The 2D-slice and first-order (CIC) rows share this grid and would otherwise be pooled with them, mixing
+field models and deposition orders into one n_m ladder.
 
 Output: plots/nx_nm_coupling.png
 """
@@ -35,6 +37,8 @@ COLORS = {512: "#2f6fb3", 1024: "#5aa469", 2048: "#e0a03c", 4096: "#c9562b", 819
 runs = defaultdict(list)                       # (nx, nm) -> [L]
 for r in csv.DictReader(open(ROOT / "data" / "results.csv")):
     if abs(float(r["e_y_nm"]) - EY) > 1e-9 or int(r["ny"]) != NY or int(r["nz"]) != NZ:
+        continue
+    if r.get("solver", "3d") != "3d":           # 3D solver, 3rd-order deposition only
         continue
     runs[(int(r["nx"]), int(float(r["nm"])))].append(float(r["L"]))
 nxs = sorted({k[0] for k in runs})
