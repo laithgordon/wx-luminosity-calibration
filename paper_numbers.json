@@ -21,7 +21,8 @@
    "data/gp_exports/gp_requirements_for_wx.csv",
    "data/gp_exports/gp_luminosity_for_wx.csv",
    "data/slice_widths_hw010_<label>.csv",
-   "data/slice_fiterr_hw010_<label>.csv"
+   "data/slice_fiterr_hw010_<label>.csv",
+   "data/depo_corr_stat.json"
   ]
  },
  "luminosity_dataset": {
@@ -6767,5 +6768,205 @@
    }
   },
   "provenance": "section 'luminosity_dataset' and data/gp_exports/gp_luminosity_for_wx.csv"
+ },
+ "pass_correlation": {
+  "rows": [
+   {
+    "e_y_nm": 0.5,
+    "D_y": 137.82751349998446,
+    "n_seeds": 10,
+    "n_m": 2500000,
+    "N_passes": 3.8,
+    "N_passes_std": {
+     "value": 0.39999999999999997,
+     "definition": "sample standard deviation over seeds of the pass count"
+    },
+    "C_bar": 0.36416661336251077,
+    "C_bar_se": {
+     "value": 0.021718259503867902,
+     "definition": "standard error over seeds of the per-seed C_bar"
+    },
+    "E": 2.7703308044667,
+    "E_over_N": 0.7290344222280789,
+    "n_y_req_over_coherent": 0.8538351259043393,
+    "occupancy_req_over_coherent": 0.7290344222280789
+   },
+   {
+    "e_y_nm": 1,
+    "D_y": 97.36393561327273,
+    "n_seeds": 10,
+    "n_m": 880000,
+    "N_passes": 3.2,
+    "N_passes_std": {
+     "value": 0.39999999999999997,
+     "definition": "sample standard deviation over seeds of the pass count"
+    },
+    "C_bar": 0.2669866277308467,
+    "C_bar_se": {
+     "value": 0.022855110453969193,
+     "definition": "standard error over seeds of the per-seed C_bar"
+    },
+    "E": 2.25379365941631,
+    "E_over_N": 0.7043105185675969,
+    "n_y_req_over_coherent": 0.8392321005345285,
+    "occupancy_req_over_coherent": 0.7043105185675969
+   },
+   {
+    "e_y_nm": 2,
+    "D_y": 68.75208777492955,
+    "n_seeds": 10,
+    "n_m": 310000,
+    "N_passes": 2.5,
+    "N_passes_std": {
+     "value": 0.5,
+     "definition": "sample standard deviation over seeds of the pass count"
+    },
+    "C_bar": 0.6592004857289202,
+    "C_bar_se": {
+     "value": 0.051997430537796235,
+     "definition": "standard error over seeds of the per-seed C_bar"
+    },
+    "E": 2.229798605588283,
+    "E_over_N": 0.8919194422353132,
+    "n_y_req_over_coherent": 0.9444148676483832,
+    "occupancy_req_over_coherent": 0.8919194422353132
+   },
+   {
+    "e_y_nm": 4,
+    "D_y": 48.52076942837245,
+    "n_seeds": 10,
+    "n_m": 110000,
+    "N_passes": 2.8,
+    "N_passes_std": {
+     "value": 0.39999999999999997,
+     "definition": "sample standard deviation over seeds of the pass count"
+    },
+    "C_bar": 0.3926817102655674,
+    "C_bar_se": {
+     "value": 0.06021798079868198,
+     "definition": "standard error over seeds of the per-seed C_bar"
+    },
+    "E": 2.186118894236647,
+    "E_over_N": 0.7807567479416597,
+    "n_y_req_over_coherent": 0.8836044069274778,
+    "occupancy_req_over_coherent": 0.7807567479416597
+   },
+   {
+    "e_y_nm": 8,
+    "D_y": 34.21550740608676,
+    "n_seeds": 10,
+    "n_m": 40000,
+    "N_passes": 2.7,
+    "N_passes_std": {
+     "value": 0.45825756949558405,
+     "definition": "sample standard deviation over seeds of the pass count"
+    },
+    "C_bar": 0.13837842062391154,
+    "C_bar_se": {
+     "value": 0.06573695753056256,
+     "definition": "standard error over seeds of the per-seed C_bar"
+    },
+    "E": 1.8262412082372237,
+    "E_over_N": 0.6763856326804532,
+    "n_y_req_over_coherent": 0.822426673132902,
+    "occupancy_req_over_coherent": 0.6763856326804532
+   },
+   {
+    "e_y_nm": 12,
+    "D_y": 27.878324813548918,
+    "n_seeds": 10,
+    "n_m": 22000,
+    "N_passes": 2.5,
+    "N_passes_std": {
+     "value": 0.5,
+     "definition": "sample standard deviation over seeds of the pass count"
+    },
+    "C_bar": 0.08111052442528739,
+    "C_bar_se": {
+     "value": 0.07406584522353235,
+     "definition": "standard error over seeds of the per-seed C_bar"
+    },
+    "E": 1.6745639631243794,
+    "E_over_N": 0.6698255852497518,
+    "n_y_req_over_coherent": 0.8184287294870286,
+    "occupancy_req_over_coherent": 0.6698255852497518
+   },
+   {
+    "e_y_nm": 16,
+    "D_y": 24.100777107523154,
+    "n_seeds": 10,
+    "n_m": 14000,
+    "N_passes": 2.1,
+    "N_passes_std": {
+     "value": 0.3,
+     "definition": "sample standard deviation over seeds of the pass count"
+    },
+    "C_bar": 0.01665101992254369,
+    "C_bar_se": {
+     "value": 0.08888577473754102,
+     "definition": "standard error over seeds of the per-seed C_bar"
+    },
+    "E": 1.4623487463738176,
+    "E_over_N": 0.6963565458922941,
+    "n_y_req_over_coherent": 0.8344798055628992,
+    "occupancy_req_over_coherent": 0.6963565458922941
+   },
+   {
+    "e_y_nm": 20,
+    "D_y": 21.522963550078693,
+    "n_seeds": 10,
+    "n_m": 10000,
+    "N_passes": 2.0,
+    "N_passes_std": {
+     "value": 0.0,
+     "definition": "sample standard deviation over seeds of the pass count"
+    },
+    "C_bar": -0.02304815922811617,
+    "C_bar_se": {
+     "value": 0.15096797208634574,
+     "definition": "standard error over seeds of the per-seed C_bar"
+    },
+    "E": 1.3978210477538846,
+    "E_over_N": 0.6989105238769423,
+    "n_y_req_over_coherent": 0.8360086864841432,
+    "occupancy_req_over_coherent": 0.6989105238769423
+   }
+  ],
+  "pass_count_fit": {
+   "prefactor": 0.9129510249811572,
+   "exponent": {
+    "estimate": 0.2771751346431545,
+    "uncertainty": {
+     "value": 0.0545732894513848,
+     "definition": "standard error of the unweighted least-squares slope, from the scatter of the points about the fitted line"
+    }
+   },
+   "exponent_below_one_half_in_sigma": 4.083038929792627,
+   "definition": "unweighted least-squares fit of ln N against ln D_y on the per-emittance mean pass counts, all eight emittances"
+  },
+  "accumulation_exponent_2_to_20_nm": {
+   "q_n": {
+    "estimate": 0.4290811473814954,
+    "uncertainty": {
+     "value": 0.02913623822639909,
+     "definition": "standard error of the unweighted least-squares slope, from the scatter of the points about the fitted line, halved"
+    }
+   },
+   "q_n_coherent_same_counts": 0.3190458391162533,
+   "definition": "q_n = q_p + (1/2) b, b the unweighted least-squares slope of ln E against ln D_y on the listed emittances; q_n_coherent_same_counts is the same with C_bar = 1 (E = N)",
+   "e_y_nm": [
+    2.0,
+    4.0,
+    8.0,
+    12.0,
+    16.0,
+    20.0
+   ]
+  },
+  "provenance": {
+   "input": "data/depo_corr_stat.json",
+   "E": "E(N, C_bar) = sqrt(N [1 + (N - 1) C_bar]) at the per-emittance mean N and C_bar",
+   "over_coherent": "E/N is the accumulated error relative to coherent passes (C_bar = 1) at the same pass count; the vertical requirement scales as sqrt(E/N) and the pinched-core occupancy requirement as E/N"
+  }
  }
 }

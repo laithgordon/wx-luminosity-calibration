@@ -11,7 +11,8 @@ writes two files at the repository root:
 Inputs, all committed: data/results.csv (one row per run), data/joblist.csv (the run register, for each run's phase),
 data/R1_table.npz (first-waist compression R_1(D_y)), the data/slice_widths_hw010_* / data/slice_fiterr_hw010_*
 caches (pinched-core widths) and their analysis-choice variants data/slice_widths_<tag>_* / data/slice_fiterr_<tag>_*
-(core_width_syst.py), and the GUINEA-PIG++ n_y^req export data/gp_exports/gp_requirements_for_wx.csv with its deck
+(core_width_syst.py), data/depo_corr_stat.json (pass counts and pass-to-pass correlation of the deposition error),
+and the GUINEA-PIG++ n_y^req export data/gp_exports/gp_requirements_for_wx.csv with its deck
 cut from data/gp_exports/gp_luminosity_for_wx.csv (for the GP++ kappa that the WarpX kappa is compared against, and the GP++
 luminosities in the WarpX/GP++ luminosity ratio). Nothing outside the repository is read and nothing is fetched. The only resampling, the
 Monte Carlo behind the n^req uncertainties, uses a fixed generator seed recorded in the output, so repeated runs write
@@ -25,7 +26,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
-for _f in (DATA / "results.csv", DATA / "joblist.csv", DATA / "R1_table.npz",
+for _f in (DATA / "results.csv", DATA / "joblist.csv", DATA / "R1_table.npz", DATA / "depo_corr_stat.json",
            DATA / "gp_exports" / "gp_requirements_for_wx.csv", DATA / "gp_exports" / "gp_luminosity_for_wx.csv"):
     if not _f.is_file():                     # checked before importing nmreq, which would otherwise try to rebuild R_1
         raise FileNotFoundError(f"required input missing: {_f.relative_to(ROOT)}")
@@ -434,6 +435,63 @@ def refined_grid_luminosity(runs, nms):
 
 
 # ---------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
+# pass-to-pass correlation of the deposition error
+# ---------------------------------------------------------------------------------------------------------------------
+def pass_correlation():
+    """Per-emittance pass count and pass-to-pass correlation C_bar from data/depo_corr_stat.json (written by
+    depo_corr_stat.py from the PQ dumps), the accumulation factor E(N, C_bar) = sqrt(N [1 + (N - 1) C_bar]) built from
+    them, and the vertical-resolution exponent q_n = q_p + (1/2) d ln E / d ln D_y fitted over the n_m fit band."""
+    stat = json.load(open(DATA / "depo_corr_stat.json"))
+    key = lambda e: next((k for k in stat if abs(float(k) - e) < 1e-9), None)
+    if any(key(e) is None for e in Q.EYS):
+        fail(f"pass correlation: data/depo_corr_stat.json lacks {[e for e in Q.EYS if key(e) is None]} nm")
+    acc = lambda N, C: np.sqrt(N * (1 + (N - 1) * C))
+    rows = []
+    for e in Q.EYS:
+        s = stat[key(e)]; N, C = float(s["N"]), float(s["cbar"])
+        Ef = float(acc(N, C))
+        rows.append(dict(e_y_nm=e, D_y=Q.D_y(e), n_seeds=int(s["nseeds"]), n_m=int(s["nm"]),
+                         N_passes=N, N_passes_std=U(s["sN"], "sample standard deviation over seeds of the pass count"),
+                         C_bar=float(C), C_bar_se=U(s["sem"], "standard error over seeds of the per-seed C_bar"),
+                         E=Ef, E_over_N=Ef / N,
+                         n_y_req_over_coherent=float(math.sqrt(Ef / N)),
+                         occupancy_req_over_coherent=Ef / N))
+    D = np.array([r["D_y"] for r in rows]); N = np.array([r["N_passes"] for r in rows])
+    C = np.array([r["C_bar"] for r in rows])
+
+    def ols(x, y):
+        """Unweighted least squares of ln y on ln x: slope and its standard error from the fit residuals."""
+        lx, ly = np.log(x), np.log(y)
+        b, a = np.polyfit(lx, ly, 1)
+        se = math.sqrt(float(np.sum((ly - a - b * lx) ** 2)) / (len(lx) - 2) / float(np.sum((lx - lx.mean()) ** 2)))
+        return float(b), float(a), se
+
+    SE_DEF = "standard error of the unweighted least-squares slope, from the scatter of the points about the fitted line"
+
+    def q_n(use):
+        b, _, sb = ols(D[use], acc(N[use], C[use])); bc = ols(D[use], N[use])[0]
+        return dict(q_n=E(Q.Q_P + 0.5 * b, 0.5 * sb, SE_DEF + ", halved"),
+                    q_n_coherent_same_counts=Q.Q_P + 0.5 * bc,
+                    definition="q_n = q_p + (1/2) b, b the unweighted least-squares slope of ln E against ln D_y on the "
+                               "listed emittances; q_n_coherent_same_counts is the same with C_bar = 1 (E = N)",
+                    e_y_nm=[float(e) for e in np.array(Q.EYS)[use]])
+    band = np.array([2.0 <= e <= 20.0 for e in Q.EYS])
+    bN, aN, sbN = ols(D, N)
+    return dict(rows=rows,
+                pass_count_fit=dict(prefactor=float(math.exp(aN)),
+                                    exponent=E(bN, sbN, SE_DEF),
+                                    exponent_below_one_half_in_sigma=float((0.5 - bN) / sbN),
+                                    definition="unweighted least-squares fit of ln N against ln D_y on the per-emittance mean "
+                                               "pass counts, all eight emittances"),
+                accumulation_exponent_2_to_20_nm=q_n(band),
+                provenance=dict(input="data/depo_corr_stat.json",
+                                E="E(N, C_bar) = sqrt(N [1 + (N - 1) C_bar]) at the per-emittance mean N and C_bar",
+                                over_coherent="E/N is the accumulated error relative to coherent passes (C_bar = 1) at the "
+                                              "same pass count; the vertical requirement scales as sqrt(E/N) and the "
+                                              "pinched-core occupancy requirement as E/N"))
+
+
 def build():
     runs = load_runs()
     on_locus = lambda e, g, nm: g == (512, Q.n_y_cons(e), 128) and abs(nm / Q.n_m_cons(e) - 1) < 0.02
@@ -558,13 +616,15 @@ def build():
                    monte_carlo=dict(generator="numpy.random.default_rng", seed=Q.MC_SEED, draws=Q.MC_DRAWS),
                    inputs=["data/results.csv", "data/joblist.csv", "data/R1_table.npz",
                            "data/gp_exports/gp_requirements_for_wx.csv", "data/gp_exports/gp_luminosity_for_wx.csv",
-                           "data/slice_widths_hw010_<label>.csv", "data/slice_fiterr_hw010_<label>.csv"]),
+                           "data/slice_widths_hw010_<label>.csv", "data/slice_fiterr_hw010_<label>.csv",
+                           "data/depo_corr_stat.json"]),
         luminosity_dataset=dict(cut_multipliers_definition=CUT_NOTE, n_t_definition=NT_NOTE,
                                 rows=[r for c in ds for r in ds[c]]),
         derived_luminosity=derived, requirements=requirements, fits=fits, kappa=kappa,
         recommendation_table=recommendation, disruption_parameter=dy, core_width=core_width(runs),
         core_width_systematic=CWS.block(CWS.analysis()),
-        solver_and_deposition_variants=variants_block, ps1_reference=ps1, wx_over_gp_luminosity=wx_over_gp)
+        solver_and_deposition_variants=variants_block, ps1_reference=ps1, wx_over_gp_luminosity=wx_over_gp,
+        pass_correlation=pass_correlation())
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -790,6 +850,21 @@ def markdown(P):
                       for r in g["per_emittance"]]))
     out.append(f"\nOver 8–100 nm: {b['min']:.3f} ({b['e_y_nm_at_min']:g} nm) to {b['max']:.3f} ({b['e_y_nm_at_max']:g} nm). "
                f"At 1 nm: {pm(g['at_1_nm']['value'], g['at_1_nm']['se']['value'], 3)}.\n")
+
+    pc = P["pass_correlation"]; q = pc["accumulation_exponent_2_to_20_nm"]; f = pc["pass_count_fit"]
+    out.append("\n## 13. Pass-to-pass correlation and accumulation\n\nInput: " + pc["provenance"]["input"] + ". "
+               + pc["provenance"]["E"] + ". " + pc["provenance"]["over_coherent"] + ".\n")
+    out.append(table(["ε_y [nm]", "D_y", "N (std)", "C̄ ± se", "E", "E/N", "n_y^req / coherent", "occupancy / coherent", "seeds"],
+                     [[f"{r['e_y_nm']:g}", f"{r['D_y']:.1f}", f"{r['N_passes']:.2f} ({r['N_passes_std']['value']:.2f})",
+                       pm(r["C_bar"], r["C_bar_se"]["value"], 3), f"{r['E']:.3f}", f"{r['E_over_N']:.3f}",
+                       f"{r['n_y_req_over_coherent']:.3f}", f"{r['occupancy_req_over_coherent']:.3f}", r["n_seeds"]]
+                      for r in pc["rows"]]))
+    out.append(f"\nPass count: N = {f['prefactor']:.3f} D_y^({pm(f['exponent']['estimate'], f['exponent']['uncertainty']['value'], 3)}), "
+               f"{f['exponent_below_one_half_in_sigma']:.1f} sigma below 1/2 ({f['definition']}; "
+               f"{f['exponent']['uncertainty']['definition']}).\n")
+    out.append(f"\nAccumulation exponent over {q['e_y_nm'][0]:g}–{q['e_y_nm'][-1]:g} nm: q_n = "
+               f"{pm(q['q_n']['estimate'], q['q_n']['uncertainty']['value'], 3)}; with C̄ = 1 at the same pass counts, "
+               f"{q['q_n_coherent_same_counts']:.3f}. {q['definition']}.\n")
     return "\n".join(out)
 
 

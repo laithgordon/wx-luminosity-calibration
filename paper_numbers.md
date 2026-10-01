@@ -383,3 +383,23 @@ L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration:
 | 100 | extrapolated_extension | frozen_extension | 0.996 ± 0.015 |
 
 Over 8–100 nm: 0.984 (60 nm) to 1.019 (8 nm). At 1 nm: 1.288 ± 0.011.
+
+## 13. Pass-to-pass correlation and accumulation
+
+Input: data/depo_corr_stat.json. E(N, C_bar) = sqrt(N [1 + (N - 1) C_bar]) at the per-emittance mean N and C_bar. E/N is the accumulated error relative to coherent passes (C_bar = 1) at the same pass count; the vertical requirement scales as sqrt(E/N) and the pinched-core occupancy requirement as E/N.
+
+| ε_y [nm] | D_y | N (std) | C̄ ± se | E | E/N | n_y^req / coherent | occupancy / coherent | seeds |
+|---|---|---|---|---|---|---|---|---|
+| 0.5 | 137.8 | 3.80 (0.40) | 0.364 ± 0.022 | 2.770 | 0.729 | 0.854 | 0.729 | 10 |
+| 1 | 97.4 | 3.20 (0.40) | 0.267 ± 0.023 | 2.254 | 0.704 | 0.839 | 0.704 | 10 |
+| 2 | 68.8 | 2.50 (0.50) | 0.659 ± 0.052 | 2.230 | 0.892 | 0.944 | 0.892 | 10 |
+| 4 | 48.5 | 2.80 (0.40) | 0.393 ± 0.060 | 2.186 | 0.781 | 0.884 | 0.781 | 10 |
+| 8 | 34.2 | 2.70 (0.46) | 0.138 ± 0.066 | 1.826 | 0.676 | 0.822 | 0.676 | 10 |
+| 12 | 27.9 | 2.50 (0.50) | 0.081 ± 0.074 | 1.675 | 0.670 | 0.818 | 0.670 | 10 |
+| 16 | 24.1 | 2.10 (0.30) | 0.017 ± 0.089 | 1.462 | 0.696 | 0.834 | 0.696 | 10 |
+| 20 | 21.5 | 2.00 (0.00) | -0.023 ± 0.151 | 1.398 | 0.699 | 0.836 | 0.699 | 10 |
+
+Pass count: N = 0.913 D_y^(0.277 ± 0.055), 4.1 sigma below 1/2 (unweighted least-squares fit of ln N against ln D_y on the per-emittance mean pass counts, all eight emittances; standard error of the unweighted least-squares slope, from the scatter of the points about the fitted line).
+
+
+Accumulation exponent over 2–20 nm: q_n = 0.429 ± 0.029; with C̄ = 1 at the same pass counts, 0.319. q_n = q_p + (1/2) b, b the unweighted least-squares slope of ln E against ln D_y on the listed emittances; q_n_coherent_same_counts is the same with C_bar = 1 (E = N).
