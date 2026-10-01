@@ -84,6 +84,7 @@ def draw_code_ratio():
         ax.errorbar(*frz[:2], yerr=frz[2], fmt="D", ls=":", color="C1", ecolor="C1", mfc="white", capsize=1.5, elinewidth=0.6,
                     lw=0.9, ms=3.2, markeredgewidth=0.8, zorder=5, label=r"both frozen at 20 nm configurations")
         ax.set_xscale("log")                              # 1-100 nm: log axis so every tick label has room
+        ax.set_xlim(0.8, 130); PC.shade_gp_extrapolated(ax, 0.8)
         tks = [1, 2, 4, 8, 12, 20, 40, 100]                # thinned so the rotated labels never touch
         ax.xaxis.set_major_locator(mticker.FixedLocator(tks)); ax.xaxis.set_major_formatter(mticker.FixedFormatter([f"{v:g}" for v in tks]))
         ax.xaxis.set_minor_locator(mticker.NullLocator())

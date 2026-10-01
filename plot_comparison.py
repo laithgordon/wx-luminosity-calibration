@@ -42,6 +42,15 @@ STYLE = {
 }
 
 
+# below this e_y the recommended GUINEA-PIG++ macroparticle count exceeds the largest n_m simulated in that
+# emittance's tuning ladder; shaded in the figures that use the recommended GP++ configuration
+GP_EXTRAP_BELOW_NM = 2.0
+
+
+def shade_gp_extrapolated(ax, x0):
+    ax.axvspan(x0, GP_EXTRAP_BELOW_NM, color="0.88", lw=0, zorder=0)
+
+
 def L_geom(e_y_nm):
     sy = Q.sigma_y(e_y_nm); sx = Q.SIGMA_X
     return F_COLL * Q.N_PART ** 2 / (4 * math.pi * sx * sy * 1e4) / 1e34   # cm^-2 s^-1 / 1e34
@@ -125,6 +134,7 @@ def draw(kind):
         tks = [v for v in Q.EYS if v not in (0.5, 1)] + [0.5] + (Q.EYS_EXT if have_ext else [])   # thin the crowded low end
         if kind in ("L", "HD"):
             ax.set_xlim(0, 21)
+            shade_gp_extrapolated(ax, 0)
         ax.xaxis.set_major_locator(mticker.FixedLocator(sorted(tks)))
         ax.xaxis.set_major_formatter(mticker.FixedFormatter([f"{v:g}" for v in sorted(tks)]))
         ax.xaxis.set_minor_locator(mticker.NullLocator())
