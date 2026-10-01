@@ -20,6 +20,7 @@ It reads only files under `data/`:
 - `results.csv` and `joblist.csv`;
 - `R1_table.npz`;
 - `gp_exports/gp_requirements_for_wx.csv` and `gp_exports/gp_luminosity_for_wx.csv`, for the GUINEA-PIG++ κ and luminosities;
+- `nm_vs_nx_ladders.csv`, for the n_m ladders at fixed n_x (through `nx_ladders.py`);
 - the `slice_widths_hw010_*` and `slice_fiterr_hw010_*` caches, and their estimator variations
   `slice_widths_hw<HW>_thr<threshold>_nb<bins>_*` and `slice_fiterr_hw<HW>_thr<threshold>_nb<bins>_*` (through `core_width_syst.py`).
 
@@ -40,7 +41,8 @@ It uses no network access, no environment variables, and no paths outside the re
 | `core_width_systematic` | The core width under each estimator variation (slice half-width 0.05 and 0.20 σ_z, fit threshold 0.10 and 0.30 of the peak, bin width ×0.5 and ×2), with each deviation and its seed-paired se; the systematic per emittance (maximum and RMS deviation) and the total se ⊕ systematic; the weighted fit of ln(σ_y*/σ_min) = a + q ln D_y over 0.5–20 nm and 1–20 nm (q, Λ = e^a, χ², ndf, p, pulls against q_p with and without its uncertainty); the same fit on each variation's points; the slope of ln(extracted/predicted) vs ln D_y; R and R_1 at 0.5 and 1 nm for every estimator. |
 | `solver_and_deposition_variants` | 2D-slice solver, and first-order (CIC) deposition with the 3D and 2D-slice solvers, beside the 3D third-order reference at the same settings. Each has L, seed count, the n_m run and the ratio to the reference. |
 | `ps1_reference` | Nominal 20 nm: mean, std, se, seed count, and the ratio to the published 1.35×10³⁴ cm⁻² s⁻¹. |
-| `wx_over_gp_luminosity` | L_WarpX/L_GP++ per emittance with se, each simulator at its recommended configuration (WarpX `conservative` and `extrapolated_extension`; GUINEA-PIG++ `conservative` and `frozen_extension` from `data/gp_exports/gp_luminosity_for_wx.csv`); its range over 8–100 nm and its value at 1 nm. |
+| `wx_over_gp_luminosity` | L_WarpX/L_GP++ per emittance with se, each simulator at its recommended configuration (WarpX `conservative` and `extrapolated_extension`; GUINEA-PIG++ `conservative` and `frozen_extension` from `data/gp_exports/gp_luminosity_for_wx.csv`); its range over 8–100 nm and its value at 1 nm; and, separately, the ratio with both simulators frozen at their 20 nm configurations over 40–100 nm. |
+| `nx_ladders_20nm` | Per n_x (64–8192) at 20 nm: the plateau L_inf where one exists and its ratio to n_x = 512, the top rung and its ratio, the side of approach, n_m^req or its lower bound against eq:law_nm, and the spread of L_inf over n_x = 256–1024. |
 
 ### Conventions
 - **Uncertainty definitions.** Every uncertainty in the JSON carries a `definition` saying what it is: a sample standard deviation over seeds (ddof = 1), a standard error, a Monte Carlo interval half-width on ln n^req, or a fit parameter uncertainty.

@@ -66,7 +66,8 @@ missing core-width cache, default or variation, from the dumps. All three need `
 | `WX_ny_req_convergence` | `n_y^req` vs `D_y` |
 | `kappa_vs_Dy` | cells per pinched vertical σ for both codes, each at its own box cut |
 | `WX_comparison_L_vs_ey` | L vs ε_y for untuned and tuned WarpX and GP++, with the geometric luminosity |
-| `WX_code_ratio_vs_ey` | WarpX/GP++ tuned luminosity from 1 to 100 nm |
+| `WX_code_ratio_vs_ey` | WarpX/GP++ luminosity: recommended configurations at 1–20 nm, both frozen at their 20 nm configurations at 40–100 nm |
+| `WX_GP_nx_nm_ladders` | luminosity vs n_m at fixed n_x, 20 nm, WarpX and GP++ side by side (appendix figure) |
 | `WX_core_width_vs_Dy` | minimum Gaussian-core width of the central slice vs `D_y` with the fitted law `e^{−a} D_y^{−q}` and the analysis-choice systematic, and extracted against the first-waist prediction `1/R_1(D_y)` |
 
 **Repository only**
@@ -121,6 +122,7 @@ this locus.
 | `nmreq.py` | the convergence machinery: disruption parameter `D_y(ε_y)`, ladders, plateau rule, ±5 % bracket estimator, Monte-Carlo errors, weighted power-law fits, the first-waist envelope compression `R_1(D_y)`, κ, the frozen production locus, and the readers of the GP++ exports |
 | `richardson.py` | Richardson-extrapolation overlays |
 | `paper_figures.py` | figure style, the ladder and convergence figures, and `kappa_vs_Dy` |
+| `nx_ladders.py` | the n_m ladders at fixed n_x: per-ladder plateau, n^req or its lower bound, the summary table, and `WX_GP_nx_nm_ladders` |
 | `plot_comparison.py`, `plot_extension.py`, `plot_deposition.py` | tuned-vs-untuned and WarpX-vs-GP++ luminosity comparisons, the 40–100 nm extension, and the deposition-order test |
 | `plot_coarse.py`, `plot_nx_nm_coupling.py` | coarse-grid control and the `n_x`–`n_m` coupling test |
 | `plot_beamstrahlung.py` | beamstrahlung on vs off at the recommended configuration; also writes `beamstrahlung_numbers.md` |
@@ -152,4 +154,6 @@ this locus.
 | `depo_corr_stat.json` — per-seed deposition-error correlations | `plot_depo_correlation.py` |
 | `results_bsoff.csv` — the recommended configuration re-run with beamstrahlung off (`beam1/beam2.do_qed_quantum_sync = 0`), 8 ε_y × 5 seeds; same columns as `results.csv` plus `beamstrahlung`. Kept apart from `results.csv` so no calibration fit or figure can read it | `plot_beamstrahlung.py` |
 | `gp_exports/gp_luminosity_for_wx.csv` — GUINEA-PIG++ luminosity per emittance in blocks `nominal`, `conservative`, `frozen_extension` | `plot_comparison.py`, `plot_extension.py`, `plot_deposition.py`, `paper_figures.py` |
+| `nm_vs_nx_ladders.csv` — seed-1 luminosity per (n_x, n_m) at 20 nm, n_y = 256, n_z = 128; `nm_vs_nx_summary.csv` — its per-ladder reduction | `nx_ladders.py`, `reproduce_paper_numbers.py` |
+| `gp_exports/gp_nx_nm_ladders_20nm.csv` — GUINEA-PIG++ n_m ladders at fixed n_x, 20 nm, seed 100805 | `nx_ladders.py` |
 | `gp_exports/gp_requirements_for_wx.csv` — GUINEA-PIG++ tuning-ladder requirements with their `sigma_log` uncertainties, the published fit constants and `q_p` in its header | `paper_figures.py`, `reproduce_paper_numbers.py` |

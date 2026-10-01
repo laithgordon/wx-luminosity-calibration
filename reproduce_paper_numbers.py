@@ -34,6 +34,7 @@ for _f in (DATA / "results.csv", DATA / "joblist.csv", DATA / "R1_table.npz", DA
 import nmreq as Q
 import wxcal as W
 import core_width_syst as CWS
+import nx_ladders as NXL
 
 OUT_JSON, OUT_MD = ROOT / "paper_numbers.json", ROOT / "paper_numbers.md"
 ALL_EYS = sorted(Q.EYS + Q.EYS_EXT)
@@ -762,7 +763,11 @@ def build():
         core_width_systematic=CWS.block(CWS.analysis()),
         solver_and_deposition_variants=variants_block, ps1_reference=ps1, wx_over_gp_luminosity=wx_over_gp,
         pass_correlation=pass_correlation(kappa, requirements, fits),
-        cic_at_recommended_n_m=cic_at_recommended(runs, ds, wx_over_gp))
+        cic_at_recommended_n_m=cic_at_recommended(runs, ds, wx_over_gp),
+        nx_ladders_20nm=dict(provenance="data/nm_vs_nx_ladders.csv (seed 1; n_y = 256, n_z = 128, 3D solver, 3rd-order "
+                                        "deposition), reduced by nx_ladders.py; drawn in WX_GP_nx_nm_ladders",
+                             rules=NXL.__doc__.split("Reduction per ladder")[1].split("    python3")[0].strip(),
+                             **NXL.numbers()))
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -1046,6 +1051,17 @@ def markdown(P):
     out.append(f"\nRatios to the fitted law; * marks a point excluded from at least one fit. share: "
                f"{x['definition']['log_share_explained']}. Self-consistency ({sc['definition']}): n_y "
                f"{sc['n_y_mean_predicted_over_fitted_points']:.3f}, n_m {sc['n_m_mean_predicted_over_fitted_points']:.3f}.\n")
+
+    nl = P["nx_ladders_20nm"]
+    f0 = lambda v, fmt: "—" if v is None else fmt.format(v)
+    out.append("\n## 14. n_m ladders at fixed n_x (20 nm)\n\nInput: " + nl["provenance"] + ".\n")
+    out.append(table(["n_x", "L_inf", "L_inf / L_inf(512)", "top rung n_m", "L_top / L_inf(512)", "approach",
+                      "n_m^req", "lower bound", "law", "ratio"],
+                     [[p["n_x"], f0(p["L_inf"], "{:.4f}"), f0(p["plateau_over_512"], "{:.4f}"), f"{p['nm_top']:.3g}",
+                       f"{p['top_rung_over_512']:.4f}", p["approach"], f0(p["n_m_req"], "{:.0f}"),
+                       f0(p["n_m_req_lower_bound"], "{:.0f}"), f"{p['n_m_predicted']:.0f}", f0(p["ratio_to_law"], "{:.3f}")]
+                      for p in nl["per_n_x"]]))
+    out.append(f"\nSpread of L_inf over n_x = 256-1024: {nl['spread_256_to_1024']:.4f}.\n")
     return "\n".join(out)
 
 

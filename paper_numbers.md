@@ -450,3 +450,20 @@ Accumulation exponent over 2–20 nm: q_n = 0.429 ± 0.029; with C̄ = 1 at the 
 | 20 | 0.965 | 1.063 ± 0.043 |  | 0.886 | 0.966 ± 0.054 |  |
 
 Ratios to the fitted law; * marks a point excluded from at least one fit. share: ln(predicted) / ln(observed): the fraction of the logarithmic departure that the extracted accumulation accounts for. Self-consistency (geometric mean of the predicted ratio over the points each law is fitted to; a baseline consistent with the fitted law gives about 1): n_y 1.042, n_m 1.000.
+
+## 14. n_m ladders at fixed n_x (20 nm)
+
+Input: data/nm_vs_nx_ladders.csv (seed 1; n_y = 256, n_z = 128, 3D solver, 3rd-order deposition), reduced by nx_ladders.py; drawn in WX_GP_nx_nm_ladders.
+
+| n_x | L_inf | L_inf / L_inf(512) | top rung n_m | L_top / L_inf(512) | approach | n_m^req | lower bound | law | ratio |
+|---|---|---|---|---|---|---|---|---|---|
+| 64 | 1.2922 | 0.9425 | 1.25e+07 | 0.9427 | from_below | 284 | — | 1252 | 0.226 |
+| 128 | 1.3433 | 0.9797 | 2.5e+07 | 0.9799 | from_below | 2665 | — | 2504 | 1.064 |
+| 256 | 1.3630 | 0.9941 | 1.58e+07 | 0.9947 | from_below | 5548 | — | 5008 | 1.108 |
+| 512 | 1.3711 | 1.0000 | 1e+08 | 0.9998 | from_below | 3015 | — | 10016 | 0.301 |
+| 1024 | 1.3742 | 1.0023 | 6.33e+07 | 1.0022 | from_above | 922 | — | 20033 | 0.046 |
+| 2048 | — | — | 1.27e+08 | 1.0034 | from_above | — | 126698 | 40065 | 3.162 |
+| 4096 | — | — | 8.01e+07 | 1.0097 | from_above | — | 2533959 | 80131 | 31.623 |
+| 8192 | — | — | 1e+08 | 1.0268 | from_above | — | 10000000 | 160262 | 62.398 |
+
+Spread of L_inf over n_x = 256-1024: 0.0083.

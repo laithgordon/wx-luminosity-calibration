@@ -7,7 +7,8 @@
 Figures from data/ only: WX_L_vs_nm, WX_nm_req_convergence, WX_L_vs_ny, WX_ny_req_convergence, kappa_vs_Dy
 (paper_figures); WX_comparison_L_vs_ey, WX_comparison_HD_vs_ey, WX_comparison_ratio_vs_ey
 (plot_comparison); WX_extension_L_vs_ey, WX_code_ratio_vs_ey (plot_extension); WX_deposition_L_vs_ey
-(plot_deposition); WX_coarse_grid_L_vs_nm (plot_coarse); nx_nm_coupling (plot_nx_nm_coupling);
+(plot_deposition); WX_coarse_grid_L_vs_nm (plot_coarse); nx_nm_coupling (plot_nx_nm_coupling); WX_GP_nx_nm_ladders
+(nx_ladders, which also writes data/nm_vs_nx_summary.csv);
 WX_core_width_vs_Dy (plot_core_width, from the cached slice widths); WX_depo_correlation (plot_depo_correlation);
 WX_beamstrahlung_L_vs_ey (plot_beamstrahlung, which also writes beamstrahlung_numbers.md).
 Dump-based: WX_pinch_evolution, WX_pinch_histogram (plot_pinch_evolution), WX_depo_error_passes (deposition_error)."""
@@ -20,6 +21,7 @@ import plot_extension as PX; PX.draw(); PX.draw_code_ratio()
 import plot_deposition as PD; PD.draw()
 import plot_coarse as PCo; PCo.draw() if hasattr(PCo, "draw") else None
 runpy.run_path("plot_nx_nm_coupling.py", run_name="__main__")
+runpy.run_path("nx_ladders.py", run_name="__main__")
 import plot_core_width as PCW; PCW.draw()
 import plot_depo_correlation as PDC; PDC.draw() if hasattr(PDC, "draw") else runpy.run_path("plot_depo_correlation.py", run_name="__main__")
 import plot_beamstrahlung as PB; PB.table(*PB.draw())

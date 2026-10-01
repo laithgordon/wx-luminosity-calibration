@@ -8045,5 +8045,117 @@
     ]
    }
   }
+ },
+ "nx_ladders_20nm": {
+  "provenance": "data/nm_vs_nx_ladders.csv (seed 1; n_y = 256, n_z = 128, 3D solver, 3rd-order deposition), reduced by nx_ladders.py; drawn in WX_GP_nx_nm_ladders",
+  "rules": "(written to data/nm_vs_nx_summary.csv for WarpX):\n  L_inf    mean over the highest window of >= 3 consecutive rungs spanning a decade with max/min - 1 <= PLATEAU_REL;\n           none where no such window exists\n  n_m_req  last-crossing bracket of the +/-5 % band about L_inf (nmreq.bracket)\n  n_m_req_lower_bound  for ladders with no plateau, still falling at the top rung: L_inf <= L(top), so n_m_req is at\n           least the largest rung with L > (1 + TOL) L(top)\n  n_m_predicted  eq:law_nm on the frozen locus, 0.440 D_y^3.269 n_x / 512\n  approach  side from which the ladder reaches L_inf (or L(top)): sign of the last rung outside PLATEAU_REL",
+  "L_inf_512": 1.3710890000000002,
+  "per_n_x": [
+   {
+    "n_x": 64,
+    "L_inf": 1.2921943333333334,
+    "plateau_over_512": 0.9424583913468296,
+    "L_top_rung": 1.292501,
+    "top_rung_over_512": 0.9426820578386959,
+    "nm_top": 12520440.0,
+    "approach": "from_below",
+    "n_m_req": 283.5275023766842,
+    "n_m_req_lower_bound": null,
+    "n_m_predicted": 1252.043900836465,
+    "ratio_to_law": 0.22645172600358923
+   },
+   {
+    "n_x": 128,
+    "L_inf": 1.3433086666666665,
+    "plateau_over_512": 0.9797384901101724,
+    "L_top_rung": 1.343551,
+    "top_rung_over_512": 0.9799152352618975,
+    "nm_top": 25040880.0,
+    "approach": "from_below",
+    "n_m_req": 2664.6899474969014,
+    "n_m_req_lower_bound": null,
+    "n_m_predicted": 2504.08780167293,
+    "ratio_to_law": 1.064135988249564
+   },
+   {
+    "n_x": 256,
+    "L_inf": 1.362961,
+    "plateau_over_512": 0.9940718655025311,
+    "L_top_rung": 1.363777,
+    "top_rung_over_512": 0.9946670128634975,
+    "nm_top": 15837243.0,
+    "approach": "from_below",
+    "n_m_req": 5547.830106205274,
+    "n_m_req_lower_bound": null,
+    "n_m_predicted": 5008.17560334586,
+    "ratio_to_law": 1.1077547086206168
+   },
+   {
+    "n_x": 512,
+    "L_inf": 1.3710890000000002,
+    "plateau_over_512": 1.0,
+    "L_top_rung": 1.370802,
+    "top_rung_over_512": 0.9997906773375032,
+    "nm_top": 100000000.0,
+    "approach": "from_below",
+    "n_m_req": 3015.0572721648928,
+    "n_m_req_lower_bound": null,
+    "n_m_predicted": 10016.35120669172,
+    "ratio_to_law": 0.3010135337657285
+   },
+   {
+    "n_x": 1024,
+    "L_inf": 1.3742056666666667,
+    "plateau_over_512": 1.0022731322814686,
+    "L_top_rung": 1.374086,
+    "top_rung_over_512": 1.0021858537264903,
+    "nm_top": 63348968.0,
+    "approach": "from_above",
+    "n_m_req": 921.9804354130172,
+    "n_m_req_lower_bound": null,
+    "n_m_predicted": 20032.70241338344,
+    "ratio_to_law": 0.04602376735737166
+   },
+   {
+    "n_x": 2048,
+    "L_inf": null,
+    "plateau_over_512": null,
+    "L_top_rung": 1.375781,
+    "top_rung_over_512": 1.0034220973255563,
+    "nm_top": 126697935.0,
+    "approach": "from_above",
+    "n_m_req": null,
+    "n_m_req_lower_bound": 126698.0,
+    "n_m_predicted": 40065.40482676688,
+    "ratio_to_law": 3.162279291768335
+   },
+   {
+    "n_x": 4096,
+    "L_inf": null,
+    "plateau_over_512": null,
+    "L_top_rung": 1.384351,
+    "top_rung_over_512": 1.0096726033102155,
+    "nm_top": 80130810.0,
+    "approach": "from_above",
+    "n_m_req": null,
+    "n_m_req_lower_bound": 2533959.0,
+    "n_m_predicted": 80130.80965353375,
+    "ratio_to_law": 31.622780438088995
+   },
+   {
+    "n_x": 8192,
+    "L_inf": null,
+    "plateau_over_512": null,
+    "L_top_rung": 1.407833,
+    "top_rung_over_512": 1.0267991355776318,
+    "nm_top": 100000000.0,
+    "approach": "from_above",
+    "n_m_req": null,
+    "n_m_req_lower_bound": 10000000.0,
+    "n_m_predicted": 160261.6193070675,
+    "ratio_to_law": 62.3979717866173
+   }
+  ],
+  "spread_256_to_1024": 0.00825017492552349
  }
 }
