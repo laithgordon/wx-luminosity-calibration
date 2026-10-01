@@ -33,11 +33,11 @@ F_COLL = 133 * 120.0
 
 # curve definitions: (label, color, marker, ls)
 STYLE = {
-    "wx_uncal": (r"WarpX untuned", "C0", "o", "-"),
-    "wx_cal":   (r"WarpX tuned", "C0", "s", "--"),
-    "gp_uncal": (r"GP++ untuned", "C3", "o", "-"),
-    "gp_cal":   (r"GP++ tuned", "C3", "s", "--"),
-    "wx_cal_2d": (r"WarpX tuned, 2D-slice solver", "C2", "^", "--"),
+    "wx_uncal": (r"WarpX initial", "C0", "o", "-"),
+    "wx_cal":   (r"WarpX recommended", "C0", "s", "--"),
+    "gp_uncal": (r"GP++ initial", "C3", "o", "-"),
+    "gp_cal":   (r"GP++ recommended", "C3", "s", "--"),
+    "wx_cal_2d": (r"WarpX recommended, 2D-slice solver", "C2", "^", "--"),
     "wx_frz20": (r"WarpX, parameters frozen at 20 nm", "C1", "D", ":"),
 }
 
@@ -157,8 +157,8 @@ def draw(kind):
     return C
 
 
-RATIO_STYLE = {("wx_cal", "wx_uncal"): (r"WarpX tuned / untuned", "C0", "s", "-"),
-               ("gp_cal", "gp_uncal"): (r"GP++ tuned / untuned", "C3", "s", "-")}
+RATIO_STYLE = {("wx_cal", "wx_uncal"): (r"WarpX recommended / initial", "C0", "s", "-"),
+               ("gp_cal", "gp_uncal"): (r"GP++ recommended / initial", "C3", "s", "-")}
 
 
 def draw_ratio():
@@ -186,16 +186,16 @@ def draw_ratio():
         ax.xaxis.set_minor_locator(mticker.NullLocator())
         plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor", fontsize=7)
         ax.set_xlabel(r"$\varepsilon_y$ [nm]")
-        ax.set_ylabel(r"$\mathscr{L}_{\rm tuned}/\mathscr{L}_{\rm untuned}$")
+        ax.set_ylabel(r"$\mathscr{L}_{\rm recommended}/\mathscr{L}_{\rm initial}$")
         ax.legend(loc="upper right", frameon=False, fontsize=5.4)
         _ticks_in(ax)
         save_fig(fig, "WX_comparison_ratio_vs_ey")
         plt.close(fig)
 
 
-SOLVER_STYLE = {"wx_cal": (r"WarpX tuned, 3D solver", "C0", "s", "--"),
-                "wx_cal_2d": (r"WarpX tuned, 2D-slice solver", "C2", "^", "--"),
-                "gp_cal": (r"GP++ tuned", "C3", "s", "--")}
+SOLVER_STYLE = {"wx_cal": (r"WarpX recommended, 3D solver", "C0", "s", "--"),
+                "wx_cal_2d": (r"WarpX recommended, 2D-slice solver", "C2", "^", "--"),
+                "gp_cal": (r"GP++ recommended", "C3", "s", "--")}
 
 
 def draw_solver():
