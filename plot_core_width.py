@@ -23,9 +23,14 @@ from paper_figures import PRL, save_fig, _ticks_in
 from plot_slice_pinch import beam_yzw, SIGMA_Z
 
 HW = 0.10          # slice half-width in sigma_z (converged; matches WX_pinch_evolution)
+FIT_THRESHOLD = 0.20   # the Gaussian core fit uses the histogram bins above this fraction of the peak
+NBINS = 80         # y-histogram bins over +-5 IQR (bin width 0.125 IQR)
 
 ROOT = Path(__file__).resolve().parent            # repository root (flat layout: scripts, data/, plots/)
 import wxcal as W
+import core_width_syst as CWS
+from core_width_syst import cache_tag, BASELINE
+assert BASELINE == (HW, FIT_THRESHOLD, NBINS)
 
 
 def wquantile(x, w, q):
@@ -34,35 +39,94 @@ def wquantile(x, w, q):
     return float(np.interp(q * w.sum(), c, x))
 
 
-def core_widths(y, z, w):
-    """(rms, iqr_width, gauss_width) of the central slice, about its own centroid; nan if too few particles."""
+def core_fit(y, z, w, hw=HW, thr=FIT_THRESHOLD, nb=NBINS):
+    """Central slice |z - z_bar| < hw sigma_z, about its own centroid: (rms, iqr_width, gauss_width, gauss_err, rel_resid, n).
+    gauss_err is the 1-sigma parameter error from the histogram fit covariance (residual-scaled); rel_resid is the rms
+    residual of the fit relative to the peak; n the slice particle count. nan where there are fewer than 100 particles
+    or fewer than 5 bins above thr, or the fit fails."""
     zc = np.average(z, weights=w)
-    m = np.abs(z - zc) < HW * SIGMA_Z
-    if m.sum() < 100:
-        return np.nan, np.nan, np.nan
+    m = np.abs(z - zc) < hw * SIGMA_Z
+    n = int(m.sum())
+    if n < 100:
+        return np.nan, np.nan, np.nan, np.nan, np.nan, n
     y, w = y[m], w[m]
     yc = np.average(y, weights=w)
     d = y - yc
     rms = float(np.sqrt(np.average(d ** 2, weights=w)))
     iqr = (wquantile(d, w, 0.75) - wquantile(d, w, 0.25)) / 1.349
     # Gaussian fit to the histogram peak
-    h, edges = np.histogram(d, bins=80, range=(-5 * iqr, 5 * iqr), weights=w)
+    h, edges = np.histogram(d, bins=nb, range=(-5 * iqr, 5 * iqr), weights=w)
     c = 0.5 * (edges[1:] + edges[:-1])
-    sel = h > 0.2 * h.max()
-    gw = np.nan
+    sel = h > thr * h.max()
+    gw = ge = rr = np.nan
     if sel.sum() >= 5:
         try:
-            popt, _ = curve_fit(lambda x, A, s: A * np.exp(-x * x / (2 * s * s)),
-                                c[sel], h[sel], p0=(h.max(), iqr), maxfev=2000)
-            gw = abs(float(popt[1]))
+            popt, pcov = curve_fit(lambda x, A, s: A * np.exp(-x * x / (2 * s * s)),
+                                   c[sel], h[sel], p0=(h.max(), iqr), maxfev=2000)
+            gw = abs(float(popt[1])); ge = float(np.sqrt(pcov[1, 1]))
+            resid = h[sel] - popt[0] * np.exp(-c[sel] ** 2 / (2 * popt[1] ** 2))
+            rr = float(np.sqrt(np.mean(resid ** 2)) / h.max())
         except Exception:
             pass
-    return rms, float(iqr), gw
+    return rms, float(iqr), gw, ge, rr, n
 
 
-def run_widths(label):
+def core_widths(y, z, w, hw=HW, thr=FIT_THRESHOLD, nb=NBINS):
+    """(rms, iqr_width, gauss_width) of the central slice, about its own centroid; nan if too few particles."""
+    return core_fit(y, z, w, hw, thr, nb)[:3]
+
+
+def _write_csv(path, header, rows):
+    with open(path, "w") as fo:
+        fo.write(header + "\n")
+        for r in rows:
+            fo.write(",".join(str(v) for v in r) + "\n")
+
+
+def build_widths(label, settings):
+    """Read every dump of one run once and write data/slice_widths_<tag>_<label>.csv and
+    data/slice_fiterr_<tag>_<label>.csv for each (hw, thr, nb) in settings whose caches are missing.
+    The fit-error cache holds, per beam, the fit at that beam's minimum step, as fit_at_min computes it."""
+    todo = [s for s in settings if not (ROOT / "data" / f"slice_fiterr_{cache_tag(*s)}_{label}.csv").exists()]
+    if not todo:
+        return
+    per = {s: [] for s in todo}
+    fits = {s: {} for s in todo}                       # (step, beam) -> (gauss, err, rel_resid, n)
+    allf = sorted(glob.glob(str(W.RUN_ROOT / label / "diags" / "pd" / "*.h5")))
+    keep = W.drop_bad_ost(allf)
+    if len(keep) < len(allf):
+        raise RuntimeError(f"{label}: {len(allf) - len(keep)} dump(s) on a hung OST; not writing partial caches")
+    for f in keep:
+        with h5py.File(f, "r") as h5:
+            for it in h5["data"]:
+                rows = {s: [int(it)] for s in todo}
+                for b in ("1", "2"):
+                    try:
+                        y, z, w = beam_yzw(h5, it, f"beam{b}")
+                        res = {s: core_fit(y, z, w, *s) for s in todo}
+                    except KeyError:
+                        res = {s: (np.nan,) * 5 + (0,) for s in todo}
+                    for s in todo:
+                        rows[s] += list(res[s][:3]); fits[s][(int(it), b)] = res[s][2:]
+                for s in todo:
+                    per[s].append(rows[s])
+    for s in todo:
+        rows = sorted(per[s])
+        wc = ROOT / "data" / f"slice_widths_{cache_tag(*s)}_{label}.csv"
+        if not wc.exists():
+            _write_csv(wc, "step,rms1,iqr1,gauss1,rms2,iqr2,gauss2", rows)
+        d = np.genfromtxt(wc, delimiter=",", names=True)
+        out = []
+        for b in ("1", "2"):
+            step = int(d["step"][np.nanargmin(d["gauss" + b])])
+            gw, ge, rr, n = fits[s][(step, b)]
+            out.append((gw, ge, rr, int(n)))
+        _write_csv(ROOT / "data" / f"slice_fiterr_{cache_tag(*s)}_{label}.csv", "sigma,err,rel_resid,n", out)
+
+
+def run_widths(label, hw=HW, thr=FIT_THRESHOLD, nb=NBINS):
     """per-step widths for one PP run, cached: returns dict of arrays rms/iqr/gauss per beam."""
-    cache = ROOT / "data" / f"slice_widths_hw{int(HW*100):03d}_{label}.csv"
+    cache = ROOT / "data" / f"slice_widths_{cache_tag(hw, thr, nb)}_{label}.csv"
     if cache.exists():
         d = np.genfromtxt(cache, delimiter=",", names=True)
         return d
@@ -79,48 +143,32 @@ def run_widths(label):
                 r = [int(it)]
                 for sp in ("beam1", "beam2"):
                     try:
-                        r += list(core_widths(*beam_yzw(h5, it, sp)))
+                        r += list(core_widths(*beam_yzw(h5, it, sp), hw, thr, nb))
                     except KeyError:
                         r += [np.nan] * 3
                 rows.append(r)
     rows.sort()
-    with open(cache, "w") as fo:
-        fo.write("step,rms1,iqr1,gauss1,rms2,iqr2,gauss2\n")
-        for r in rows:
-            fo.write(",".join(str(v) for v in r) + "\n")
+    _write_csv(cache, "step,rms1,iqr1,gauss1,rms2,iqr2,gauss2", rows)
     return np.genfromtxt(cache, delimiter=",", names=True)
 
 
-def fit_at_min(label):
+def fit_at_min(label, hw=HW, thr=FIT_THRESHOLD, nb=NBINS):
     """Per beam at its own minimum step: (sigma_gauss, sigma_fit_err, rel_resid, n_slice_particles).
     sigma_fit_err is the 1-sigma parameter error from the histogram fit covariance (residual-scaled);
     rel_resid is the rms residual of the fit relative to the peak. Cached per run."""
-    cache = ROOT / "data" / f"slice_fiterr_hw{int(HW*100):03d}_{label}.csv"
+    cache = ROOT / "data" / f"slice_fiterr_{cache_tag(hw, thr, nb)}_{label}.csv"
     if cache.exists():
         return np.genfromtxt(cache, delimiter=",", names=True)
-    d = run_widths(label)
+    d = run_widths(label, hw, thr, nb)
     rows = []
     for bi, b in enumerate(("1", "2"), 1):
         step = int(d["step"][np.nanargmin(d["gauss" + b])])
         f = W.RUN_ROOT / label / "diags" / "pd" / f"openpmd_{step:06d}.h5"
         with h5py.File(f, "r") as h5:
             y, z, w = beam_yzw(h5, str(step), f"beam{bi}")
-        zc = np.average(z, weights=w)
-        m = np.abs(z - zc) < HW * SIGMA_Z
-        dd = y[m] - np.average(y[m], weights=w[m]); ww = w[m]
-        iqr = (wquantile(dd, ww, .75) - wquantile(dd, ww, .25)) / 1.349
-        h_, e_ = np.histogram(dd, bins=80, range=(-5 * iqr, 5 * iqr), weights=ww)
-        c_ = 0.5 * (e_[1:] + e_[:-1]); sel = h_ > 0.2 * h_.max()
-        from scipy.optimize import curve_fit
-        popt, pcov = curve_fit(lambda x, A, sg: A * np.exp(-x * x / (2 * sg * sg)),
-                               c_[sel], h_[sel], p0=(h_.max(), iqr), maxfev=2000)
-        resid = h_[sel] - popt[0] * np.exp(-c_[sel] ** 2 / (2 * popt[1] ** 2))
-        rows.append((abs(float(popt[1])), float(np.sqrt(pcov[1, 1])),
-                     float(np.sqrt(np.mean(resid ** 2)) / h_.max()), int(m.sum())))
-    with open(cache, "w") as fo:
-        fo.write("sigma,err,rel_resid,n\n")
-        for r in rows:
-            fo.write(",".join(str(v) for v in r) + "\n")
+        _, _, gw, ge, rr, n = core_fit(y, z, w, hw, thr, nb)
+        rows.append((gw, ge, rr, n))
+    _write_csv(cache, "sigma,err,rel_resid,n", rows)
     return np.genfromtxt(cache, delimiter=",", names=True)
 
 
@@ -176,7 +224,7 @@ def points():
             if W.on_bad_ost(st) or not (st.exists() and "exit=0" in st.read_text()):
                 continue
         e = float(r["e_y_nm"])
-        if os.environ.get("WX_CACHED_ONLY") and not (ROOT / "data" / f"slice_widths_hw{int(HW*100):03d}_{r['label']}.csv").exists():
+        if os.environ.get("WX_CACHED_ONLY") and not (ROOT / "data" / f"slice_widths_{cache_tag(*BASELINE)}_{r['label']}.csv").exists():
             continue                                      # incremental refresh: use finished caches only
         d = run_widths(r["label"])
         v = [np.nanmin(d["gauss" + b]) for b in ("1", "2")]
@@ -188,8 +236,10 @@ def points():
 
 
 def draw():
-    """Two stacked panels: (a) core pinch minimum (10-seed mean +/- STD, n_y = 4 n_y^cons) and theory 1/R_1(D_y) vs D_y;
-    (b) their ratio."""
+    """Two stacked panels: (a) core pinch minimum (10-seed mean, n_y = 4 n_y^cons) with two error bars, the seed scatter
+    (+) fit error (capped) and the standard error (+) analysis-choice systematic of core_width_syst (thin), the
+    first-waist prediction 1/R_1(D_y), and the fitted law exp(-a) D_y^(-q) over all eight emittances with its 1-sigma
+    band; (b) extracted / (1/R_1) with the total error and the fitted slope of its logarithm against ln D_y."""
     P = points()
     es = np.array(sorted(P), float); D = np.array([Q.D_y(e) for e in es])
     s0 = np.array([Q.sigma_y(e) for e in es])
@@ -201,44 +251,63 @@ def draw():
     nsl = np.array([np.min([v[3] for v in P[e]]) for e in es])
     N = np.array([len(P[e]) for e in es])
     th = np.array([1.0 / Q.R1_of_D(d) for d in D])
+    fit = None
+    if len(es) >= 3:
+        sig = ge / gs                                     # absolute error on the ratio -> log error
+        f = Q.powerlaw_wls(D, gs, sig)
+        wgt = 1.0 / sig ** 2                              # constrained p = -q_p: normalisation only
+        a_c = float(np.sum(wgt * (np.log(gs) + Q.Q_P * np.log(D))) / wgt.sum())
+        chi2_c = float(np.sum(wgt * (np.log(gs) - a_c + Q.Q_P * np.log(D)) ** 2))
+        fit = dict(C=float(np.exp(f["a"])), sC=float(np.exp(f["a"]) * f["sa"]),
+                   p=f["b"], sp=f["sb"], chi2=f["chi2"], ndf=f["ndf"],
+                   amp=float(np.exp(a_c) * Q.LAMBDA1), chi2_c=chi2_c, ndf_c=len(D) - 1,
+                   nsig=float(abs(f["b"] + Q.Q_P) / np.hypot(f["sb"], Q.SQ_P)))
+    A = CWS.analysis(dumps=not os.environ.get("WX_CACHED_ONLY"))   # all eight emittances, every estimator setting
+    Da = np.array([A["D"][e] for e in Q.EYS]); g = np.array([A["base"][e]["value"] for e in Q.EYS])
+    sc = np.array([A["base"][e]["seed_scatter"] for e in Q.EYS])
+    tot = np.array([np.hypot(A["base"][e]["se"], A["syst"][e]["max"]) for e in Q.EYS])
+    r1 = np.array([A["R1"][e] for e in Q.EYS])
+    F, S = A["fits"]["all_8"], A["slopes"]["all_8"]
     with plt.rc_context(PRL):
         fig, (ax, ax2) = plt.subplots(2, 1, figsize=(3.5, 5.0), sharex=True)   # vertical stack, one journal column, shared x
-        dx = np.geomspace((D.min() if len(D) else 20) / 1.15, (D.max() if len(D) else 140) * 1.15, 200)
+        dx = np.geomspace(Da.min() / 1.15, Da.max() * 1.15, 200); lx = np.log(dx)
         Dt, R1t, Rgt, Dstar = R1_table()
         ax.plot(dx, np.interp(dx, Dt, 1.0 / R1t), "-", color="0.25", lw=1.0, zorder=4,
-                label=fr"theory: $1/R_1(D_y)$, $R_1\simeq{Q.LAMBDA1}\,D_y^{{{Q.Q_P}}}$")
-        ax.errorbar(D, gs, yerr=ge, fmt="D", ls="--", color="C2", ecolor="C2", lw=0.9, ms=3.6, capsize=1.5,
+                label=fr"first waist: $1/R_1(D_y)$, $R_1\simeq{Q.LAMBDA1}\,D_y^{{{Q.Q_P}}}$")
+        yf = np.exp(-(F["a"] + F["q"] * lx))
+        sf = np.sqrt(F["sigma_a"] ** 2 + lx ** 2 * F["sigma_q"] ** 2 + 2 * lx * F["cov_aq"])
+        ax.fill_between(dx, yf * np.exp(-sf), yf * np.exp(sf), color="C0", alpha=0.18, lw=0, zorder=2)
+        ax.plot(dx, yf, "-", color="C0", lw=1.0, zorder=3,
+                label=fr"fit $e^{{-a}}D_y^{{-q}}$: $q={F['q']:.3f}\pm{F['sigma_q']:.3f}$, $\chi^2/\nu={F['chi2']:.1f}/{F['ndf']}$")
+        ax.errorbar(Da, g, yerr=tot, fmt="none", ecolor="C2", elinewidth=0.5, capsize=0, zorder=5)
+        ax.errorbar(Da, g, yerr=sc, fmt="D", color="C2", ecolor="C2", ms=3.6, capsize=1.5,
                     elinewidth=0.6, zorder=6, label="WarpX pinched core (Gaussian fit)")
-        fit = None
-        if len(es) >= 3:
-            sig = ge / gs                                     # absolute error on the ratio -> log error
-            f = Q.powerlaw_wls(D, gs, sig)
-            wgt = 1.0 / sig ** 2                              # constrained p = -q_p: normalisation only
-            a_c = float(np.sum(wgt * (np.log(gs) + Q.Q_P * np.log(D))) / wgt.sum())
-            chi2_c = float(np.sum(wgt * (np.log(gs) - a_c + Q.Q_P * np.log(D)) ** 2))
-            fit = dict(C=float(np.exp(f["a"])), sC=float(np.exp(f["a"]) * f["sa"]),
-                       p=f["b"], sp=f["sb"], chi2=f["chi2"], ndf=f["ndf"],
-                       amp=float(np.exp(a_c) * Q.LAMBDA1), chi2_c=chi2_c, ndf_c=len(D) - 1,
-                       nsig=float(abs(f["b"] + Q.Q_P) / np.hypot(f["sb"], Q.SQ_P)))
-            # the free power-law fit is computed (quoted in the results file) but not drawn
-        for e, d, y in zip(es, D, gs):
+        for e, d, y in zip(Q.EYS, Da, g):
             ax.annotate(fr"${e:g}\,$nm", (d, y), textcoords="offset points", xytext=(3, 3), fontsize=5.2)
         ax.set_xscale("log"); ax.set_yscale("log")
         ax.xaxis.set_minor_formatter(mticker.NullFormatter())
-        ax.set_ylabel(r"$\sigma_{y,\min}/\sigma_{y,0}$")                       # x label only on the lower (shared) axis
+        ax.yaxis.set_major_locator(mticker.FixedLocator([0.2, 0.25, 0.3, 0.35]))
+        ax.yaxis.set_major_formatter(mticker.FormatStrFormatter("%g")); ax.yaxis.set_minor_formatter(mticker.NullFormatter())
+        ax.set_ylabel(r"$\sigma_y^{\min}/\sigma_y^*$")                       # x label only on the lower (shared) axis
         ax.legend(loc="lower left", frameon=False, fontsize=5.6)
-        ax.text(0.03, 0.95, "(a)", transform=ax.transAxes, va="top", fontsize=7)
+        ax.text(0.97, 0.95, "(a)", transform=ax.transAxes, ha="right", va="top", fontsize=7)
         _ticks_in(ax)
-        if len(es):
-            th1 = np.interp(D, Dt, 1.0 / R1t)
-            ax2.errorbar(D, gs / th1, yerr=ge / th1, fmt="D", ls="--", color="C2", ecolor="C2", lw=0.9, ms=3.6,
-                         capsize=1.5, elinewidth=0.6, zorder=5)
+        yr = np.exp(S["c"] + S["slope"] * lx)
+        sr = np.sqrt(S["sigma_c"] ** 2 + lx ** 2 * S["sigma_slope"] ** 2 + 2 * lx * S["cov_cs"])
+        ax2.fill_between(dx, yr * np.exp(-sr), yr * np.exp(sr), color="C0", alpha=0.18, lw=0, zorder=2)
+        ax2.plot(dx, yr, "-", color="C0", lw=1.0, zorder=3,
+                 label=fr"fit $\propto D_y^{{s}}$: $s={S['slope']:+.3f}\pm{S['sigma_slope']:.3f}$, $\chi^2/\nu={S['chi2']:.1f}/{S['ndf']}$")
+        ax2.errorbar(Da, g * r1, yerr=tot * r1, fmt="D", color="C2", ecolor="C2", ms=3.6, capsize=0,
+                     elinewidth=0.6, zorder=5)
         ax2.axhline(1.0, color="0.35", lw=0.8, ls=":")
         ax2.set_xscale("log")
+        ax2.xaxis.set_major_locator(mticker.FixedLocator([20, 30, 50, 70, 100, 140]))
+        ax2.xaxis.set_major_formatter(mticker.FormatStrFormatter("%g"))
         ax2.xaxis.set_minor_formatter(mticker.NullFormatter())
         ax2.set_xlabel(r"$D_y(\varepsilon_y)$")
-        ax2.set_ylabel(r"measured / $(1/R_1)$")
+        ax2.set_ylabel(r"extracted / $(1/R_1)$")
         ax2.set_ylim(bottom=0.9)
+        ax2.legend(loc="lower right", frameon=False, fontsize=5.6)
         ax2.text(0.03, 0.95, "(b)", transform=ax2.transAxes, va="top", fontsize=7)
         _ticks_in(ax2)
         fig.tight_layout()

@@ -269,7 +269,79 @@ Core width at n_y = 2 n_y^cons against 4 n_y^cons (relative_change = (width at 4
 | 1 | 1024 | 880000 | 0.316 | 0.2558 |  |
 |  | 2048 | 1391638 | 0.250 | 0.2555 | -0.12 ± 0.25 |
 
-## 9. Solver and deposition variants
+## 9. Pinched-core width: analysis-choice systematic and exponent fit
+
+Selection: data/joblist.csv runs of phases PQ, PQ2 with n_y = 4 n_y^cons(e_y) and 0.90 <= n_m / n_m^cons(e_y) <= 1.10 (the pinched-core rows), all ten seeds at every emittance. Estimator: per beam the minimum over steps of the sigma of a Gaussian fitted to the weighted y-histogram (n_bins bins over +-5 IQR, IQR = interquartile range / 1.349) of the slice |z - z_bar| < HW sigma_z, about its centroid, using the bins above fit_threshold x the peak; the two beams averaged; normalised by sigma_y*; default HW = 0.1 σ_z, threshold 0.2, 80 bins. Variations, one at a time on the same runs and seeds: HW 0.05 (HW 0.05, threshold 0.2, 80 bins); HW 0.20 (HW 0.2, threshold 0.2, 80 bins); threshold 0.10 (HW 0.1, threshold 0.1, 80 bins); threshold 0.30 (HW 0.1, threshold 0.3, 80 bins); bin width x0.5 (HW 0.1, threshold 0.2, 160 bins); bin width x2 (HW 0.1, threshold 0.2, 40 bins).
+
+| ε_y [nm] | D_y | default | seed scatter | se | HW 0.05 | HW 0.20 | threshold 0.10 | threshold 0.30 | bin width x0.5 | bin width x2 | syst (max) | syst (RMS) | total | extracted/(1/R_1) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0.5 | 137.8 | 0.2566 | 0.0022 | 0.0003 | 0.2507 | 0.2799 | 0.2869 | 0.2308 | 0.2560 | 0.2581 | 0.0303 | 0.0190 | 0.0303 | 1.36 ± 0.16 |
+| 1 | 97.4 | 0.2555 | 0.0032 | 0.0005 | 0.2499 | 0.2806 | 0.2877 | 0.2417 | 0.2552 | 0.2566 | 0.0322 | 0.0178 | 0.0322 | 1.27 ± 0.16 |
+| 2 | 68.8 | 0.2765 | 0.0063 | 0.0013 | 0.2709 | 0.2963 | 0.3114 | 0.2580 | 0.2756 | 0.2830 | 0.0349 | 0.0184 | 0.0349 | 1.28 ± 0.16 |
+| 4 | 48.5 | 0.3009 | 0.0105 | 0.0028 | 0.2977 | 0.3125 | 0.3266 | 0.2780 | 0.3002 | 0.3042 | 0.0257 | 0.0150 | 0.0259 | 1.30 ± 0.11 |
+| 8 | 34.2 | 0.2962 | 0.0119 | 0.0029 | 0.2979 | 0.3120 | 0.3191 | 0.2834 | 0.2995 | 0.2983 | 0.0229 | 0.0126 | 0.0231 | 1.18 ± 0.09 |
+| 12 | 27.9 | 0.3109 | 0.0124 | 0.0021 | 0.3177 | 0.3275 | 0.3275 | 0.3035 | 0.3163 | 0.3103 | 0.0166 | 0.0107 | 0.0168 | 1.18 ± 0.06 |
+| 16 | 24.1 | 0.3313 | 0.0186 | 0.0036 | 0.3317 | 0.3473 | 0.3419 | 0.3253 | 0.3462 | 0.3280 | 0.0160 | 0.0103 | 0.0164 | 1.22 ± 0.06 |
+| 20 | 21.5 | 0.3497 | 0.0227 | 0.0047 | 0.3573 | 0.3606 | 0.3578 | 0.3448 | 0.3702 | 0.3457 | 0.0205 | 0.0108 | 0.0210 | 1.25 ± 0.07 |
+
+Columns 'default' through 'bin width x2': σ_min/σ_y* (10-seed mean) for each estimator. seed scatter: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature (the pinched-core rows' uncertainty). se: standard error of the mean: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum / sqrt(n_seeds). syst (max): maximum over the six variations of |mean(variation) - mean(default)|, same runs and seeds. syst (RMS): root mean square over the six variations of mean(variation) - mean(default). total: se (+) systematic (maximum deviation), in quadrature; extracted/(1/R_1) ± total × R_1.
+
+
+Deviation from the default ×10³ ± its seed-paired se ×10³ (sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)).
+
+| ε_y [nm] | HW 0.05 | HW 0.20 | threshold 0.10 | threshold 0.30 | bin width x0.5 | bin width x2 |
+|---|---|---|---|---|---|---|
+| 0.5 | -5.8 ± 0.2 | +23.3 ± 0.3 | +30.3 ± 0.0 | -25.8 ± 0.6 | -0.6 ± 0.2 | +1.6 ± 0.0 |
+| 1 | -5.6 ± 0.4 | +25.1 ± 0.6 | +32.2 ± 0.4 | -13.8 ± 0.6 | -0.3 ± 0.4 | +1.1 ± 0.4 |
+| 2 | -5.5 ± 1.5 | +19.8 ± 0.8 | +34.9 ± 0.8 | -18.5 ± 0.7 | -0.9 ± 0.6 | +6.5 ± 1.1 |
+| 4 | -3.3 ± 1.9 | +11.6 ± 1.8 | +25.7 ± 1.5 | -22.9 ± 1.3 | -0.7 ± 0.6 | +3.3 ± 0.8 |
+| 8 | +1.7 ± 2.5 | +15.8 ± 1.1 | +22.9 ± 1.0 | -12.8 ± 1.3 | +3.3 ± 1.0 | +2.1 ± 1.0 |
+| 12 | +6.8 ± 2.3 | +16.6 ± 2.5 | +16.6 ± 1.3 | -7.4 ± 2.1 | +5.4 ± 1.0 | -0.6 ± 0.8 |
+| 16 | +0.4 ± 3.7 | +16.0 ± 2.6 | +10.6 ± 1.2 | -6.0 ± 4.6 | +14.9 ± 2.1 | -3.3 ± 1.1 |
+| 20 | +7.6 ± 5.0 | +10.8 ± 2.2 | +8.1 ± 2.2 | -4.9 ± 2.4 | +20.5 ± 2.0 | -4.0 ± 2.1 |
+
+**Exponent fit**, ln(sigma_y*/sigma_min) = a + q ln D_y, against q_p = 0.2153 ± 0.0032. Uncertainties: 1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln R = a + q ln D_y, weights 1/sigma_ln^2 with sigma on ln R = (se (+) systematic) / value (not rescaled by chi2/ndf).
+
+| emittances | q ± σ_q | Λ = e^a ± σ | χ²/ndf | p | pull (q − q_p)/σ_q | pull incl. σ(q_p) |
+|---|---|---|---|---|---|---|
+| 0.5–20 nm (8) | 0.166 ± 0.052 | 1.789 ± 0.325 | 1.48/6 | 0.961 | -0.95 | -0.95 |
+| 1–20 nm (7) | 0.187 ± 0.068 | 1.672 ± 0.390 | 1.27/5 | 0.938 | -0.42 | -0.42 |
+
+**Exponent per variation**: the exponent fit repeated on each variation's own points, sigma_ln = (se (+) systematic) / value of that variation; shift = q(variation) - q(default). The fully correlated alternative to the systematic in quadrature.
+
+| estimator | q, 0.5–20 nm | shift | q, 1–20 nm | shift |
+|---|---|---|---|---|
+| default | 0.166 ± 0.052 |  | 0.187 ± 0.068 |  |
+| HW 0.05 | 0.191 ± 0.053 | +0.025 | 0.215 ± 0.069 | +0.028 |
+| HW 0.20 | 0.140 ± 0.048 | -0.026 | 0.161 ± 0.063 | -0.026 |
+| threshold 0.10 | 0.108 ± 0.047 | -0.059 | 0.114 ± 0.062 | -0.072 |
+| threshold 0.30 | 0.216 ± 0.056 | +0.050 | 0.235 ± 0.072 | +0.048 |
+| bin width x0.5 | 0.203 ± 0.051 | +0.037 | 0.235 ± 0.067 | +0.049 |
+| bin width x2 | 0.152 ± 0.051 | -0.015 | 0.166 ± 0.068 | -0.021 |
+
+0.5–20 nm: q from 0.108 to 0.216, shift from -0.059 to +0.050, RMS shift 0.038; 1–20 nm: q from 0.114 to 0.235, shift from -0.072 to +0.049, RMS shift 0.044.
+
+
+**Ratio slope**, ln(sigma_min R_1(D_y) / sigma_y*) = c + slope ln D_y, same errors.
+
+| emittances | slope ± σ | χ²/ndf | p |
+|---|---|---|---|
+| 0.5–20 nm (8) | +0.051 ± 0.052 | 1.26/6 | 0.974 |
+| 1–20 nm (7) | +0.036 ± 0.068 | 1.15/5 | 0.950 |
+
+**Compression at 0.5 and 1 nm**: R = sigma_y*/sigma_min extracted (1 / the 10-seed mean) and the first-waist prediction R_1(D_y); se_R = se / value^2; se_difference = se_R(0.5 nm) (+) se_R(1 nm).
+
+| estimator | R(0.5 nm) ± se | R(1 nm) ± se | R(0.5) − R(1) ± se | R_1(0.5 nm) | R_1(1 nm) | R_1(0.5) − R_1(1) |
+|---|---|---|---|---|---|---|
+| default | 3.897 ± 0.004 | 3.914 ± 0.007 | -0.016 ± 0.008 | 5.305 | 4.968 | +0.337 |
+| HW 0.05 | 3.988 ± 0.006 | 4.002 ± 0.008 | -0.014 ± 0.010 | 5.305 | 4.968 | +0.337 |
+| HW 0.20 | 3.573 ± 0.003 | 3.564 ± 0.008 | 0.009 ± 0.009 | 5.305 | 4.968 | +0.337 |
+| threshold 0.10 | 3.486 ± 0.003 | 3.476 ± 0.004 | 0.010 ± 0.005 | 5.305 | 4.968 | +0.337 |
+| threshold 0.30 | 4.334 ± 0.013 | 4.138 ± 0.007 | 0.196 ± 0.015 | 5.305 | 4.968 | +0.337 |
+| bin width x0.5 | 3.906 ± 0.005 | 3.918 ± 0.004 | -0.012 ± 0.006 | 5.305 | 4.968 | +0.337 |
+| bin width x2 | 3.874 ± 0.004 | 3.897 ± 0.004 | -0.023 ± 0.006 | 5.305 | 4.968 | +0.337 |
+
+## 10. Solver and deposition variants
 
 All four were run at the tuning-ladder settings (NM_CONS / NY_CONS); 'conservative_locus_n_m' gives the production-locus value for comparison. Reported at every emittance run.
 
@@ -287,12 +359,12 @@ All four were run at the tuning-ladder settings (NM_CONS / NY_CONS); 'conservati
 Cells: L ± std (seeds); for the variants, ×(ratio to the 3D 3rd-order reference ± se).
 
 
-## 10. PS1 reference point
+## 11. PS1 reference point
 
 Nominal configuration at 20 nm: L = 1.37 ± 0.01 (std), se 0.003, 15 seeds; ratio to the published 1.35 = 1.016 ± 0.002 (± se).
 
 
-## 11. WarpX / GUINEA-PIG++ luminosity ratio
+## 12. WarpX / GUINEA-PIG++ luminosity ratio
 
 L_WarpX / L_GP++ per emittance, each simulator at its recommended configuration: WarpX 'conservative' (0.5-20 nm) and 'extrapolated_extension' (40-100 nm) from section 'luminosity_dataset'; GUINEA-PIG++ blocks 'conservative' (1-20 nm) and 'frozen_extension' (40-100 nm) of data/gp_exports/gp_luminosity_for_wx.csv. The series drawn in WX_code_ratio_vs_ey.
 

@@ -1444,7 +1444,7 @@
     "e_y_nm": 0.5,
     "value": 2.1391560518508475,
     "se": {
-     "value": 0.03301407227899018,
+     "value": 0.033014072278990184,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -1452,7 +1452,7 @@
     "e_y_nm": 1,
     "value": 1.6873258010769354,
     "se": {
-     "value": 0.022931246685850958,
+     "value": 0.022931246685850955,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -1500,7 +1500,7 @@
     "e_y_nm": 20,
     "value": 0.9737107642236996,
     "se": {
-     "value": 0.004863467891945262,
+     "value": 0.004863467891945261,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    }
@@ -1953,7 +1953,7 @@
    "definition": "L_conservative(2 nm) / L_conservative(20 nm)",
    "value": 3.840867590778152,
    "se": {
-    "value": 0.019724348522373897,
+    "value": 0.0197243485223739,
     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
    }
   },
@@ -3481,13 +3481,13 @@
     "D_y": 34.21550740608676,
     "sigma_min_over_sigma_y_star": 0.29621398357713935,
     "uncertainty": {
-     "value": 0.011943874092129209,
+     "value": 0.01194387409212921,
      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
     },
     "first_waist_prediction_1_over_R1": 0.2509164108860388,
     "measured_over_prediction": 1.180528537496393,
     "measured_over_prediction_uncertainty": {
-     "value": 0.04760100804069718,
+     "value": 0.04760100804069719,
      "definition": "the width uncertainty times R_1"
     },
     "n_seeds": 10,
@@ -3500,13 +3500,13 @@
     "D_y": 27.878324813548918,
     "sigma_min_over_sigma_y_star": 0.31089235061824405,
     "uncertainty": {
-     "value": 0.012428814519366201,
+     "value": 0.012428814519366203,
      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
     },
     "first_waist_prediction_1_over_R1": 0.2632158715363947,
     "measured_over_prediction": 1.1811307152701738,
     "measured_over_prediction_uncertainty": {
-     "value": 0.04721909224857543,
+     "value": 0.047219092248575435,
      "definition": "the width uncertainty times R_1"
     },
     "n_seeds": 10,
@@ -3519,13 +3519,13 @@
     "D_y": 24.100777107523154,
     "sigma_min_over_sigma_y_star": 0.3313180289788946,
     "uncertainty": {
-     "value": 0.018551342750773143,
+     "value": 0.018551342750773147,
      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature; normalised by sigma_y^*"
     },
     "first_waist_prediction_1_over_R1": 0.27261656450111926,
     "measured_over_prediction": 1.2153261104481945,
     "measured_over_prediction_uncertainty": {
-     "value": 0.06804921331439116,
+     "value": 0.06804921331439118,
      "definition": "the width uncertainty times R_1"
     },
     "n_seeds": 10,
@@ -3708,7 +3708,7 @@
      "n_m_refined_over_recommended": 1.0,
      "L_ratio": 1.0073146803470172,
      "L_ratio_se": {
-      "value": 0.00977257011932187,
+      "value": 0.009772570119321871,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -3795,7 +3795,7 @@
      "n_m_refined_over_recommended": 1.0,
      "L_ratio": 1.0074211343247699,
      "L_ratio_se": {
-      "value": 0.00840052606017285,
+      "value": 0.008400526060172851,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     }
@@ -3833,7 +3833,7 @@
      },
      "relative_change": 0.001396813170521538,
      "relative_change_se": {
-      "value": 0.0017353861040152155,
+      "value": 0.0017353861040152153,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -3871,6 +3871,1066 @@
    "provenance": {
     "selection": "phases PQ, PQ2 at n_y = 2 n_y^cons and n_y = 4 n_y^cons; widths as in the core-width rows above",
     "definition": "relative_change = (width at 4 n_y^cons) / (width at 2 n_y^cons) - 1, at each emittance"
+   }
+  }
+ },
+ "core_width_systematic": {
+  "provenance": {
+   "selection": "data/joblist.csv runs of phases PQ, PQ2 with n_y = 4 n_y^cons(e_y) and 0.90 <= n_m / n_m^cons(e_y) <= 1.10 (the pinched-core rows), all ten seeds at every emittance",
+   "caches": "data/slice_widths_<tag>_<label>.csv and data/slice_fiterr_<tag>_<label>.csv; tag 'hw010' for the default settings, 'hw<HW x 100>_thr<threshold x 100>_nb<bins>' otherwise",
+   "R_1": "data/R1_table.npz, linear interpolation in D_y",
+   "q_p": 0.2153,
+   "sigma_q_p": 0.0032
+  },
+  "estimator": {
+   "default": {
+    "HW_sigma_z": 0.1,
+    "fit_threshold": 0.2,
+    "n_bins": 80
+   },
+   "definition": "per beam the minimum over steps of the sigma of a Gaussian fitted to the weighted y-histogram (n_bins bins over +-5 IQR, IQR = interquartile range / 1.349) of the slice |z - z_bar| < HW sigma_z, about its centroid, using the bins above fit_threshold x the peak; the two beams averaged; normalised by sigma_y*",
+   "variations": {
+    "HW 0.05": {
+     "HW_sigma_z": 0.05,
+     "fit_threshold": 0.2,
+     "n_bins": 80
+    },
+    "HW 0.20": {
+     "HW_sigma_z": 0.2,
+     "fit_threshold": 0.2,
+     "n_bins": 80
+    },
+    "threshold 0.10": {
+     "HW_sigma_z": 0.1,
+     "fit_threshold": 0.1,
+     "n_bins": 80
+    },
+    "threshold 0.30": {
+     "HW_sigma_z": 0.1,
+     "fit_threshold": 0.3,
+     "n_bins": 80
+    },
+    "bin width x0.5": {
+     "HW_sigma_z": 0.1,
+     "fit_threshold": 0.2,
+     "n_bins": 160
+    },
+    "bin width x2": {
+     "HW_sigma_z": 0.1,
+     "fit_threshold": 0.2,
+     "n_bins": 40
+    }
+   }
+  },
+  "rows": [
+   {
+    "e_y_nm": 0.5,
+    "D_y": 137.82751349998446,
+    "n_seeds": 10,
+    "default": {
+     "sigma_min_over_sigma_y_star": 0.25657883526983166,
+     "seed_scatter": {
+      "value": 0.002184795542882053,
+      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature (the pinched-core rows' uncertainty)"
+     },
+     "se": {
+      "value": 0.0002554803346343901,
+      "definition": "standard error of the mean: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum / sqrt(n_seeds)"
+     }
+    },
+    "variations": {
+     "HW 0.05": {
+      "sigma_min_over_sigma_y_star": 0.25072953883547283,
+      "deviation": -0.0058492964343588305,
+      "deviation_paired_se": {
+       "value": 0.00018291115761973132,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "HW 0.20": {
+      "sigma_min_over_sigma_y_star": 0.27991077551166943,
+      "deviation": 0.023331940241837767,
+      "deviation_paired_se": {
+       "value": 0.0002502298041708685,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.10": {
+      "sigma_min_over_sigma_y_star": 0.2868612589576065,
+      "deviation": 0.03028242368777484,
+      "deviation_paired_se": {
+       "value": 4.247299315649532e-05,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.30": {
+      "sigma_min_over_sigma_y_star": 0.23076023001351922,
+      "deviation": -0.025818605256312438,
+      "deviation_paired_se": {
+       "value": 0.0005855821034472821,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x0.5": {
+      "sigma_min_over_sigma_y_star": 0.2559983693291157,
+      "deviation": -0.0005804659407159796,
+      "deviation_paired_se": {
+       "value": 0.00016691568458554275,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x2": {
+      "sigma_min_over_sigma_y_star": 0.25814697171748124,
+      "deviation": 0.0015681364476495818,
+      "deviation_paired_se": {
+       "value": 2.3848686708557517e-05,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     }
+    },
+    "systematic_max_deviation": {
+     "value": 0.03028242368777484,
+     "definition": "maximum over the six variations of |mean(variation) - mean(default)|, same runs and seeds"
+    },
+    "systematic_rms_deviation": {
+     "value": 0.01899568046793648,
+     "definition": "root mean square over the six variations of mean(variation) - mean(default)"
+    },
+    "total": {
+     "value": 0.030283501359771654,
+     "definition": "se (+) systematic (maximum deviation), in quadrature"
+    },
+    "R_1": 5.304971417444223,
+    "extracted_over_prediction": 1.3611433874275867,
+    "extracted_over_prediction_total": {
+     "value": 0.16065310913372188,
+     "definition": "the total uncertainty times R_1"
+    }
+   },
+   {
+    "e_y_nm": 1,
+    "D_y": 97.36393561327273,
+    "n_seeds": 10,
+    "default": {
+     "sigma_min_over_sigma_y_star": 0.25550805863336634,
+     "seed_scatter": {
+      "value": 0.003176182892068023,
+      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature (the pinched-core rows' uncertainty)"
+     },
+     "se": {
+      "value": 0.00045921880356823523,
+      "definition": "standard error of the mean: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum / sqrt(n_seeds)"
+     }
+    },
+    "variations": {
+     "HW 0.05": {
+      "sigma_min_over_sigma_y_star": 0.24988333316952968,
+      "deviation": -0.005624725463836661,
+      "deviation_paired_se": {
+       "value": 0.0004064332988570143,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "HW 0.20": {
+      "sigma_min_over_sigma_y_star": 0.2806148909057405,
+      "deviation": 0.025106832272374147,
+      "deviation_paired_se": {
+       "value": 0.0006091387156030931,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.10": {
+      "sigma_min_over_sigma_y_star": 0.287702206027443,
+      "deviation": 0.032194147394076666,
+      "deviation_paired_se": {
+       "value": 0.00039698495208696896,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.30": {
+      "sigma_min_over_sigma_y_star": 0.2416637448454845,
+      "deviation": -0.01384431378788184,
+      "deviation_paired_se": {
+       "value": 0.0006205757383162886,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x0.5": {
+      "sigma_min_over_sigma_y_star": 0.25522766325605584,
+      "deviation": -0.000280395377310505,
+      "deviation_paired_se": {
+       "value": 0.0004177730136242282,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x2": {
+      "sigma_min_over_sigma_y_star": 0.2565977953005843,
+      "deviation": 0.0010897366672179554,
+      "deviation_paired_se": {
+       "value": 0.0003547525822189798,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     }
+    },
+    "systematic_max_deviation": {
+     "value": 0.032194147394076666,
+     "definition": "maximum over the six variations of |mean(variation) - mean(default)|, same runs and seeds"
+    },
+    "systematic_rms_deviation": {
+     "value": 0.017754740501046595,
+     "definition": "root mean square over the six variations of mean(variation) - mean(default)"
+    },
+    "total": {
+     "value": 0.03219742238659928,
+     "definition": "se (+) systematic (maximum deviation), in quadrature"
+    },
+    "R_1": 4.967911316508612,
+    "extracted_over_prediction": 1.2693413759438466,
+    "extracted_over_prediction_total": {
+     "value": 0.15995393903679428,
+     "definition": "the total uncertainty times R_1"
+    }
+   },
+   {
+    "e_y_nm": 2,
+    "D_y": 68.75208777492955,
+    "n_seeds": 10,
+    "default": {
+     "sigma_min_over_sigma_y_star": 0.2764855881727485,
+     "seed_scatter": {
+      "value": 0.006269999785012574,
+      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature (the pinched-core rows' uncertainty)"
+     },
+     "se": {
+      "value": 0.0013319145777687727,
+      "definition": "standard error of the mean: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum / sqrt(n_seeds)"
+     }
+    },
+    "variations": {
+     "HW 0.05": {
+      "sigma_min_over_sigma_y_star": 0.27094278821514123,
+      "deviation": -0.005542799957607258,
+      "deviation_paired_se": {
+       "value": 0.001528942637882271,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "HW 0.20": {
+      "sigma_min_over_sigma_y_star": 0.296270618199221,
+      "deviation": 0.019785030026472528,
+      "deviation_paired_se": {
+       "value": 0.0007995207679651292,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.10": {
+      "sigma_min_over_sigma_y_star": 0.3113940473379179,
+      "deviation": 0.034908459165169436,
+      "deviation_paired_se": {
+       "value": 0.0007578971060040533,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.30": {
+      "sigma_min_over_sigma_y_star": 0.25800099060421067,
+      "deviation": -0.01848459756853782,
+      "deviation_paired_se": {
+       "value": 0.0007281743798110673,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x0.5": {
+      "sigma_min_over_sigma_y_star": 0.27556252002626347,
+      "deviation": -0.0009230681464850177,
+      "deviation_paired_se": {
+       "value": 0.0005630633155296646,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x2": {
+      "sigma_min_over_sigma_y_star": 0.2829969338869247,
+      "deviation": 0.00651134571417622,
+      "deviation_paired_se": {
+       "value": 0.0010664168676568224,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     }
+    },
+    "systematic_max_deviation": {
+     "value": 0.034908459165169436,
+     "definition": "maximum over the six variations of |mean(variation) - mean(default)|, same runs and seeds"
+    },
+    "systematic_rms_deviation": {
+     "value": 0.018374350740856773,
+     "definition": "root mean square over the six variations of mean(variation) - mean(default)"
+    },
+    "total": {
+     "value": 0.034933859187452725,
+     "definition": "se (+) systematic (maximum deviation), in quadrature"
+    },
+    "R_1": 4.635543052406648,
+    "extracted_over_prediction": 1.28166084734475,
+    "extracted_over_prediction_total": {
+     "value": 0.16193740825014863,
+     "definition": "the total uncertainty times R_1"
+    }
+   },
+   {
+    "e_y_nm": 4,
+    "D_y": 48.52076942837245,
+    "n_seeds": 10,
+    "default": {
+     "sigma_min_over_sigma_y_star": 0.30094574948525976,
+     "seed_scatter": {
+      "value": 0.010463578132503032,
+      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature (the pinched-core rows' uncertainty)"
+     },
+     "se": {
+      "value": 0.0027900295372839798,
+      "definition": "standard error of the mean: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum / sqrt(n_seeds)"
+     }
+    },
+    "variations": {
+     "HW 0.05": {
+      "sigma_min_over_sigma_y_star": 0.2976885285777413,
+      "deviation": -0.0032572209075184544,
+      "deviation_paired_se": {
+       "value": 0.0018947461872743396,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "HW 0.20": {
+      "sigma_min_over_sigma_y_star": 0.31252771931012324,
+      "deviation": 0.01158196982486348,
+      "deviation_paired_se": {
+       "value": 0.0017860965989904582,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.10": {
+      "sigma_min_over_sigma_y_star": 0.3266486326101179,
+      "deviation": 0.025702883124858134,
+      "deviation_paired_se": {
+       "value": 0.001547768647381408,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.30": {
+      "sigma_min_over_sigma_y_star": 0.27799679715944764,
+      "deviation": -0.022948952325812122,
+      "deviation_paired_se": {
+       "value": 0.001319268782801016,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x0.5": {
+      "sigma_min_over_sigma_y_star": 0.30024540119553356,
+      "deviation": -0.0007003482897262048,
+      "deviation_paired_se": {
+       "value": 0.0006355014053639032,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x2": {
+      "sigma_min_over_sigma_y_star": 0.3042016484949863,
+      "deviation": 0.0032558990097265594,
+      "deviation_paired_se": {
+       "value": 0.0007526400429636608,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     }
+    },
+    "systematic_max_deviation": {
+     "value": 0.025702883124858134,
+     "definition": "maximum over the six variations of |mean(variation) - mean(default)|, same runs and seeds"
+    },
+    "systematic_rms_deviation": {
+     "value": 0.01496181524712938,
+     "definition": "root mean square over the six variations of mean(variation) - mean(default)"
+    },
+    "total": {
+     "value": 0.025853867520141627,
+     "definition": "se (+) systematic (maximum deviation), in quadrature"
+    },
+    "R_1": 4.307936412651426,
+    "extracted_over_prediction": 1.2964551524402246,
+    "extracted_over_prediction_total": {
+     "value": 0.11137681729788414,
+     "definition": "the total uncertainty times R_1"
+    }
+   },
+   {
+    "e_y_nm": 8,
+    "D_y": 34.21550740608676,
+    "n_seeds": 10,
+    "default": {
+     "sigma_min_over_sigma_y_star": 0.29621398357713935,
+     "seed_scatter": {
+      "value": 0.01194387409212921,
+      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature (the pinched-core rows' uncertainty)"
+     },
+     "se": {
+      "value": 0.0029460745656983978,
+      "definition": "standard error of the mean: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum / sqrt(n_seeds)"
+     }
+    },
+    "variations": {
+     "HW 0.05": {
+      "sigma_min_over_sigma_y_star": 0.29786596185963615,
+      "deviation": 0.0016519782824968021,
+      "deviation_paired_se": {
+       "value": 0.002479444374553704,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "HW 0.20": {
+      "sigma_min_over_sigma_y_star": 0.3120102071747957,
+      "deviation": 0.015796223597656367,
+      "deviation_paired_se": {
+       "value": 0.0011104565893436196,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.10": {
+      "sigma_min_over_sigma_y_star": 0.31912763325431026,
+      "deviation": 0.02291364967717091,
+      "deviation_paired_se": {
+       "value": 0.0010473893379589322,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.30": {
+      "sigma_min_over_sigma_y_star": 0.2833773526747827,
+      "deviation": -0.01283663090235665,
+      "deviation_paired_se": {
+       "value": 0.0012906850450501441,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x0.5": {
+      "sigma_min_over_sigma_y_star": 0.29946827244642643,
+      "deviation": 0.003254288869287081,
+      "deviation_paired_se": {
+       "value": 0.0009927948816815585,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x2": {
+      "sigma_min_over_sigma_y_star": 0.298285450133353,
+      "deviation": 0.0020714665562136525,
+      "deviation_paired_se": {
+       "value": 0.0009735218463627864,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     }
+    },
+    "systematic_max_deviation": {
+     "value": 0.02291364967717091,
+     "definition": "maximum over the six variations of |mean(variation) - mean(default)|, same runs and seeds"
+    },
+    "systematic_rms_deviation": {
+     "value": 0.0126289714306875,
+     "definition": "root mean square over the six variations of mean(variation) - mean(default)"
+    },
+    "total": {
+     "value": 0.023102266054973255,
+     "definition": "se (+) systematic (maximum deviation), in quadrature"
+    },
+    "R_1": 3.9853909772931515,
+    "extracted_over_prediction": 1.180528537496393,
+    "extracted_over_prediction_total": {
+     "value": 0.09207156269051626,
+     "definition": "the total uncertainty times R_1"
+    }
+   },
+   {
+    "e_y_nm": 12,
+    "D_y": 27.878324813548918,
+    "n_seeds": 10,
+    "default": {
+     "sigma_min_over_sigma_y_star": 0.31089235061824405,
+     "seed_scatter": {
+      "value": 0.012428814519366203,
+      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature (the pinched-core rows' uncertainty)"
+     },
+     "se": {
+      "value": 0.0021278710333482312,
+      "definition": "standard error of the mean: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum / sqrt(n_seeds)"
+     }
+    },
+    "variations": {
+     "HW 0.05": {
+      "sigma_min_over_sigma_y_star": 0.31765952314542684,
+      "deviation": 0.006767172527182785,
+      "deviation_paired_se": {
+       "value": 0.002251812793829808,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "HW 0.20": {
+      "sigma_min_over_sigma_y_star": 0.32749018922705525,
+      "deviation": 0.0165978386088112,
+      "deviation_paired_se": {
+       "value": 0.002490113135318922,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.10": {
+      "sigma_min_over_sigma_y_star": 0.3275256059251574,
+      "deviation": 0.01663325530691334,
+      "deviation_paired_se": {
+       "value": 0.0012607326630463308,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.30": {
+      "sigma_min_over_sigma_y_star": 0.30350591371487673,
+      "deviation": -0.007386436903367322,
+      "deviation_paired_se": {
+       "value": 0.0020842395007892854,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x0.5": {
+      "sigma_min_over_sigma_y_star": 0.3163200629886239,
+      "deviation": 0.005427712370379867,
+      "deviation_paired_se": {
+       "value": 0.001045303248292027,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x2": {
+      "sigma_min_over_sigma_y_star": 0.31027910453375984,
+      "deviation": -0.0006132460844842091,
+      "deviation_paired_se": {
+       "value": 0.0008342902504725075,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     }
+    },
+    "systematic_max_deviation": {
+     "value": 0.01663325530691334,
+     "definition": "maximum over the six variations of |mean(variation) - mean(default)|, same runs and seeds"
+    },
+    "systematic_rms_deviation": {
+     "value": 0.010664142683661124,
+     "definition": "root mean square over the six variations of mean(variation) - mean(default)"
+    },
+    "total": {
+     "value": 0.016768810847508635,
+     "definition": "se (+) systematic (maximum deviation), in quadrature"
+    },
+    "R_1": 3.7991629994155978,
+    "extracted_over_prediction": 1.1811307152701738,
+    "extracted_over_prediction_total": {
+     "value": 0.06370744571605372,
+     "definition": "the total uncertainty times R_1"
+    }
+   },
+   {
+    "e_y_nm": 16,
+    "D_y": 24.100777107523154,
+    "n_seeds": 10,
+    "default": {
+     "sigma_min_over_sigma_y_star": 0.3313180289788946,
+     "seed_scatter": {
+      "value": 0.018551342750773147,
+      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature (the pinched-core rows' uncertainty)"
+     },
+     "se": {
+      "value": 0.0035510550313749673,
+      "definition": "standard error of the mean: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum / sqrt(n_seeds)"
+     }
+    },
+    "variations": {
+     "HW 0.05": {
+      "sigma_min_over_sigma_y_star": 0.3317307763860526,
+      "deviation": 0.0004127474071579651,
+      "deviation_paired_se": {
+       "value": 0.0037274058941069786,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "HW 0.20": {
+      "sigma_min_over_sigma_y_star": 0.34731758470102236,
+      "deviation": 0.015999555722127745,
+      "deviation_paired_se": {
+       "value": 0.0026312919247990178,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.10": {
+      "sigma_min_over_sigma_y_star": 0.341916801106856,
+      "deviation": 0.010598772127961398,
+      "deviation_paired_se": {
+       "value": 0.001236845976531548,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.30": {
+      "sigma_min_over_sigma_y_star": 0.32530613735264086,
+      "deviation": -0.0060118916262537625,
+      "deviation_paired_se": {
+       "value": 0.004584800515613227,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x0.5": {
+      "sigma_min_over_sigma_y_star": 0.34622490899616737,
+      "deviation": 0.01490688001727275,
+      "deviation_paired_se": {
+       "value": 0.0020978445556173527,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x2": {
+      "sigma_min_over_sigma_y_star": 0.327998165774325,
+      "deviation": -0.0033198632045696175,
+      "deviation_paired_se": {
+       "value": 0.0011463828921165378,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     }
+    },
+    "systematic_max_deviation": {
+     "value": 0.015999555722127745,
+     "definition": "maximum over the six variations of |mean(variation) - mean(default)|, same runs and seeds"
+    },
+    "systematic_rms_deviation": {
+     "value": 0.010310751013871222,
+     "definition": "root mean square over the six variations of mean(variation) - mean(default)"
+    },
+    "total": {
+     "value": 0.016388891821637122,
+     "definition": "se (+) systematic (maximum deviation), in quadrature"
+    },
+    "R_1": 3.6681556816988437,
+    "extracted_over_prediction": 1.2153261104481945,
+    "extracted_over_prediction_total": {
+     "value": 0.06011700665228592,
+     "definition": "the total uncertainty times R_1"
+    }
+   },
+   {
+    "e_y_nm": 20,
+    "D_y": 21.522963550078693,
+    "n_seeds": 10,
+    "default": {
+     "sigma_min_over_sigma_y_star": 0.34971405735002337,
+     "seed_scatter": {
+      "value": 0.022735441570716594,
+      "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed core minimum, and the mean Gaussian-fit parameter error, added in quadrature (the pinched-core rows' uncertainty)"
+     },
+     "se": {
+      "value": 0.004683607463842554,
+      "definition": "standard error of the mean: sample standard deviation over seeds (ddof = 1) of the per-seed core minimum / sqrt(n_seeds)"
+     }
+    },
+    "variations": {
+     "HW 0.05": {
+      "sigma_min_over_sigma_y_star": 0.35734889431281625,
+      "deviation": 0.007634836962792879,
+      "deviation_paired_se": {
+       "value": 0.004997350315758576,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "HW 0.20": {
+      "sigma_min_over_sigma_y_star": 0.36055918519061014,
+      "deviation": 0.010845127840586777,
+      "deviation_paired_se": {
+       "value": 0.0022441602134356067,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.10": {
+      "sigma_min_over_sigma_y_star": 0.3578444719675301,
+      "deviation": 0.008130414617506743,
+      "deviation_paired_se": {
+       "value": 0.0021728765933971598,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "threshold 0.30": {
+      "sigma_min_over_sigma_y_star": 0.34477071634971773,
+      "deviation": -0.004943341000305634,
+      "deviation_paired_se": {
+       "value": 0.002378535592395953,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x0.5": {
+      "sigma_min_over_sigma_y_star": 0.3702033313660789,
+      "deviation": 0.020489274016055548,
+      "deviation_paired_se": {
+       "value": 0.0019941329706733867,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     },
+     "bin width x2": {
+      "sigma_min_over_sigma_y_star": 0.34570080821263105,
+      "deviation": -0.004013249137392316,
+      "deviation_paired_se": {
+       "value": 0.002147997620427113,
+       "definition": "sample standard deviation over seeds (ddof = 1) of the per-seed difference variation - default, / sqrt(n_seeds)"
+      }
+     }
+    },
+    "systematic_max_deviation": {
+     "value": 0.020489274016055548,
+     "definition": "maximum over the six variations of |mean(variation) - mean(default)|, same runs and seeds"
+    },
+    "systematic_rms_deviation": {
+     "value": 0.01081946019732314,
+     "definition": "root mean square over the six variations of mean(variation) - mean(default)"
+    },
+    "total": {
+     "value": 0.021017766974166657,
+     "definition": "se (+) systematic (maximum deviation), in quadrature"
+    },
+    "R_1": 3.567175191853533,
+    "extracted_over_prediction": 1.247491309621447,
+    "extracted_over_prediction_total": {
+     "value": 0.0749740569384058,
+     "definition": "the total uncertainty times R_1"
+    }
+   }
+  ],
+  "exponent_fit": {
+   "all_8": {
+    "emittances_nm": [
+     0.5,
+     1,
+     2,
+     4,
+     8,
+     12,
+     16,
+     20
+    ],
+    "law": "ln(sigma_y*/sigma_min) = a + q ln D_y",
+    "q": {
+     "estimate": 0.1662868528256521,
+     "uncertainty": {
+      "value": 0.05166512606255821,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln R = a + q ln D_y, weights 1/sigma_ln^2 with sigma on ln R = (se (+) systematic) / value (not rescaled by chi2/ndf)"
+     }
+    },
+    "a": {
+     "estimate": 0.5817884131497506,
+     "uncertainty": {
+      "value": 0.18145220879122115,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln R = a + q ln D_y, weights 1/sigma_ln^2 with sigma on ln R = (se (+) systematic) / value (not rescaled by chi2/ndf)"
+     }
+    },
+    "cov_a_q": -0.009281023937161528,
+    "Lambda": {
+     "estimate": 1.7892354633210104,
+     "uncertainty": {
+      "value": 0.3246607268671813,
+      "definition": "Lambda = exp(a); uncertainty Lambda * sigma_a"
+     }
+    },
+    "chi2": 1.4828127368895474,
+    "ndf": 6,
+    "p_value": 0.9606280639122166,
+    "pull": {
+     "value": -0.9486698457872883,
+     "definition": "(q - q_p) / sigma_q"
+    },
+    "pull_incl_sigma_q_p": {
+     "value": -0.946855405329095,
+     "definition": "(q - q_p) / (sigma_q (+) sigma_q_p)"
+    }
+   },
+   "1_to_20_nm": {
+    "emittances_nm": [
+     1,
+     2,
+     4,
+     8,
+     12,
+     16,
+     20
+    ],
+    "law": "ln(sigma_y*/sigma_min) = a + q ln D_y",
+    "q": {
+     "estimate": 0.18675791808354827,
+     "uncertainty": {
+      "value": 0.06796756109699445,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln R = a + q ln D_y, weights 1/sigma_ln^2 with sigma on ln R = (se (+) systematic) / value (not rescaled by chi2/ndf)"
+     }
+    },
+    "a": {
+     "estimate": 0.5140781210680068,
+     "uncertainty": {
+      "value": 0.23294157994721038,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of ln R = a + q ln D_y, weights 1/sigma_ln^2 with sigma on ln R = (se (+) systematic) / value (not rescaled by chi2/ndf)"
+     }
+    },
+    "cov_a_q": -0.015731868546403585,
+    "Lambda": {
+     "estimate": 1.6720963206843082,
+     "uncertainty": {
+      "value": 0.3895007587641201,
+      "definition": "Lambda = exp(a); uncertainty Lambda * sigma_a"
+     }
+    },
+    "chi2": 1.2679413685960146,
+    "ndf": 5,
+    "p_value": 0.9381956564951199,
+    "pull": {
+     "value": -0.41993682656525183,
+     "definition": "(q - q_p) / sigma_q"
+    },
+    "pull_incl_sigma_q_p": {
+     "value": -0.41947217299907547,
+     "definition": "(q - q_p) / (sigma_q (+) sigma_q_p)"
+    }
+   }
+  },
+  "per_variation_exponent": {
+   "all_8": {
+    "definition": "the exponent fit repeated on each variation's own points, sigma_ln = (se (+) systematic) / value of that variation; shift = q(variation) - q(default). The fully correlated alternative to the systematic in quadrature",
+    "rows": {
+     "HW 0.05": {
+      "q": 0.1911578715756952,
+      "sigma_q": 0.052568046119256515,
+      "chi2": 1.3813104650604748,
+      "ndf": 6,
+      "shift": 0.024871018750043106
+     },
+     "HW 0.20": {
+      "q": 0.13992936993182878,
+      "sigma_q": 0.047926493711161776,
+      "chi2": 1.2044123649176255,
+      "ndf": 6,
+      "shift": -0.02635748289382331
+     },
+     "threshold 0.10": {
+      "q": 0.10772980986839457,
+      "sigma_q": 0.04705954055985812,
+      "chi2": 1.0192187930301941,
+      "ndf": 6,
+      "shift": -0.05855704295725751
+     },
+     "threshold 0.30": {
+      "q": 0.2158403166111219,
+      "sigma_q": 0.05552258189644754,
+      "chi2": 1.322169571587056,
+      "ndf": 6,
+      "shift": 0.04955346378546982
+     },
+     "bin width x0.5": {
+      "q": 0.203266456725347,
+      "sigma_q": 0.05125854853490724,
+      "chi2": 2.841303241669913,
+      "ndf": 6,
+      "shift": 0.0369796038996949
+     },
+     "bin width x2": {
+      "q": 0.15167883928318188,
+      "sigma_q": 0.05146653193778817,
+      "chi2": 1.2602286787691588,
+      "ndf": 6,
+      "shift": -0.01460801354247021
+     }
+    },
+    "q_min": 0.10772980986839457,
+    "q_max": 0.2158403166111219,
+    "shift_min": -0.05855704295725751,
+    "shift_max": 0.04955346378546982,
+    "shift_rms": 0.038250583210008
+   },
+   "1_to_20_nm": {
+    "definition": "the exponent fit repeated on each variation's own points, sigma_ln = (se (+) systematic) / value of that variation; shift = q(variation) - q(default). The fully correlated alternative to the systematic in quadrature",
+    "rows": {
+     "HW 0.05": {
+      "q": 0.21497346515609114,
+      "sigma_q": 0.06903770218029626,
+      "chi2": 1.0981163746739953,
+      "ndf": 5,
+      "shift": 0.028215547072542868
+     },
+     "HW 0.20": {
+      "q": 0.16062706567973464,
+      "sigma_q": 0.06338007092733088,
+      "chi2": 0.9553579803612623,
+      "ndf": 5,
+      "shift": -0.02613085240381363
+     },
+     "threshold 0.10": {
+      "q": 0.11436785139442193,
+      "sigma_q": 0.061989188683046655,
+      "chi2": 0.9921536860025046,
+      "ndf": 5,
+      "shift": -0.07239006668912634
+     },
+     "threshold 0.30": {
+      "q": 0.23472952016524976,
+      "sigma_q": 0.07177927723457969,
+      "chi2": 1.1497604336471328,
+      "ndf": 5,
+      "shift": 0.04797160208170148
+     },
+     "bin width x0.5": {
+      "q": 0.23527813029205236,
+      "sigma_q": 0.06733768854467521,
+      "chi2": 2.3039213438450763,
+      "ndf": 5,
+      "shift": 0.04852021220850408
+     },
+     "bin width x2": {
+      "q": 0.1656038078079611,
+      "sigma_q": 0.0675928032843292,
+      "chi2": 1.1592357357807053,
+      "ndf": 5,
+      "shift": -0.021154110275587168
+     }
+    },
+    "q_min": 0.11436785139442193,
+    "q_max": 0.23527813029205236,
+    "shift_min": -0.07239006668912634,
+    "shift_max": 0.04852021220850408,
+    "shift_rms": 0.044388891778244115
+   }
+  },
+  "ratio_slope": {
+   "all_8": {
+    "emittances_nm": [
+     0.5,
+     1,
+     2,
+     4,
+     8,
+     12,
+     16,
+     20
+    ],
+    "law": "ln(sigma_min R_1(D_y) / sigma_y*) = c + slope ln D_y",
+    "slope": {
+     "estimate": 0.05099677398231987,
+     "uncertainty": {
+      "value": 0.05166512606255821,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of the law above, weights 1/sigma_ln^2 with sigma on ln R = (se (+) systematic) / value (not rescaled by chi2/ndf)"
+     }
+    },
+    "c": {
+     "estimate": 0.027919547814846565,
+     "uncertainty": {
+      "value": 0.18145220879122115,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of the law above, weights 1/sigma_ln^2 with sigma on ln R = (se (+) systematic) / value (not rescaled by chi2/ndf)"
+     }
+    },
+    "cov_c_slope": -0.009281023937161528,
+    "chi2": 1.2573661619116763,
+    "ndf": 6,
+    "p_value": 0.9739564681533658
+   },
+   "1_to_20_nm": {
+    "emittances_nm": [
+     1,
+     2,
+     4,
+     8,
+     12,
+     16,
+     20
+    ],
+    "law": "ln(sigma_min R_1(D_y) / sigma_y*) = c + slope ln D_y",
+    "slope": {
+     "estimate": 0.03627563625775649,
+     "uncertainty": {
+      "value": 0.06796756109699445,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of the law above, weights 1/sigma_ln^2 with sigma on ln R = (se (+) systematic) / value (not rescaled by chi2/ndf)"
+     }
+    },
+    "c": {
+     "estimate": 0.07661132435643957,
+     "uncertainty": {
+      "value": 0.23294157994721038,
+      "definition": "1-sigma parameter uncertainty from the covariance of the weighted least-squares fit of the law above, weights 1/sigma_ln^2 with sigma on ln R = (se (+) systematic) / value (not rescaled by chi2/ndf)"
+     }
+    },
+    "cov_c_slope": -0.015731868546403585,
+    "chi2": 1.146249185462493,
+    "ndf": 5,
+    "p_value": 0.9499289075565351
+   }
+  },
+  "compression_at_0p5_and_1_nm": {
+   "definition": "R = sigma_y*/sigma_min extracted (1 / the 10-seed mean) and the first-waist prediction R_1(D_y); se_R = se / value^2; se_difference = se_R(0.5 nm) (+) se_R(1 nm)",
+   "rows": {
+    "default": {
+     "R_0p5": 3.897437600214951,
+     "se_R_0p5": 0.0038807513537600265,
+     "R_1nm": 3.9137708820171504,
+     "se_R_1nm": 0.007034131101356228,
+     "R1_0p5": 5.304971417444223,
+     "R1_1nm": 4.967911316508612,
+     "difference": -0.016333281802199284,
+     "se_difference": 0.008033631272393404
+    },
+    "HW 0.05": {
+     "R_0p5": 3.9883613420443207,
+     "se_R_0p5": 0.005525494023680849,
+     "R_1nm": 4.001867540807792,
+     "se_R_1nm": 0.008110552505271422,
+     "R1_0p5": 5.304971417444223,
+     "R1_1nm": 4.967911316508612,
+     "difference": -0.013506198763471478,
+     "se_difference": 0.009813875184986678
+    },
+    "HW 0.20": {
+     "R_0p5": 3.5725670016526756,
+     "se_R_0p5": 0.002986708640020148,
+     "R_1nm": 3.5636027609664644,
+     "se_R_1nm": 0.008470285376921786,
+     "R1_0p5": 5.304971417444223,
+     "R1_1nm": 4.967911316508612,
+     "difference": 0.008964240686211156,
+     "se_difference": 0.008981434343514741
+    },
+    "threshold 0.10": {
+     "R_0p5": 3.4860057563499156,
+     "se_R_0p5": 0.0030253267188900023,
+     "R_1nm": 3.475816240020812,
+     "se_R_1nm": 0.003937770982491824,
+     "R1_0p5": 5.304971417444223,
+     "R1_1nm": 4.967911316508612,
+     "difference": 0.010189516329103476,
+     "se_difference": 0.004965746879028811
+    },
+    "threshold 0.30": {
+     "R_0p5": 4.3335023541162805,
+     "se_R_0p5": 0.01346037129466568,
+     "R_1nm": 4.13798106389265,
+     "se_R_1nm": 0.006567036513157763,
+     "R1_0p5": 5.304971417444223,
+     "R1_1nm": 4.967911316508612,
+     "difference": 0.1955212902236303,
+     "se_difference": 0.01497690101307367
+    },
+    "bin width x0.5": {
+     "R_0p5": 3.906274882221549,
+     "se_R_0p5": 0.004565948774104193,
+     "R_1nm": 3.918070585462968,
+     "se_R_1nm": 0.004489296055196113,
+     "R1_0p5": 5.304971417444223,
+     "R1_1nm": 4.967911316508612,
+     "difference": -0.011795703241419098,
+     "se_difference": 0.006403254428721614
+    },
+    "bin width x2": {
+     "R_0p5": 3.873762273277451,
+     "se_R_0p5": 0.003725127735357411,
+     "R_1nm": 3.8971496182520897,
+     "se_R_1nm": 0.004236628784199599,
+     "R1_0p5": 5.304971417444223,
+     "R1_1nm": 4.967911316508612,
+     "difference": -0.02338734497463868,
+     "se_difference": 0.005641418270243539
+    }
    }
   }
  },
@@ -4738,7 +5798,7 @@
      "e_y_nm": 1,
      "value": 0.9999978220852538,
      "se": {
-      "value": 0.0018157174402894981,
+      "value": 0.0018157174402894983,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -5113,7 +6173,7 @@
      "e_y_nm": 0.5,
      "value": 0.9815781594055561,
      "se": {
-      "value": 0.0026916257657400642,
+      "value": 0.002691625765740064,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -5121,7 +6181,7 @@
      "e_y_nm": 1,
      "value": 0.9512534858962262,
      "se": {
-      "value": 0.013353654081020065,
+      "value": 0.013353654081020067,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -5129,7 +6189,7 @@
      "e_y_nm": 2,
      "value": 0.938857420023746,
      "se": {
-      "value": 0.005610391843636529,
+      "value": 0.005610391843636528,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -5153,7 +6213,7 @@
      "e_y_nm": 12,
      "value": 0.9816271453977177,
      "se": {
-      "value": 0.011207212107104054,
+      "value": 0.011207212107104052,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -5496,7 +6556,7 @@
      "e_y_nm": 0.5,
      "value": 0.9816729233250836,
      "se": {
-      "value": 0.002669050214003685,
+      "value": 0.0026690502140036855,
       "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
      }
     },
@@ -5588,7 +6648,7 @@
     "gp_block": "conservative",
     "value": 1.2879623484811031,
     "se": {
-     "value": 0.010669645415927301,
+     "value": 0.0106696454159273,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -5638,7 +6698,7 @@
     "gp_block": "conservative",
     "value": 0.9972412507391593,
     "se": {
-     "value": 0.004369033680727609,
+     "value": 0.004369033680727608,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -5658,7 +6718,7 @@
     "gp_block": "frozen_extension",
     "value": 0.9914110212807385,
     "se": {
-     "value": 0.008021897772249058,
+     "value": 0.00802189777224906,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -5678,7 +6738,7 @@
     "gp_block": "frozen_extension",
     "value": 0.9951256686498158,
     "se": {
-     "value": 0.013317236156477874,
+     "value": 0.013317236156477875,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    },
@@ -5688,7 +6748,7 @@
     "gp_block": "frozen_extension",
     "value": 0.9956099607062738,
     "se": {
-     "value": 0.015221106800735905,
+     "value": 0.015221106800735906,
      "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
     }
    }
@@ -5702,7 +6762,7 @@
   "at_1_nm": {
    "value": 1.2879623484811031,
    "se": {
-    "value": 0.010669645415927301,
+    "value": 0.0106696454159273,
     "definition": "standard error: the relative standard errors of numerator and denominator added in quadrature"
    }
   },

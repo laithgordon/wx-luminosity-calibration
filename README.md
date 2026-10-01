@@ -35,7 +35,8 @@ manuscript without reading the analysis code. It covers:
 - the luminosity of each configuration and emittance, with the grid actually run and derived ratios and H_D;
 - the n_y^req and n_m^req extractions and the fits to them;
 - κ, the recommendation table from the frozen locus, and D_y;
-- the pinched-core widths, the solver and deposition variants, and the PS1 reference.
+- the pinched-core widths, their analysis-choice systematic and exponent fit, the solver and deposition variants, and
+  the PS1 reference.
 
 The JSON holds full precision, the definition of every uncertainty, and the data file and selection rule behind every
 row; the Markdown rounds as the paper does. The script reads only committed files under `data/` and needs only
@@ -49,7 +50,8 @@ WX_RUN_ROOT=/path/to/run/directories python make_figures.py --dumps
 ```
 
 The upstream steps are also here. `python collect.py` rebuilds `data/results.csv` and `data/joblist.csv` from raw
-output; `python depo_corr_stat.py` rebuilds `data/depo_corr_stat.json` from the dumps. Both need `WX_RUN_ROOT`.
+output; `python depo_corr_stat.py` rebuilds `data/depo_corr_stat.json` from the dumps; `python core_width_syst.py --build` writes any
+missing core-width cache, default or variation, from the dumps. All three need `WX_RUN_ROOT`.
 `add_jobs.py` then `submit.py` submit new runs, with the configuration below.
 
 ## Figures (`plots/`)
@@ -65,7 +67,7 @@ output; `python depo_corr_stat.py` rebuilds `data/depo_corr_stat.json` from the 
 | `kappa_vs_Dy` | cells per pinched vertical σ for both codes, each at its own box cut |
 | `WX_comparison_L_vs_ey` | L vs ε_y for untuned and tuned WarpX and GP++, with the geometric luminosity |
 | `WX_code_ratio_vs_ey` | WarpX/GP++ tuned luminosity from 1 to 100 nm |
-| `WX_core_width_vs_Dy` | minimum Gaussian-core width of the central slice vs `D_y`, and measured against the envelope prediction `1/R_1(D_y)` |
+| `WX_core_width_vs_Dy` | minimum Gaussian-core width of the central slice vs `D_y` with the fitted law `e^{−a} D_y^{−q}` and the analysis-choice systematic, and extracted against the first-waist prediction `1/R_1(D_y)` |
 
 **Repository only**
 
@@ -123,6 +125,7 @@ this locus.
 | `plot_coarse.py`, `plot_nx_nm_coupling.py` | coarse-grid control and the `n_x`–`n_m` coupling test |
 | `plot_beamstrahlung.py` | beamstrahlung on vs off at the recommended configuration; also writes `beamstrahlung_numbers.md` |
 | `plot_core_width.py`, `plot_slice_pinch.py`, `plot_pinch_evolution.py` | the pinched-core measurements from per-step particle dumps; `plot_core_width.py` also builds the `data/slice_*` caches |
+| `core_width_syst.py` | the analysis-choice systematic of the pinched-core width (slice half-width, fit threshold, histogram bin width, one at a time) and the weighted fit of `ln(σ_y*/σ_min) = a + q ln D_y`; reads the `data/slice_*` caches with `numpy` only; `--build` writes missing caches from the dumps (needs `WX_RUN_ROOT`) |
 | `deposition_error.py`, `depo_corr_stat.py`, `plot_depo_correlation.py` | per-pass deposition error at the waists and its seed statistics |
 | `recommend.py`, `recommend.ipynb` | recommended configuration from beam parameters: the vertical cell count and macroparticle count for either code, with the ranges the study covered enforced as warnings; the notebook is the worked interface and `selftest()` reproduces both recommendation tables |
 | `add_jobs.py`, `submit.py` | job submission: `add_jobs.py` appends runs to `data/joblist.csv`; `submit.py` renders `inputs/template.sbatch` per pending row and submits it |
@@ -144,6 +147,7 @@ this locus.
 | `results.csv` — one row per WarpX run: ε_y, σ_y, grid (`nx, ny, nz`), `nm`, seed, luminosity `L` in 10³⁴ cm⁻² s⁻¹, and `solver` (`3d`; `2d` 2D-slice; `3d_cic`/`2d_cic` first-order deposition) | every luminosity figure, `paper_numbers.py` |
 | `joblist.csv` — the run register (label, phase, grid, `n_m`, seed, node/walltime, status) | `plot_core_width.py`, `collect.py`, `submit.py` |
 | `slice_widths_hw010_*.csv`, `slice_fiterr_hw010_*.csv` — per-step central-slice widths and core-fit errors cached from the particle dumps | `plot_core_width.py`, `depo_corr_stat.py`, `deposition_error.py` |
+| `slice_widths_hw<HW>_thr<threshold>_nb<bins>_*.csv`, `slice_fiterr_hw<HW>_thr<threshold>_nb<bins>_*.csv` — the same caches for the six estimator variations of the 80 pinched-core runs (e.g. `hw005_thr020_nb080`: HW = 0.05 σ_z, threshold 0.20, 80 bins) | `core_width_syst.py`, `plot_core_width.py`, `reproduce_paper_numbers.py` |
 | `R1_table.npz` — first-waist envelope compression `R_1(D_y)` | `nmreq.py`, `plot_core_width.py` |
 | `depo_corr_stat.json` — per-seed deposition-error correlations | `plot_depo_correlation.py` |
 | `results_bsoff.csv` — the recommended configuration re-run with beamstrahlung off (`beam1/beam2.do_qed_quantum_sync = 0`), 8 ε_y × 5 seeds; same columns as `results.csv` plus `beamstrahlung`. Kept apart from `results.csv` so no calibration fit or figure can read it | `plot_beamstrahlung.py` |

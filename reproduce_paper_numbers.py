@@ -10,7 +10,8 @@ writes two files at the repository root:
 
 Inputs, all committed: data/results.csv (one row per run), data/joblist.csv (the run register, for each run's phase),
 data/R1_table.npz (first-waist compression R_1(D_y)), the data/slice_widths_hw010_* / data/slice_fiterr_hw010_*
-caches (pinched-core widths), and the GUINEA-PIG++ n_y^req export data/gp_exports/gp_requirements_for_wx.csv with its deck
+caches (pinched-core widths) and their analysis-choice variants data/slice_widths_<tag>_* / data/slice_fiterr_<tag>_*
+(core_width_syst.py), and the GUINEA-PIG++ n_y^req export data/gp_exports/gp_requirements_for_wx.csv with its deck
 cut from data/gp_exports/gp_luminosity_for_wx.csv (for the GP++ kappa that the WarpX kappa is compared against, and the GP++
 luminosities in the WarpX/GP++ luminosity ratio). Nothing outside the repository is read and nothing is fetched. The only resampling, the
 Monte Carlo behind the n^req uncertainties, uses a fixed generator seed recorded in the output, so repeated runs write
@@ -31,6 +32,7 @@ for _f in (DATA / "results.csv", DATA / "joblist.csv", DATA / "R1_table.npz",
 
 import nmreq as Q
 import wxcal as W
+import core_width_syst as CWS
 
 OUT_JSON, OUT_MD = ROOT / "paper_numbers.json", ROOT / "paper_numbers.md"
 ALL_EYS = sorted(Q.EYS + Q.EYS_EXT)
@@ -561,6 +563,7 @@ def build():
                                 rows=[r for c in ds for r in ds[c]]),
         derived_luminosity=derived, requirements=requirements, fits=fits, kappa=kappa,
         recommendation_table=recommendation, disruption_parameter=dy, core_width=core_width(runs),
+        core_width_systematic=CWS.block(CWS.analysis()),
         solver_and_deposition_variants=variants_block, ps1_reference=ps1, wx_over_gp_luminosity=wx_over_gp)
 
 
@@ -704,8 +707,60 @@ def markdown(P):
                           f"{r['finer_grid']['sigma_min_over_sigma_y_star']:.4f}",
                           pm(100 * r["relative_change"], 100 * r["relative_change_se"]["value"], 2)])]))
 
+    cs = P["core_width_systematic"]; est = cs["estimator"]; vn = list(est["variations"])
+    out.append("\n## 9. Pinched-core width: analysis-choice systematic and exponent fit\n\nSelection: " + cs["provenance"]["selection"]
+               + ". Estimator: " + est["definition"] + "; default HW = " + f"{est['default']['HW_sigma_z']:g}" + " σ_z, threshold "
+               + f"{est['default']['fit_threshold']:g}, {est['default']['n_bins']} bins. Variations, one at a time on the same runs "
+               "and seeds: " + "; ".join(f"{n} (HW {v['HW_sigma_z']:g}, threshold {v['fit_threshold']:g}, {v['n_bins']} bins)"
+                                        for n, v in est["variations"].items()) + ".\n")
+    r0 = cs["rows"][0]
+    out.append(table(["ε_y [nm]", "D_y", "default", "seed scatter", "se"] + vn + ["syst (max)", "syst (RMS)", "total", "extracted/(1/R_1)"],
+                     [[f"{r['e_y_nm']:g}", f"{r['D_y']:.1f}", f"{r['default']['sigma_min_over_sigma_y_star']:.4f}",
+                       f"{r['default']['seed_scatter']['value']:.4f}", f"{r['default']['se']['value']:.4f}"]
+                      + [f"{r['variations'][n]['sigma_min_over_sigma_y_star']:.4f}" for n in vn]
+                      + [f"{r['systematic_max_deviation']['value']:.4f}", f"{r['systematic_rms_deviation']['value']:.4f}",
+                         f"{r['total']['value']:.4f}", pm(r["extracted_over_prediction"], r["extracted_over_prediction_total"]["value"], 2)]
+                      for r in cs["rows"]]))
+    out.append("\nColumns 'default' through 'bin width x2': σ_min/σ_y* (10-seed mean) for each estimator. seed scatter: " + r0["default"]["seed_scatter"]["definition"]
+               + ". se: " + r0["default"]["se"]["definition"] + ". syst (max): " + r0["systematic_max_deviation"]["definition"]
+               + ". syst (RMS): " + r0["systematic_rms_deviation"]["definition"] + ". total: " + r0["total"]["definition"]
+               + "; extracted/(1/R_1) ± total × R_1.\n")
+    out.append("\nDeviation from the default ×10³ ± its seed-paired se ×10³ (" + r0["variations"][vn[0]]["deviation_paired_se"]["definition"] + ").\n")
+    out.append(table(["ε_y [nm]"] + vn, [[f"{r['e_y_nm']:g}"] + [f"{1e3 * r['variations'][n]['deviation']:+.1f} ± "
+                                                                  f"{1e3 * r['variations'][n]['deviation_paired_se']['value']:.1f}" for n in vn]
+                                         for r in cs["rows"]]))
+    ef = cs["exponent_fit"]; f0 = ef["all_8"]
+    out.append("\n**Exponent fit**, " + f0["law"] + ", against q_p = " + f"{cs['provenance']['q_p']} ± {cs['provenance']['sigma_q_p']}"
+               + ". Uncertainties: " + f0["q"]["uncertainty"]["definition"] + ".\n")
+    out.append(table(["emittances", "q ± σ_q", "Λ = e^a ± σ", "χ²/ndf", "p", "pull (q − q_p)/σ_q", "pull incl. σ(q_p)"],
+                     [[f"{f['emittances_nm'][0]:g}–{f['emittances_nm'][-1]:g} nm ({len(f['emittances_nm'])})",
+                       pm(f["q"]["estimate"], f["q"]["uncertainty"]["value"], 3), pm(f["Lambda"]["estimate"], f["Lambda"]["uncertainty"]["value"], 3), f"{f['chi2']:.2f}/{f['ndf']}", f"{f['p_value']:.3f}",
+                       f"{f['pull']['value']:+.2f}", f"{f['pull_incl_sigma_q_p']['value']:+.2f}"] for f in ef.values()]))
+    pv = cs["per_variation_exponent"]
+    out.append("\n**Exponent per variation**: " + pv["all_8"]["definition"] + ".\n")
+    out.append(table(["estimator", "q, 0.5–20 nm", "shift", "q, 1–20 nm", "shift"],
+                     [["default", pm(ef["all_8"]["q"]["estimate"], ef["all_8"]["q"]["uncertainty"]["value"], 3), "",
+                       pm(ef["1_to_20_nm"]["q"]["estimate"], ef["1_to_20_nm"]["q"]["uncertainty"]["value"], 3), ""]]
+                     + [[n] + [x for k in ("all_8", "1_to_20_nm") for x in
+                               (pm(pv[k]["rows"][n]["q"], pv[k]["rows"][n]["sigma_q"], 3), f"{pv[k]['rows'][n]['shift']:+.3f}")]
+                        for n in vn]))
+    out.append("\n" + "; ".join(f"{lab}: q from {pv[k]['q_min']:.3f} to {pv[k]['q_max']:.3f}, shift from {pv[k]['shift_min']:+.3f} to "
+                                 f"{pv[k]['shift_max']:+.3f}, RMS shift {pv[k]['shift_rms']:.3f}"
+                                 for k, lab in (("all_8", "0.5–20 nm"), ("1_to_20_nm", "1–20 nm"))) + ".\n")
+    rs = cs["ratio_slope"]
+    out.append("\n**Ratio slope**, " + rs["all_8"]["law"] + ", same errors.\n")
+    out.append(table(["emittances", "slope ± σ", "χ²/ndf", "p"],
+                     [[f"{f['emittances_nm'][0]:g}–{f['emittances_nm'][-1]:g} nm ({len(f['emittances_nm'])})",
+                       f"{f['slope']['estimate']:+.3f} ± {f['slope']['uncertainty']['value']:.3f}", f"{f['chi2']:.2f}/{f['ndf']}", f"{f['p_value']:.3f}"]
+                      for f in rs.values()]))
+    cp = cs["compression_at_0p5_and_1_nm"]
+    out.append("\n**Compression at 0.5 and 1 nm**: " + cp["definition"] + ".\n")
+    out.append(table(["estimator", "R(0.5 nm) ± se", "R(1 nm) ± se", "R(0.5) − R(1) ± se", "R_1(0.5 nm)", "R_1(1 nm)", "R_1(0.5) − R_1(1)"],
+                     [[n, pm(c["R_0p5"], c["se_R_0p5"], 3), pm(c["R_1nm"], c["se_R_1nm"], 3), pm(c["difference"], c["se_difference"], 3),
+                       f"{c['R1_0p5']:.3f}", f"{c['R1_1nm']:.3f}", f"{c['R1_0p5'] - c['R1_1nm']:+.3f}"] for n, c in cp["rows"].items()]))
+
     sv = P["solver_and_deposition_variants"]
-    out.append("\n## 9. Solver and deposition variants\n\n" + sv["note"] + "\n")
+    out.append("\n## 10. Solver and deposition variants\n\n" + sv["note"] + "\n")
     keys = [k for k in sv if k != "note"]
     ref = {r["e_y_nm"]: r for r in sv[keys[0]]["rows"]}
     rows = []
@@ -723,13 +778,13 @@ def markdown(P):
     out.append("\nCells: L ± std (seeds); for the variants, ×(ratio to the 3D 3rd-order reference ± se).\n")
 
     p = P["ps1_reference"]
-    out.append("\n## 10. PS1 reference point\n\n"
+    out.append("\n## 11. PS1 reference point\n\n"
                f"Nominal configuration at 20 nm: L = {pm(p['L_mean_1e34'], p['L_std_1e34']['value'], 2)} (std), "
                f"se {p['L_se_1e34']['value']:.3f}, {p['n_seeds']} seeds; ratio to the published {p['published_1e34']} = "
                f"{pm(p['ratio_to_published'], p['ratio_se']['value'], 3)} (± se).\n")
 
     g = P["wx_over_gp_luminosity"]; b = g["range_8_to_100_nm"]
-    out.append("\n## 11. WarpX / GUINEA-PIG++ luminosity ratio\n\n" + g["definition"] + "\n")
+    out.append("\n## 12. WarpX / GUINEA-PIG++ luminosity ratio\n\n" + g["definition"] + "\n")
     out.append(table(["ε_y [nm]", "WarpX configuration", "GP++ block", "L_WarpX / L_GP++ ± se"],
                      [[f"{r['e_y_nm']:g}", r["wx_configuration"], r["gp_block"], pm(r["value"], r["se"]["value"], 3)]
                       for r in g["per_emittance"]]))
