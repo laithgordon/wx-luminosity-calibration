@@ -279,9 +279,13 @@ def draw():
         ax.fill_between(dx, yf * np.exp(-sf), yf * np.exp(sf), color="C0", alpha=0.18, lw=0, zorder=2)
         ax.plot(dx, yf, "-", color="C0", lw=1.0, zorder=3,
                 label=fr"fit $e^{{-a}}D_y^{{-q}}$: $q={F['q']:.3f}\pm{F['sigma_q']:.3f}$, $\chi^2/\mathrm{{ndf}}={F['chi2']:.1f}/{F['ndf']}$")
-        ax.errorbar(Da, g, yerr=tot, fmt="none", ecolor="C2", elinewidth=0.5, capsize=0, zorder=5)
-        ax.errorbar(Da, g, yerr=sc, fmt="D", color="C2", ecolor="C2", ms=3.6, capsize=1.5,
-                    elinewidth=0.6, zorder=6, label="WarpX pinched core (Gaussian fit)")
+        # thin grey bars: the fit weights (standard error of the mean with the estimator systematic); capped dark bars,
+        # drawn over the markers so short ones stay visible: seed scatter of the per-run minima with the Gaussian-fit error
+        ax.errorbar(Da, g, yerr=tot, fmt="none", ecolor="0.55", elinewidth=0.8, capsize=0, zorder=4,
+                    label=r"s.e.m. $\oplus$ estimator systematic (fit weights)")
+        ax.plot(Da, g, "D", color="C2", ms=3.6, zorder=5, label="WarpX pinched core (Gaussian fit)")
+        ax.errorbar(Da, g, yerr=sc, fmt="none", ecolor="k", elinewidth=0.6, capsize=2.0, capthick=0.6, zorder=6,
+                    label=r"seed scatter $\oplus$ Gaussian-fit uncertainty")
         for e, d, y in zip(Q.EYS, Da, g):
             ax.annotate(fr"${e:g}\,$nm", (d, y), textcoords="offset points", xytext=(3, 3), fontsize=5.2)
         ax.set_xscale("log"); ax.set_yscale("log")
@@ -289,7 +293,8 @@ def draw():
         ax.yaxis.set_major_locator(mticker.FixedLocator([0.2, 0.25, 0.3, 0.35]))
         ax.yaxis.set_major_formatter(mticker.FormatStrFormatter("%g")); ax.yaxis.set_minor_formatter(mticker.NullFormatter())
         ax.set_ylabel(r"$\sigma_y^{\min}/\sigma_y^*$")                       # x label only on the lower (shared) axis
-        ax.legend(loc="lower left", frameon=False, fontsize=5.6)
+        ax.legend(loc="lower left", frameon=False, fontsize=5.4, borderaxespad=0.3)
+        ax.set_ylim(0.165, None)
         ax.text(0.97, 0.95, "(a)", transform=ax.transAxes, ha="right", va="top", fontsize=7)
         _ticks_in(ax)
         yr = np.exp(S["c"] + S["slope"] * lx)
@@ -297,8 +302,8 @@ def draw():
         ax2.fill_between(dx, yr * np.exp(-sr), yr * np.exp(sr), color="C0", alpha=0.18, lw=0, zorder=2)
         ax2.plot(dx, yr, "-", color="C0", lw=1.0, zorder=3,
                  label=fr"fit, slope ${S['slope']:+.3f}\pm{S['sigma_slope']:.3f}$ in $\ln D_y$, $\chi^2/\mathrm{{ndf}}={S['chi2']:.1f}/{S['ndf']}$")
-        ax2.errorbar(Da, g * r1, yerr=tot * r1, fmt="D", color="C2", ecolor="C2", ms=3.6, capsize=0,
-                     elinewidth=0.6, zorder=5)
+        ax2.errorbar(Da, g * r1, yerr=tot * r1, fmt="none", ecolor="0.55", elinewidth=0.8, capsize=0, zorder=4)
+        ax2.plot(Da, g * r1, "D", color="C2", ms=3.6, zorder=5)
         ax2.axhline(1.0, color="0.35", lw=0.8, ls=":")
         ax2.set_xscale("log")
         ax2.set_xlim(dx[0] / 1.08, dx[-1] * 1.08)        # explicit, so the frame does not depend on matplotlib autoscaling
